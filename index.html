@@ -48,25 +48,10 @@ border-bottom:1px solid #333;
 padding:8px 0;
 }
 
-/* RESPONSIVO */
 @media (max-width:768px){
-
 body{padding:10px;}
-
-.container{
-padding:15px;
-border-radius:8px;
-}
-
-h1{
-font-size:22px;
-text-align:center;
-}
-
-input,select,button{
-font-size:16px;
-padding:12px;
-}
+.container{padding:15px;}
+input,select,button{font-size:16px;padding:12px;}
 }
 
 </style>
@@ -78,7 +63,8 @@ padding:12px;
 
 <h1>IRJ Estética Auto</h1>
 
-<img src="logo.png" style="width:150px;margin-bottom:10px">
+<!-- LOGO -->
+<img id="logo" src="logo.png" style="width:140px;margin-bottom:10px">
 
 <input id="nome" placeholder="Nome do cliente">
 
@@ -103,7 +89,6 @@ padding:12px;
 <option>Volvo</option>
 <option>Porsche</option>
 <option>Tesla</option>
-<option>Mitsubishi</option>
 <option>Land Rover</option>
 </select>
 
@@ -168,7 +153,9 @@ padding:12px;
 
 <h3>Total: R$ <span id="total">0</span></h3>
 
-<button onclick="revisar()">REVISAR AGENDAMENTO</button>
+<button onclick="revisar()">REVISÃO DO AGENDAMENTO</button>
+<button onclick="agendar()">CONFIRMAR E AGENDAR</button>
+<button onclick="baixarPDF()">BAIXAR PDF DA REVISÃO</button>
 
 <div id="review" style="display:none;background:#222;padding:10px;margin-top:10px"></div>
 
@@ -227,11 +214,7 @@ let total=0;
 
 carrinho.forEach(i=>{
 total+=i.preco;
-
-html+=`
-<div class="item">
-${i.nome} | ⏱ ${i.tempo} | 💰 R$ ${i.preco.toFixed(2)}
-</div>`;
+html+=`<div class="item">${i.nome} | ⏱ ${i.tempo} | 💰 R$ ${i.preco}</div>`;
 });
 
 document.getElementById("lista").innerHTML=html;
@@ -239,7 +222,6 @@ document.getElementById("total").innerText=total.toFixed(2);
 }
 
 function montarResumo(){
-
 let nome=document.getElementById("nome").value;
 let marca=document.getElementById("marca_select").value || document.getElementById("marca_manual").value;
 let modelo=document.getElementById("modelo_manual").value;
@@ -271,6 +253,28 @@ function revisar(){
 let texto=montarResumo();
 document.getElementById("review").style.display="block";
 document.getElementById("review").innerHTML="<pre>"+texto+"</pre>";
+}
+
+/* WHATSAPP + AGENDAMENTO */
+function agendar(){
+let texto=montarResumo();
+let numero="5511999999999"; // TROQUE PELO SEU
+
+let url=`https://wa.me/${numero}?text=`+encodeURIComponent(texto);
+window.open(url,"_blank");
+}
+
+/* PDF COM LOGO */
+function baixarPDF(){
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+
+doc.addImage(document.getElementById("logo"),"PNG",10,10,40,20);
+
+let texto=montarResumo();
+
+doc.text(texto,10,40);
+doc.save("agendamento-irj.pdf");
 }
 
 </script>
