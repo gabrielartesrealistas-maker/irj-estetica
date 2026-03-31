@@ -10,52 +10,47 @@
 <style>
 body{
     margin:0;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     background:#0f0f0f;
     color:white;
     text-align:center;
 }
 
 .logo{
-    width:120px;
-    margin-top:15px;
+    width:110px;
+    margin-top:10px;
     border-radius:10px;
     box-shadow:0 0 10px #00ff99;
 }
 
-header{
-    padding:15px;
-}
-
-.btn{
-    background:#00ff99;
-    color:black;
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-    width:100%;
-    margin-top:5px;
-}
-
-.btn:hover{ background:#00cc77; }
-
 .container{
-    max-width:600px;
+    max-width:650px;
     margin:auto;
     padding:10px;
 }
 
-select,input{
+input,select{
     width:100%;
-    padding:8px;
+    padding:10px;
     margin:5px 0;
-    border-radius:5px;
     border:none;
+    border-radius:6px;
 }
 
-.services-list{
+.btn{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    background:#00ff99;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn:hover{background:#00cc77;}
+
+.services{
     text-align:left;
     background:#1c1c1c;
     padding:10px;
@@ -66,163 +61,212 @@ select,input{
 .item{
     display:flex;
     justify-content:space-between;
-    padding:5px;
     border-bottom:1px solid #333;
+    padding:5px;
+}
+
+/* MODAL REVISÃO */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+}
+
+.modal-content{
+    background:#1c1c1c;
+    width:90%;
+    max-width:500px;
+    margin:50px auto;
+    padding:15px;
+    border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
 <img src="logo.png" class="logo">
-<h2>IRJ Estética Auto</h2>
-<p>Agendamento profissional</p>
 
-<a class="btn" target="_blank"
-href="https://wa.me/5537984185396">
-WhatsApp
-</a>
-</header>
+<h2>IRJ Estética Auto</h2>
 
 <div class="container">
 
-<h3>Cliente</h3>
 <input id="nome" placeholder="Nome">
 
-<input list="marcas" id="marca" placeholder="Marca">
-<datalist id="marcas">
-<option>Chevrolet</option><option>Volkswagen</option><option>Ford</option>
-<option>Fiat</option><option>Toyota</option><option>Honda</option>
-<option>Nissan</option><option>BMW</option><option>Mercedes-Benz</option>
-<option>Audi</option><option>Jeep</option><option>Hyundai</option>
-</datalist>
+<select id="marca" onchange="carregarModelos()">
+<option value="">Marca</option>
+<option>Toyota</option><option>Honda</option><option>Nissan</option>
+<option>Hyundai</option><option>Kia</option>
+<option>Volkswagen</option><option>Chevrolet</option>
+<option>BMW</option><option>Mercedes-Benz</option>
+<option>Audi</option><option>BYD</option>
+<option>Tesla</option>
+</select>
 
-<input list="modelos" id="modelo" placeholder="Modelo (opcional)">
-<datalist id="modelos">
-<option>Onix</option><option>Gol</option><option>Civic</option>
-<option>Corolla</option><option>HB20</option><option>Argo</option>
-<option>Compass</option><option>Renegade</option>
-</datalist>
+<select id="modelo">
+<option>Modelo (sugestão)</option>
+</select>
+
+<input id="modelo_manual" placeholder="Modelo manual (opcional)">
 
 <select id="cor">
-<option>Cor do veículo</option>
-<option>Preto</option><option>Branco</option><option>Prata</option>
-<option>Cinza</option><option>Vermelho</option><option>Azul</option>
-<option>Verde</option><option>Amarelo</option><option>Bege</option>
+<option>Cor</option>
+<option>Preto</option><option>Branco</option><option>Cinza</option>
+<option>Vermelho</option><option>Azul</option><option>Verde</option>
 </select>
 
 <h3>Serviços</h3>
 
 <select id="servico">
-<option value="Cristalização de pintura - 300">Cristalização de pintura</option>
-<option value="Polimento técnico - 800">Polimento técnico</option>
-<option value="Vitrificação de pintura - 850">Vitrificação de pintura</option>
-<option value="Higienização - 350">Higienização</option>
-<option value="Vitrificação de faróis - 200">Vitrificação de faróis</option>
-<option value="Polimento comercial - 380">Polimento comercial</option>
-<option value="Lavagem técnica - 150">Lavagem técnica</option>
-<option value="Lavagem simples - 80">Lavagem simples</option>
-<option value="Lavagem banco tecido - 250">Lavagem banco tecido</option>
-<option value="Ducha simples - 40">Ducha simples</option>
-<option value="Lavagem com cera - 100">Lavagem com cera</option>
-<option value="Aspiração - 40">Aspiração</option>
-<option value="Lavagem motor/chassi - 150">Lavagem motor/chassi</option>
-<option value="Higienização couro - 240">Higienização couro</option>
-<option value="Limpeza couro - 150">Limpeza couro</option>
-<option value="Cristalização vidros - 40">Cristalização vidros</option>
-<option value="Descontaminação vidros - 140">Descontaminação vidros</option>
-<option value="Descontaminação pintura - 110">Descontaminação pintura</option>
-<option value="Enceramento especial - 50">Enceramento especial</option>
+<option>Cristalização de pintura - 300</option>
+<option>Polimento técnico - 800</option>
+<option>Vitrificação - 850</option>
+<option>Higienização - 350</option>
+<option>Lavagem simples - 80</option>
+<option>Lavagem técnica - 150</option>
+<option>Enceramento - 50</option>
 </select>
 
-<button class="btn" onclick="addServico()">Adicionar serviço</button>
+<button class="btn" onclick="add()">Adicionar serviço</button>
 
-<div class="services-list" id="lista"></div>
+<div class="services" id="lista"></div>
 
-<h3>Total</h3>
-<p id="total">R$ 0</p>
+<h3>Total: <span id="total">0</span></h3>
 
-<button class="btn" onclick="gerarPDF()">Gerar PDF</button>
-<button class="btn" onclick="enviarWhats()">Enviar WhatsApp</button>
+<button class="btn" onclick="revisar()">Revisar agendamento</button>
+<button class="btn" onclick="pdf()">Gerar PDF</button>
+<button class="btn" onclick="whats()">WhatsApp</button>
 
 </div>
 
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3>Revisão do Agendamento</h3>
+
+<div id="resumo"></div>
+
+<button class="btn" onclick="fecharModal()">Fechar</button>
+<button class="btn" onclick="editar()">Editar</button>
+</div>
+</div>
+
 <script>
+
 let carrinho = [];
 
-function addServico(){
-    let s = document.getElementById("servico").value;
-    let nome = s.split(" - ")[0];
-    let preco = parseFloat(s.split(" - ")[1]);
+function add(){
+let s = document.getElementById("servico").value;
+let nome = s.split(" - ")[0];
+let preco = Number(s.split(" - ")[1]);
 
-    carrinho.push({nome, preco});
-    render();
+carrinho.push({nome,preco});
+render();
 }
 
 function render(){
-    let html = "";
-    let total = 0;
+let html = "";
+let total = 0;
 
-    carrinho.forEach((item,i)=>{
-        total += item.preco;
-        html += `
-        <div class="item">
-            ${item.nome} - R$ ${item.preco}
-            <button onclick="remover(${i})">X</button>
-        </div>`;
-    });
+carrinho.forEach((i,index)=>{
+total += i.preco;
+html += `<div class="item">
+${i.nome} - R$ ${i.preco}
+<button onclick="rem(${index})">X</button>
+</div>`;
+});
 
-    document.getElementById("lista").innerHTML = html;
-    document.getElementById("total").innerText = "R$ " + total;
+document.getElementById("lista").innerHTML = html;
+document.getElementById("total").innerText = total;
 }
 
-function remover(i){
-    carrinho.splice(i,1);
-    render();
+function rem(i){
+carrinho.splice(i,1);
+render();
 }
 
-function gerarPDF(){
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+/* 🔥 REVISÃO */
+function revisar(){
+let nome = document.getElementById("nome").value;
+let marca = document.getElementById("marca").value;
+let modelo = document.getElementById("modelo").value;
+let manual = document.getElementById("modelo_manual").value;
+let cor = document.getElementById("cor").value;
 
-    let nome = document.getElementById("nome").value;
-    let marca = document.getElementById("marca").value;
-    let modelo = document.getElementById("modelo").value;
-    let cor = document.getElementById("cor").value;
+let resumo = `
+<p><b>Nome:</b> ${nome}</p>
+<p><b>Veículo:</b> ${marca} ${modelo || manual}</p>
+<p><b>Cor:</b> ${cor}</p>
+<p><b>Serviços:</b></p>
+`;
 
-    doc.text("IRJ Estética Auto", 10, 10);
-    doc.text("Cliente: " + nome, 10, 20);
-    doc.text("Veículo: " + marca + " " + modelo, 10, 30);
-    doc.text("Cor: " + cor, 10, 40);
+let total = 0;
 
-    let y = 60;
-    let total = 0;
+carrinho.forEach(i=>{
+resumo += `<p>${i.nome} - R$ ${i.preco}</p>`;
+total += i.preco;
+});
 
-    carrinho.forEach(s=>{
-        doc.text(s.nome + " - R$ " + s.preco, 10, y);
-        total += s.preco;
-        y += 10;
-    });
+resumo += `<hr><p><b>Total: R$ ${total}</b></p>`;
 
-    doc.text("TOTAL: R$ " + total, 10, y+10);
-
-    doc.save("IRJ-nota.pdf");
+document.getElementById("resumo").innerHTML = resumo;
+document.getElementById("modal").style.display = "block";
 }
 
-function enviarWhats(){
-    let nome = document.getElementById("nome").value;
-
-    let msg = `Olá! Agendamento:%0ANome: ${nome}%0AServiços:%0A`;
-
-    carrinho.forEach(s=>{
-        msg += `- ${s.nome} R$${s.preco}%0A`;
-    });
-
-    let url = "https://wa.me/5537984185396?text=" + msg;
-
-    window.open(url,"_blank");
+function fecharModal(){
+document.getElementById("modal").style.display = "none";
 }
+
+function editar(){
+fecharModal();
+window.scrollTo(0,0);
+}
+
+/* WHATS */
+function whats(){
+let nome = document.getElementById("nome").value;
+
+let msg = `Agendamento:%0ANome: ${nome}%0A`;
+
+carrinho.forEach(i=>{
+msg += `- ${i.nome} R$${i.preco}%0A`;
+});
+
+window.open("https://wa.me/5537984185396?text="+msg);
+}
+
+/* PDF */
+function pdf(){
+const { jsPDF } = window.jspdf;
+let doc = new jsPDF();
+
+let nome = document.getElementById("nome").value;
+let marca = document.getElementById("marca").value;
+let modelo = document.getElementById("modelo").value || document.getElementById("modelo_manual").value;
+let cor = document.getElementById("cor").value;
+
+doc.text("IRJ Estética Auto",10,10);
+doc.text("Cliente: "+nome,10,20);
+doc.text("Veículo: "+marca+" "+modelo,10,30);
+doc.text("Cor: "+cor,10,40);
+
+let y=60;
+let total=0;
+
+carrinho.forEach(i=>{
+doc.text(i.nome+" R$"+i.preco,10,y);
+total+=i.preco;
+y+=10;
+});
+
+doc.text("TOTAL: R$ "+total,10,y+10);
+
+doc.save("IRJ-agendamento.pdf");
+}
+
 </script>
 
 </body>
