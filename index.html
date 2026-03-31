@@ -6,10 +6,12 @@
 
 <title>IRJ Estética Auto</title>
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00c853">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-
 body{
 font-family:Arial;
 background:#111;
@@ -41,6 +43,11 @@ cursor:pointer;
 font-weight:bold;
 }
 
+#installBtn{
+background:#1976d2;
+display:none;
+}
+
 h1{color:#00e676}
 
 .item{
@@ -49,7 +56,6 @@ justify-content:space-between;
 align-items:center;
 border-bottom:1px solid #333;
 padding:8px 0;
-gap:10px;
 }
 
 .removeBtn{
@@ -57,16 +63,7 @@ background:#ff1744;
 width:auto;
 padding:6px 10px;
 font-size:12px;
-border-radius:6px;
 }
-
-@media (max-width:768px){
-body{padding:10px;}
-.container{padding:15px;}
-input,select,button{font-size:16px;padding:12px;}
-.item{flex-direction:column;align-items:flex-start;}
-}
-
 </style>
 </head>
 
@@ -76,86 +73,18 @@ input,select,button{font-size:16px;padding:12px;}
 
 <h1>IRJ Estética Auto</h1>
 
-<!-- LOGO -->
-<img id="logo" src="logo.png" style="width:140px;margin-bottom:10px">
+<button id="installBtn">📲 Instalar Aplicativo</button>
+
+<img src="logo.png" style="width:120px;margin:10px 0">
 
 <input id="nome" placeholder="Nome do cliente">
 
-<!-- MARCA -->
-<select id="marca_select">
-<option value="">Selecione a marca</option>
-<option>BMW</option>
-<option>Audi</option>
-<option>Mercedes-Benz</option>
-<option>Volkswagen</option>
-<option>Ford</option>
-<option>Chevrolet</option>
-<option>Honda</option>
-<option>Toyota</option>
-<option>Nissan</option>
-<option>Hyundai</option>
-<option>Kia</option>
-<option>Jeep</option>
-<option>Fiat</option>
-<option>Peugeot</option>
-<option>Renault</option>
-<option>Volvo</option>
-<option>Porsche</option>
-<option>Tesla</option>
-<option>Land Rover</option>
-</select>
-
-<input id="marca_manual" placeholder="Ou digite a marca manualmente">
-
-<input id="modelo_manual" placeholder="Modelo do veículo">
-
-<select id="cor_select">
-<option>Preto</option>
-<option>Branco</option>
-<option>Prata</option>
-<option>Vermelho</option>
-<option>Azul</option>
-<option>Outro</option>
-</select>
-
-<input id="cor_manual" placeholder="Ou digite a cor">
-
-<select id="porte">
-<option value="1">Pequeno</option>
-<option value="1.2">Médio</option>
-<option value="2">Grande / SUV / Pickup</option>
-</select>
-
-<input type="date" id="data">
-<input type="time" id="hora">
-
-<select id="pagamento">
-<option>Pix</option>
-<option>Cartão de crédito</option>
-<option>Cartão de débito</option>
-</select>
-
-<!-- SERVIÇOS -->
 <select id="servico">
 <option>Cristalização de pintura</option>
 <option>Polimento técnico</option>
-<option>Vitrificação de pintura</option>
-<option>Higienização</option>
-<option>Vitrificação de faróis</option>
-<option>Polimento comercial</option>
-<option>Lavagem técnica</option>
+<option>Vitrificação</option>
 <option>Lavagem simples</option>
-<option>Lavagem banco tecido</option>
-<option>Ducha simples</option>
-<option>Lavagem com cera</option>
-<option>Aspiração</option>
-<option>Lavagem motor+chassi</option>
-<option>Higienização bancos couro</option>
-<option>Limpeza hidratação couro</option>
-<option>Cristalização vidros</option>
-<option>Descontaminação vidros</option>
-<option>Descontaminação pintura</option>
-<option>Enceramento especial</option>
+<option>Enceramento</option>
 </select>
 
 <button onclick="add()">Adicionar serviço</button>
@@ -164,9 +93,9 @@ input,select,button{font-size:16px;padding:12px;}
 
 <h3>Total: R$ <span id="total">0</span></h3>
 
-<button onclick="revisar()">REVISÃO</button>
-<button onclick="agendar()">AGENDAR NO WHATSAPP</button>
-<button onclick="baixarPDF()">BAIXAR PDF</button>
+<button onclick="revisar()">Revisão</button>
+<button onclick="whatsapp()">WhatsApp</button>
+<button onclick="pdf()">PDF</button>
 
 <div id="review" style="display:none;background:#222;padding:10px;margin-top:10px"></div>
 
@@ -174,138 +103,102 @@ input,select,button{font-size:16px;padding:12px;}
 
 <script>
 
-/* 19 SERVIÇOS */
-const servicos = {
-"Cristalização de pintura": {p:300,m:450,g:650,t:"18h"},
-"Polimento técnico": {p:800,m:1100,g:1500,t:"3 dias"},
-"Vitrificação de pintura": {p:850,m:950,g:1100,t:"1 dia"},
-"Higienização": {p:350,m:450,g:550,t:"8h"},
-"Vitrificação de faróis": {p:200,m:230,g:270,t:"3h"},
-"Polimento comercial": {p:380,m:480,g:580,t:"12h"},
-"Lavagem técnica": {p:150,m:190,g:290,t:"8h"},
-"Lavagem simples": {p:80,m:100,g:130,t:"4h"},
-"Lavagem banco tecido": {p:250,m:300,g:350,t:"8h"},
-"Ducha simples": {p:40,m:50,g:60,t:"40min"},
-"Lavagem com cera": {p:100,m:130,g:160,t:"4h"},
-"Aspiração": {p:40,m:50,g:60,t:"1h"},
-"Lavagem motor+chassi": {p:150,m:200,g:300,t:"6h"},
-"Higienização bancos couro": {p:240,m:290,g:370,t:"7h"},
-"Limpeza hidratação couro": {p:150,m:160,g:170,t:"4h"},
-"Cristalização vidros": {p:40,m:65,g:85,t:"1h"},
-"Descontaminação vidros": {p:140,m:170,g:240,t:"4h"},
-"Descontaminação pintura": {p:110,m:140,g:190,t:"5h"},
-"Enceramento especial": {p:30,m:40,g:50,t:"1h"}
-};
+// ================= PWA =================
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
 
-let carrinho=[];
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = "block";
+});
 
-/* PREÇO */
-function getPreco(s,porte){
-if(porte<=1) return s.p;
-if(porte<=1.2) return s.m;
-return s.g;
+installBtn.addEventListener("click", async () => {
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.style.display = "none";
+});
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
 }
 
-/* ADD */
+// ================= SISTEMA =================
+
+let carrinho = [];
+
+const precos = {
+"Cristalização de pintura": 300,
+"Polimento técnico": 800,
+"Vitrificação": 900,
+"Lavagem simples": 80,
+"Enceramento": 50
+};
+
 function add(){
-let nome=document.getElementById("servico").value;
-let porte=document.getElementById("porte").value;
-let s=servicos[nome];
+let s = document.getElementById("servico").value;
 
 carrinho.push({
-nome,
-preco:getPreco(s,porte),
-tempo:s.t
+nome:s,
+preco:precos[s]
 });
 
 render();
 }
 
-/* REMOVE */
 function remover(i){
 carrinho.splice(i,1);
 render();
 }
 
-/* RENDER */
 function render(){
 let html="";
 let total=0;
 
 carrinho.forEach((i,idx)=>{
-total+=i.preco;
+total += i.preco;
 
-html+=`
+html += `
 <div class="item">
-<div>
-<b>${i.nome}</b><br>
-⏱ ${i.tempo} | 💰 R$ ${i.preco}
-</div>
-<button class="removeBtn" onclick="remover(${idx})">REMOVER</button>
+<div>${i.nome} - R$ ${i.preco}</div>
+<button class="removeBtn" onclick="remover(${idx})">X</button>
 </div>`;
 });
 
-document.getElementById("lista").innerHTML=html;
-document.getElementById("total").innerText=total.toFixed(2);
+document.getElementById("lista").innerHTML = html;
+document.getElementById("total").innerText = total;
 }
 
-/* RESUMO */
-function montarResumo(){
+function resumo(){
+let nome = document.getElementById("nome").value;
 
-let nome=document.getElementById("nome").value;
-let marca=document.getElementById("marca_select").value || document.getElementById("marca_manual").value;
-let modelo=document.getElementById("modelo_manual").value;
-let cor=document.getElementById("cor_select").value || document.getElementById("cor_manual").value;
-let data=document.getElementById("data").value;
-let hora=document.getElementById("hora").value;
-let pagamento=document.getElementById("pagamento").value;
-
-let texto="🚗 IRJ ESTÉTICA AUTO\n\n";
-texto+=`Cliente: ${nome}\n`;
-texto+=`Veículo: ${marca} ${modelo}\n`;
-texto+=`Cor: ${cor}\n`;
-texto+=`Data: ${data} ${hora}\n`;
-texto+=`Pagamento: ${pagamento}\n\n`;
-
-let total=0;
+let txt = "IRJ ESTÉTICA AUTO\n";
+txt += "Cliente: " + nome + "\n\n";
 
 carrinho.forEach(i=>{
-texto+=`- ${i.nome} | ${i.tempo} | R$ ${i.preco}\n`;
-total+=i.preco;
+txt += i.nome + " - R$ " + i.preco + "\n";
 });
 
-texto+=`\nTOTAL: R$ ${total}`;
+txt += "\nTotal: R$ " + document.getElementById("total").innerText;
 
-return texto;
+return txt;
 }
 
-/* REVISÃO */
-function revisar(){
-document.getElementById("review").style.display="block";
-document.getElementById("review").innerHTML="<pre>"+montarResumo()+"</pre>";
+function whatsapp(){
+window.open("https://wa.me/5537984185396?text=" + encodeURIComponent(resumo()));
 }
 
-/* WHATSAPP (CORRIGIDO) */
-function agendar(){
-
-let texto = montarResumo();
-let numero = "5537984185396";
-
-let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
-
-window.open(url,"_blank");
-}
-
-/* PDF */
-function baixarPDF(){
+function pdf(){
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
+doc.text(resumo(),10,10);
+doc.save("agendamento.pdf");
+}
 
-doc.addImage(document.getElementById("logo"),"PNG",10,10,40,20);
-
-doc.text(montarResumo(),10,40);
-
-doc.save("agendamento-irj.pdf");
+function revisar(){
+document.getElementById("review").style.display="block";
+document.getElementById("review").innerText=resumo();
 }
 
 </script>
