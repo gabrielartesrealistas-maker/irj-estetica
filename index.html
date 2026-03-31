@@ -2,312 +2,341 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <!-- A LINHA ABAIXO É O QUE RESOLVE O PROBLEMA DO TAMANHO NO CELULAR -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRJ Estética Auto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IRJ Estética Auto - Sistema Gestão</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cloudflare.com"></script>
 
     <style>
         :root {
             --primary: #00ff99;
             --bg: #0f0f0f;
             --card: #1c1c1c;
+            --input-bg: #2b2b2b;
             --text: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 15px; /* Reduzi o padding para ganhar espaço no celular */
+            padding: 10px;
         }
 
         .container {
-            max-width: 600px; /* Melhor para leitura centralizada */
+            max-width: 600px;
             margin: auto;
             background: var(--card);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         h1 {
             text-align: center;
             color: var(--primary);
-            font-size: 1.5rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin: 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .logo {
-            width: 100px;
-            height: auto;
+            width: 90px;
             display: block;
-            margin: 0 auto 20px;
-            border-radius: 50%; /* Deixa a logo redonda se for quadrada */
+            margin: auto;
+            border-radius: 50%;
             border: 2px solid var(--primary);
         }
 
-        /* AJUSTE DOS INPUTS PARA CELULAR */
+        /* GRID DE INPUTS LADO A LADO NO CELULAR */
+        .row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
         input, select {
             width: 100%;
-            padding: 12px; /* Maior para facilitar o toque */
+            padding: 14px;
             margin: 8px 0;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid #333;
-            background: #2b2b2b;
+            background: var(--input-bg);
             color: white;
-            font-size: 16px; /* Evita que o iPhone dê zoom automático no input */
+            font-size: 16px; /* Impede zoom no iOS */
             box-sizing: border-box;
         }
 
         h3 {
-            border-bottom: 1px solid var(--primary);
-            padding-bottom: 5px;
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
             margin-top: 25px;
-            color: var(--primary);
+            font-size: 1.1rem;
         }
 
-        /* GRID DE SERVIÇOS - Fica em 2 colunas no PC e 1 no Celular */
+        /* LISTA DE SERVIÇOS MODERNA */
         .servicos {
             display: grid;
-            grid-template-columns: 1fr; 
-            gap: 10px;
+            grid-template-columns: 1fr;
+            gap: 8px;
             margin: 15px 0;
         }
 
         .servicos label {
-            background: #2b2b2b;
-            padding: 12px;
-            border-radius: 8px;
+            background: #252525;
+            padding: 14px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             cursor: pointer;
-            transition: 0.3s;
+            border: 1px solid transparent;
+            transition: 0.2s;
         }
 
-        .servicos label:active { background: #444; }
+        .servicos label:has(input:checked) {
+            border-color: var(--primary);
+            background: #1e3a2f;
+        }
 
         .servicos input[type="checkbox"] {
-            width: auto;
-            margin-right: 15px;
-            transform: scale(1.5); /* Checkbox maior para o dedo acertar */
+            width: 22px;
+            height: 22px;
+            margin-right: 12px;
+            accent-color: var(--primary);
         }
 
-        /* BOTÕES ESTILO APP */
-        .btn-group {
+        /* BOTÕES DE AÇÃO */
+        .actions {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 25px;
         }
 
         button {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
-            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
         }
 
-        .btn-revisar { background: #555; color: white; }
+        .btn-check { background: #444; color: white; }
         .btn-whats { background: #25D366; color: white; }
         .btn-pdf { background: var(--primary); color: #000; }
 
-        button:active { transform: scale(0.98); }
+        button:active { transform: scale(0.96); }
 
-        /* MODAL RESPONSIVO */
+        /* MODAL */
         #modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
         }
 
         #modalContent {
-            background: #fff;
-            color: #000;
-            width: 85%;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 12px;
-            max-height: 80vh;
+            background: white;
+            color: black;
+            width: 90%;
+            max-width: 450px;
+            margin: 15% auto;
+            padding: 25px;
+            border-radius: 15px;
+            max-height: 75vh;
             overflow-y: auto;
         }
 
-        @media (min-width: 480px) {
+        @media (min-width: 500px) {
             .servicos { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
-
 <body>
 
 <div class="container">
-    <img src="logo.png" alt="Logo" class="logo">
+    <img src="logo.png" alt="Logo IRJ" class="logo">
     <h1>IRJ Estética Auto</h1>
 
-    <input id="nome" placeholder="Nome do cliente">
-    <div style="display: flex; gap: 10px;">
-        <input id="marca" placeholder="Marca (Ex: Fiat)">
-        <input id="carro" placeholder="Modelo (Ex: Argo)">
+    <input id="nome" placeholder="Nome do Cliente">
+    
+    <div class="row">
+        <input id="marca" placeholder="Marca (Ex: VW)">
+        <input id="carro" placeholder="Modelo (Ex: Gol)">
     </div>
-    <div style="display: flex; gap: 10px;">
+
+    <div class="row">
         <input id="placa" placeholder="Placa">
         <input id="cor" placeholder="Cor">
     </div>
-    
-    <div style="display: flex; gap: 10px;">
+
+    <div class="row">
         <input type="date" id="data">
         <input type="time" id="hora">
     </div>
 
     <select id="pagamento">
-        <option value="">Forma de pagamento</option>
+        <option value="">Forma de Pagamento</option>
         <option>Pix</option>
         <option>Cartão de Crédito</option>
         <option>Dinheiro</option>
     </select>
 
-    <label style="font-size: 14px; color: #888;">Porte do Veículo:</label>
+    <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Porte do Veículo:</label>
     <select id="porte">
-        <option value="pequeno">Pequeno (ex: Mobi, Kwid)</option>
-        <option value="medio">Médio (ex: Sedan, SUV compacta)</option>
-        <option value="grande">Grande (ex: Hilux, SW4)</option>
+        <option value="pequeno">Pequeno (Hatch)</option>
+        <option value="medio">Médio (Sedan/SUV)</option>
+        <option value="grande">Grande (Picape/Van)</option>
     </select>
 
     <h3>Selecione os Serviços</h3>
-    <div class="servicos" id="listaServicos">
-        <!-- Lista simplificada para o exemplo, você pode manter todos os seus -->
-        <label><input type="checkbox" value="Lavagem simples"> Lavagem simples</label>
-        <label><input type="checkbox" value="Lavagem técnica"> Lavagem técnica</label>
+    <div class="servicos">
+        <label><input type="checkbox" value="Cristalização de pintura"> Cristalização Pintura</label>
+        <label><input type="checkbox" value="Polimento técnico"> Polimento Técnico</label>
+        <label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação Pintura</label>
         <label><input type="checkbox" value="Higienização"> Higienização</label>
-        <label><input type="checkbox" value="Polimento técnico"> Polimento técnico</label>
-        <label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação</label>
-        <label><input type="checkbox" value="Enceramento especial"> Enceramento</label>
-        <!-- Adicione os outros da mesma forma -->
+        <label><input type="checkbox" value="Vitrificação de faróis"> Vitrificação Faróis</label>
+        <label><input type="checkbox" value="Polimento comercial"> Polimento Comercial</label>
+        <label><input type="checkbox" value="Lavagem técnica"> Lavagem Técnica</label>
+        <label><input type="checkbox" value="Lavagem simples"> Lavagem Simples</label>
+        <label><input type="checkbox" value="Lavagem banco de tecido"> Lavagem Banco Tecido</label>
+        <label><input type="checkbox" value="Ducha simples"> Ducha Simples</label>
+        <label><input type="checkbox" value="Lavagem com cera"> Lavagem com Cera</label>
+        <label><input type="checkbox" value="Aspiração"> Aspiração</label>
+        <label><input type="checkbox" value="Lavagem de motor mais chassi"> Motor e Chassi</label>
+        <label><input type="checkbox" value="Higienização de bancos de couro"> Higienização Couro</label>
+        <label><input type="checkbox" value="Limpeza e hidratação de couro"> Hidratação Couro</label>
+        <label><input type="checkbox" value="Cristalização de vidros"> Cristalização Vidros</label>
+        <label><input type="checkbox" value="Descontaminação de vidros"> Descontaminação Vidros</label>
+        <label><input type="checkbox" value="Descontaminação de pintura"> Descontaminação Pintura</label>
+        <label><input type="checkbox" value="Enceramento especial"> Enceramento Especial</label>
     </div>
 
-    <div class="btn-group">
-        <button class="btn-revisar" onclick="revisar()">🔍 Revisar Agendamento</button>
+    <div class="actions">
+        <button class="btn-check" onclick="revisar()">🔍 Revisar Agendamento</button>
         <button class="btn-whats" onclick="whats()">🟢 Enviar WhatsApp</button>
-        <button class="btn-pdf" onclick="pdf()">📄 Gerar Orçamento PDF</button>
+        <button class="btn-pdf" onclick="pdf()">📄 Gerar PDF</button>
     </div>
 </div>
 
-<!-- O RESTO DO SEU SCRIPT CONTINUA IGUAL (Pode manter o mesmo JS que você já tinha) -->
-
 <div id="modal">
     <div id="modalContent">
-        <h2 style="margin-top:0">Resumo do Pedido</h2>
+        <h2 style="margin-top:0; color: #000;">Resumo da Ordem</h2>
         <div id="resumo"></div>
-        <button class="btn-revisar" onclick="document.getElementById('modal').style.display='none'">Voltar e Ajustar</button>
+        <button class="btn-check" style="margin-top:15px; background: #000;" onclick="document.getElementById('modal').style.display='none'">Fechar</button>
     </div>
 </div>
 
 <script>
-// Mantenha aqui a sua constante 'precos' e as funções 'getDados', 'revisar', 'whats' e 'pdf' que você já escreveu.
-// Eles funcionarão perfeitamente com este novo visual.
-
 const precos = {
-    "Lavagem simples":{pequeno:80,medio:100,grande:130},
-    "Lavagem técnica":{pequeno:150,medio:190,grande:290},
-    "Higienização":{pequeno:350,medio:450,grande:550},
+    "Cristalização de pintura":{pequeno:300,medio:450,grande:650},
     "Polimento técnico":{pequeno:800,medio:1100,grande:1500},
     "Vitrificação de pintura":{pequeno:850,medio:950,grande:1100},
+    "Higienização":{pequeno:350,medio:450,grande:550},
+    "Vitrificação de faróis":{pequeno:200,medio:230,grande:270},
+    "Polimento comercial":{pequeno:380,medio:480,grande:580},
+    "Lavagem técnica":{pequeno:150,medio:190,grande:290},
+    "Lavagem simples":{pequeno:80,medio:100,grande:130},
+    "Lavagem banco de tecido":{pequeno:250,medio:300,grande:350},
+    "Ducha simples":{pequeno:40,medio:50,grande:60},
+    "Lavagem com cera":{pequeno:100,medio:130,grande:160},
+    "Aspiração":{pequeno:40,medio:50,grande:60},
+    "Lavagem de motor mais chassi":{pequeno:150,medio:200,grande:300},
+    "Higienização de bancos de couro":{pequeno:240,medio:290,grande:370},
+    "Limpeza e hidratação de couro":{pequeno:150,medio:160,grande:170},
+    "Cristalização de vidros":{pequeno:40,medio:65,grande:85},
+    "Descontaminação de vidros":{pequeno:140,medio:170,grande:240},
+    "Descontaminação de pintura":{pequeno:110,medio:140,grande:190},
     "Enceramento especial":{pequeno:50,medio:50,grande:50}
-    // Adicione os outros preços aqui conforme sua lista original
 };
 
 function getDados(){
     return {
-        nome:document.getElementById("nome").value,
-        marca:document.getElementById("marca").value,
-        carro:document.getElementById("carro").value,
-        placa:document.getElementById("placa").value,
-        cor:document.getElementById("cor").value,
-        data:document.getElementById("data").value,
-        hora:document.getElementById("hora").value,
-        pagamento:document.getElementById("pagamento").value,
-        porte:document.getElementById("porte").value,
-        itens:[...document.querySelectorAll(".servicos input:checked")]
+        nome: document.getElementById("nome").value,
+        marca: document.getElementById("marca").value,
+        carro: document.getElementById("carro").value,
+        placa: document.getElementById("placa").value,
+        cor: document.getElementById("cor").value,
+        data: document.getElementById("data").value,
+        hora: document.getElementById("hora").value,
+        pagamento: document.getElementById("pagamento").value,
+        porte: document.getElementById("porte").value,
+        itens: [...document.querySelectorAll(".servicos input:checked")]
     };
 }
 
 function revisar(){
-    let d=getDados();
-    let total=0;
-    let txt="";
-    if(d.itens.length === 0) { alert("Selecione ao menos um serviço!"); return; }
+    let d = getDados();
+    let total = 0, txt = "";
+    if(d.itens.length === 0) return alert("Selecione um serviço!");
 
-    d.itens.forEach(i=>{
-        let n=i.value;
-        let p=precos[n][d.porte];
-        total+=p;
-        txt+=`<p>✅ ${n}: <b>R$ ${p}</b></p>`;
+    d.itens.forEach(i => {
+        let p = precos[i.value][d.porte];
+        total += p;
+        txt += `<p style="margin:5px 0">✔️ ${i.value}: <b>R$ ${p}</b></p>`;
     });
 
-    document.getElementById("resumo").innerHTML=`
+    document.getElementById("resumo").innerHTML = `
         <p><b>Cliente:</b> ${d.nome}</p>
         <p><b>Veículo:</b> ${d.marca} ${d.carro} (${d.cor})</p>
-        <p><b>Placa:</b> ${d.placa}</p>
-        <p><b>Data/Hora:</b> ${d.data} às ${d.hora}</p>
-        <hr>
-        ${txt}
-        <hr>
-        <h3 style="color:black">Total: R$ ${total}</h3>
+        <hr>${txt}<hr>
+        <h3 style="color:black; margin:0">Total: R$ ${total}</h3>
     `;
-    document.getElementById("modal").style.display="block";
+    document.getElementById("modal").style.display = "block";
 }
 
 function whats(){
-    let d=getDados();
-    let total=0;
-    let lista="";
-    d.itens.forEach(i=>{
-        let n=i.value;
-        let p=precos[n][d.porte];
-        total+=p;
-        lista+=`- ${n}: R$ ${p}\n`;
+    let d = getDados();
+    let total = 0, lista = "";
+    d.itens.forEach(i => {
+        let p = precos[i.value][d.porte];
+        total += p;
+        lista += `- ${i.value}: R$ ${p}\n`;
     });
 
-    let msg=`🚗 *IRJ ESTÉTICA AUTO*\n\n*Cliente:* ${d.nome}\n*Veículo:* ${d.carro}\n*Placa:* ${d.placa}\n*Data:* ${d.data} ${d.hora}\n\n*Serviços:*\n${lista}\n*TOTAL: R$ ${total}*\n\n_Forma de Pagamento: ${d.pagamento}_`;
-    let url="https://wa.me/5537984185396?text="+encodeURIComponent(msg);
-    window.open(url,"_blank");
+    let msg = `🚗 *IRJ ESTÉTICA AUTO*\n\n*Cliente:* ${d.nome}\n*Veículo:* ${d.carro}\n*Placa:* ${d.placa}\n\n*Serviços:*\n${lista}\n*TOTAL: R$ ${total}*\n\n_Pagamento: ${d.pagamento}_`;
+    window.open("https://wa.me" + encodeURIComponent(msg), "_blank");
 }
 
 function pdf(){
-    let d=getDados();
-    let total=0;
-    const { jsPDF }=window.jspdf;
-    let doc=new jsPDF();
-    doc.setFontSize(18);
+    let d = getDados();
+    let total = 0;
+    const { jsPDF } = window.jspdf;
+    let doc = new jsPDF();
+    let num = Math.floor(Math.random()*9999);
+
+    doc.setFont("helvetica", "bold");
     doc.text("IRJ ESTÉTICA AUTO", 10, 20);
-    doc.setFontSize(12);
-    doc.text(`Cliente: ${d.nome}`, 10, 40);
-    doc.text(`Veículo: ${d.marca} ${d.carro} - ${d.placa}`, 10, 50);
-    doc.text(`Data: ${d.data}`, 10, 60);
-    
+    doc.setFont("helvetica", "normal");
+    doc.text(`Orçamento Nº: ${num}`, 10, 30);
+    doc.text(`Cliente: ${d.nome}`, 10, 45);
+    doc.text(`Veículo: ${d.marca} ${d.carro} - ${d.placa}`, 10, 53);
+    doc.text(`Data: ${d.data} ${d.hora}`, 10, 61);
+
     let y = 80;
-    doc.text("Serviços:", 10, 70);
-    d.itens.forEach(i=>{
-        let n=i.value;
-        let p=precos[n][d.porte];
-        total+=p;
-        doc.text(`- ${n}: R$ ${p}`, 15, y);
-        y+=10;
+    doc.text("SERVIÇOS SELECIONADOS:", 10, 72);
+    d.itens.forEach(i => {
+        let p = precos[i.value][d.porte];
+        total += p;
+        doc.text(`- ${i.value}`, 15, y);
+        doc.text(`R$ ${p}`, 170, y);
+        y += 8;
     });
-    
-    doc.setFontSize(14);
-    doc.text(`TOTAL: R$ ${total}`, 10, y+10);
-    doc.save(`Orçamento_${d.nome}.pdf`);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`TOTAL: R$ ${total}`, 10, y + 10);
+    doc.save(`Orcamento_IRJ_${d.nome}.pdf`);
 }
 </script>
-
 </body>
 </html>
