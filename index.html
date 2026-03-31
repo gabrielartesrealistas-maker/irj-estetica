@@ -1,65 +1,238 @@
-function agendar(){
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRJ Estética Auto</title>
+
+<!-- PDF LIB (JS) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:#fff;
+}
+
+header{
+text-align:center;
+padding:20px;
+background:#111827;
+}
+
+.logo{width:120px;}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+input, select, button{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:8px;
+border:none;
+font-size:16px;
+}
+
+.services{
+background:#1f2937;
+padding:15px;
+border-radius:10px;
+}
+
+button{
+background:#38bdf8;
+font-weight:bold;
+cursor:pointer;
+}
+
+#resumo{
+background:#111827;
+padding:15px;
+margin-top:15px;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<img src="logo.png" class="logo">
+<h1>IRJ ESTÉTICA AUTO</h1>
+</header>
+
+<div class="container">
+
+<input type="text" id="nome" placeholder="Seu nome">
+<input type="text" id="carro" placeholder="Carro / Modelo">
+<input type="text" id="placa" placeholder="Placa do veículo">
+<input type="number" id="ano" placeholder="Ano do veículo (opcional)">
+
+<label>Cor do veículo:</label>
+<input type="color" id="cor">
+
+<select id="porte">
+<option value="">Selecione o porte</option>
+<option value="pequeno">Pequeno</option>
+<option value="medio">Médio</option>
+<option value="grande">Grande</option>
+</select>
+
+<h3>Serviços</h3>
+
+<div class="services">
+<label><input type="checkbox" value="Cristalização de pintura"> Cristalização de pintura</label>
+<label><input type="checkbox" value="Polimento técnico"> Polimento técnico</label>
+<label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação de pintura</label>
+<label><input type="checkbox" value="Higienização"> Higienização</label>
+<label><input type="checkbox" value="Enceramento especial"> Enceramento especial</label>
+</div>
+
+<button onclick="resumo()">Ver Resumo</button>
+<button onclick="agendar()">Agendar WhatsApp</button>
+<button onclick="baixarPDF()">Baixar PDF</button>
+
+<div id="resumo"></div>
+
+</div>
+
+<script>
+
+const precos = {
+"Cristalização de pintura": { pequeno:300, medio:450, grande:650 },
+"Polimento técnico": { pequeno:800, medio:1100, grande:1500 },
+"Vitrificação de pintura": { pequeno:850, medio:950, grande:1100 },
+"Higienização": { pequeno:350, medio:450, grande:550 },
+"Enceramento especial": { pequeno:50, medio:50, grande:50 }
+};
+
+const tempos = {
+"Cristalização de pintura":"18h",
+"Polimento técnico":"3 dias",
+"Vitrificação de pintura":"1 dia",
+"Higienização":"8h",
+"Enceramento especial":"1h"
+};
+
+function getDados(){
 
 let nome = document.getElementById("nome").value;
 let carro = document.getElementById("carro").value;
+let placa = document.getElementById("placa").value;
+let ano = document.getElementById("ano").value;
+let cor = document.getElementById("cor").value;
 let porte = document.getElementById("porte").value;
+
 let itens = document.querySelectorAll("input[type=checkbox]:checked");
 
-if(!nome || !carro || !porte || itens.length === 0){
-alert("Preencha todos os campos!");
+return {nome, carro, placa, ano, cor, porte, itens};
+}
+
+function resumo(){
+
+let d = getDados();
+
+let html = "";
+let total = 0;
+
+if(!d.porte){
+alert("Selecione o porte!");
+return;
+}
+
+d.itens.forEach(i=>{
+let nome = i.value;
+let preco = precos[nome][d.porte];
+total += preco;
+
+html += `✔ ${nome} - R$ ${preco} - ${tempos[nome]}<br>`;
+});
+
+document.getElementById("resumo").innerHTML =
+html + `<br><b>Total: R$ ${total}</b>`;
+}
+
+function agendar(){
+
+let d = getDados();
+
+if(!d.nome || !d.carro || !d.porte || d.itens.length===0){
+alert("Preencha tudo!");
 return;
 }
 
 let total = 0;
 let lista = "";
 
-itens.forEach(i => {
-let nomeS = i.value;
-let preco = precos[nomeS][porte];
+d.itens.forEach(i=>{
+let nome = i.value;
+let preco = precos[nome][d.porte];
 total += preco;
 
-lista += `• ${nomeS}\n`;
+lista += `• ${nome}\n`;
 });
 
 let msg =
 `🚗 AGENDAMENTO IRJ ESTÉTICA AUTO
 
-👤 Nome: ${nome}
-🚘 Carro: ${carro}
-📦 Porte: ${porte}
+👤 Nome: ${d.nome}
+🚘 Carro: ${d.carro}
+📌 Placa: ${d.placa}
+📅 Ano: ${d.ano || "não informado"}
+🎨 Cor: ${d.cor}
+
+📦 Porte: ${d.porte}
 
 🧼 Serviços:
 ${lista}
 
 💰 TOTAL: R$ ${total}`;
 
-let telefone = "5537984185396";
-
-// 🔥 MÉTODO MAIS COMPATÍVEL (FUNCIONA EM TODO NAVEGADOR)
-let url = "https://api.whatsapp.com/send?phone=" + telefone + "&text=" + encodeURIComponent(msg);
+let url = "https://api.whatsapp.com/send?phone=5537984185396&text=" + encodeURIComponent(msg);
 
 window.open(url, "_blank");
 }
-💥 3. POR QUE O SEU NÃO ABRIA?
 
-Normalmente é um desses motivos:
+function baixarPDF(){
 
-❌ usar link incompleto
-❌ usar wa.me sem encode correto
-❌ navegador bloqueando popup
-❌ WhatsApp Web não logado
+let d = getDados();
 
-🔥 4. ESSE AQUI FUNCIONA 100%
+let total = 0;
+let texto = "";
 
-✔ abre no celular
-✔ abre no PC
-✔ não quebra mensagem
-✔ não falha no Chrome
-✔ mais estável que wa.me
+d.itens.forEach(i=>{
+let nome = i.value;
+let preco = precos[nome][d.porte];
+total += preco;
 
-🚀 SE AINDA NÃO ABRIR
+texto += `${nome} - R$ ${preco}\n`;
+});
 
-Me fala só isso:
-👉 “não abre no celular” ou “não abre no PC”
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
 
-que eu te ajusto no modo perfeito com botão flutuante estilo app 👍
+doc.text("IRJ ESTÉTICA AUTO", 10, 10);
+doc.text("Cliente: " + d.nome, 10, 20);
+doc.text("Carro: " + d.carro, 10, 30);
+doc.text("Placa: " + d.placa, 10, 40);
+doc.text("Ano: " + (d.ano || "N/A"), 10, 50);
+doc.text("Cor: " + d.cor, 10, 60);
+
+doc.text("Serviços:", 10, 80);
+doc.text(texto, 10, 90);
+
+doc.text("TOTAL: R$ " + total, 10, 140);
+
+doc.save("agendamento_IRJ.pdf");
+}
+
+</script>
+
+</body>
+</html>
