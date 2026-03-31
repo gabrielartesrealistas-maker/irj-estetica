@@ -8,71 +8,67 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-:root {
-    --primary:#00ff99;
-    --bg:#0f0f0f;
-    --card:#1c1c1c;
-    --input:#2b2b2b;
-    --text:#fff;
+:root{
+--primary:#00ff99;
+--bg:#0f0f0f;
+--card:#1c1c1c;
+--input:#2b2b2b;
+--text:#fff;
 }
 
-body {
-    margin:0;
-    font-family:Arial;
-    background:var(--bg);
-    color:var(--text);
-    padding:10px;
+body{
+margin:0;
+font-family:Arial;
+background:var(--bg);
+color:var(--text);
+padding:10px;
 }
 
 .container{
-    max-width:600px;
-    margin:auto;
-    background:var(--card);
-    padding:20px;
-    border-radius:15px;
+max-width:600px;
+margin:auto;
+background:var(--card);
+padding:20px;
+border-radius:15px;
 }
 
 h1{color:var(--primary);text-align:center}
 
-.logo{
-    width:90px;
-    display:block;
-    margin:auto;
-    border-radius:50%;
-}
+.logo{width:90px;display:block;margin:auto;border-radius:50%}
 
 input,select{
-    width:100%;
-    padding:12px;
-    margin:6px 0;
-    border-radius:10px;
-    border:none;
-    background:var(--input);
-    color:#fff;
+width:100%;
+padding:12px;
+margin:6px 0;
+border-radius:10px;
+border:none;
+background:var(--input);
+color:#fff;
 }
 
 .row{display:flex;gap:10px}
 
 .servicos{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:6px;
+display:grid;
+grid-template-columns:1fr;
+gap:6px;
 }
 
 .servicos label{
-    background:#222;
-    padding:10px;
-    border-radius:10px;
+background:#222;
+padding:10px;
+border-radius:10px;
+display:block;
 }
 
 button{
-    width:100%;
-    padding:15px;
-    border:none;
-    margin-top:10px;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
+width:100%;
+padding:15px;
+border:none;
+margin-top:10px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .btn1{background:#444;color:#fff}
@@ -80,21 +76,21 @@ button{
 .btn3{background:var(--primary);color:#000}
 
 #modal{
-    display:none;
-    position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
-    background:rgba(0,0,0,.9);
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.9);
 }
 
 #modalContent{
-    background:#fff;
-    color:#000;
-    width:90%;
-    max-width:450px;
-    margin:10% auto;
-    padding:20px;
-    border-radius:10px;
+background:#fff;
+color:#000;
+width:90%;
+max-width:450px;
+margin:10% auto;
+padding:20px;
+border-radius:10px;
 }
 </style>
 </head>
@@ -138,12 +134,27 @@ button{
 <h3>Serviços</h3>
 
 <div class="servicos" id="servicos">
+
+<label><input type="checkbox" value="Cristalização de pintura"> Cristalização de pintura</label>
 <label><input type="checkbox" value="Polimento técnico"> Polimento técnico</label>
-<label><input type="checkbox" value="Cristalização de pintura"> Cristalização</label>
-<label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação</label>
-<label><input type="checkbox" value="Higienização"> Higienização</label>
+<label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação de pintura</label>
+<label><input type="checkbox" value="Higienização"> Higienização interna</label>
+<label><input type="checkbox" value="Vitrificação de faróis"> Vitrificação de faróis</label>
+<label><input type="checkbox" value="Polimento comercial"> Polimento comercial</label>
 <label><input type="checkbox" value="Lavagem técnica"> Lavagem técnica</label>
+<label><input type="checkbox" value="Lavagem simples"> Lavagem simples</label>
+<label><input type="checkbox" value="Lavagem banco de tecido"> Lavagem banco tecido</label>
+<label><input type="checkbox" value="Ducha simples"> Ducha simples</label>
+<label><input type="checkbox" value="Lavagem com cera"> Lavagem com cera</label>
+<label><input type="checkbox" value="Aspiração"> Aspiração</label>
+<label><input type="checkbox" value="Lavagem de motor mais chassi"> Motor e chassi</label>
+<label><input type="checkbox" value="Higienização de bancos de couro"> Higienização couro</label>
+<label><input type="checkbox" value="Limpeza e hidratação de couro"> Hidratação couro</label>
+<label><input type="checkbox" value="Cristalização de vidros"> Cristalização de vidros</label>
+<label><input type="checkbox" value="Descontaminação de vidros"> Descontaminação de vidros</label>
+<label><input type="checkbox" value="Descontaminação de pintura"> Descontaminação pintura</label>
 <label><input type="checkbox" value="Enceramento especial"> Enceramento especial</label>
+
 </div>
 
 <button class="btn1" onclick="revisar()">Revisão</button>
@@ -163,11 +174,24 @@ button{
 <script>
 
 const precos={
-"Polimento técnico":{pequeno:800,medio:1100,grande:1500},
 "Cristalização de pintura":{pequeno:300,medio:450,grande:650},
+"Polimento técnico":{pequeno:800,medio:1100,grande:1500},
 "Vitrificação de pintura":{pequeno:850,medio:950,grande:1100},
 "Higienização":{pequeno:350,medio:450,grande:550},
+"Vitrificação de faróis":{pequeno:200,medio:230,grande:270},
+"Polimento comercial":{pequeno:380,medio:480,grande:580},
 "Lavagem técnica":{pequeno:150,medio:190,grande:290},
+"Lavagem simples":{pequeno:80,medio:100,grande:130},
+"Lavagem banco de tecido":{pequeno:250,medio:300,grande:350},
+"Ducha simples":{pequeno:40,medio:50,grande:60},
+"Lavagem com cera":{pequeno:100,medio:130,grande:160},
+"Aspiração":{pequeno:40,medio:50,grande:60},
+"Lavagem de motor mais chassi":{pequeno:150,medio:200,grande:300},
+"Higienização de bancos de couro":{pequeno:240,medio:290,grande:370},
+"Limpeza e hidratação de couro":{pequeno:150,medio:160,grande:170},
+"Cristalização de vidros":{pequeno:40,medio:65,grande:85},
+"Descontaminação de vidros":{pequeno:140,medio:170,grande:240},
+"Descontaminação de pintura":{pequeno:110,medio:140,grande:190},
 "Enceramento especial":{pequeno:50,medio:50,grande:50}
 };
 
@@ -197,9 +221,9 @@ txt+=`<p>${i.value} - R$ ${p}</p>`;
 });
 
 resumo.innerHTML=`
-<b>${d.nome}</b><br>
-${d.marca} ${d.carro}<br>
-Placa: ${d.placa}<br><br>
+<b>Cliente:</b> ${d.nome}<br>
+<b>Veículo:</b> ${d.marca} ${d.carro}<br>
+<b>Placa:</b> ${d.placa}<br><br>
 ${txt}<br>
 <b>Total: R$ ${total}</b>
 `;
@@ -221,7 +245,7 @@ total+=p;
 msg+=`✔ ${i.value} R$ ${p}%0A`;
 });
 
-let texto=
+let url=
 `https://wa.me/5537984185396?text=`+
 `Cliente: ${d.nome}%0A`+
 `Veículo: ${d.marca} ${d.carro}%0A`+
@@ -230,7 +254,7 @@ let texto=
 msg+
 `%0ATotal: R$ ${total}`;
 
-window.open(texto,"_blank");
+window.open(url,"_blank");
 }
 
 function pdf(){
