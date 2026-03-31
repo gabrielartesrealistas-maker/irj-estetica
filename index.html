@@ -14,14 +14,9 @@ color:white;
 text-align:center;
 }
 
-header{
-padding:20px;
-}
+header{padding:20px;}
 
-.logo{
-width:120px;
-border-radius:10px;
-}
+.logo{width:120px;border-radius:10px;}
 
 .btn{
 background:#00ff99;
@@ -42,14 +37,14 @@ padding:10px;
 }
 
 .services div{
-font-size:12px;
+font-size:11px;
 opacity:0.8;
 border-bottom:1px solid #222;
-padding:4px 0;
+padding:3px 0;
 }
 
 form{
-max-width:500px;
+max-width:520px;
 margin:auto;
 background:#1c1c1c;
 padding:15px;
@@ -64,7 +59,7 @@ border:none;
 border-radius:5px;
 }
 
-#listaServicos div{
+#lista div{
 display:flex;
 justify-content:space-between;
 font-size:13px;
@@ -82,22 +77,34 @@ margin:5px 0;
 
 <h1>IRJ Estética Auto</h1>
 
-<a class="btn" href="https://wa.me/5537984185396" target="_blank">
-WhatsApp
-</a>
+<a class="btn" href="https://wa.me/5537984185396" target="_blank">WhatsApp</a>
 
 </header>
 
 <h2>Serviços</h2>
 
 <div class="services">
-<div>Cristalização pintura - R$300</div>
+
+<div>Cristalização de pintura - R$300</div>
 <div>Polimento técnico - R$1100</div>
-<div>Vitrificação - R$950</div>
-<div>Higienização - R$350</div>
+<div>Vitrificação de pintura - R$950</div>
+<div>Higienização interna - R$350</div>
+<div>Vitrificação de faróis - R$200</div>
+<div>Polimento comercial - R$480</div>
 <div>Lavagem técnica - R$150</div>
 <div>Lavagem simples - R$80</div>
-<div>Enceramento - R$50</div>
+<div>Lavagem bancos tecido - R$250</div>
+<div>Ducha simples - R$40</div>
+<div>Lavagem com cera - R$100</div>
+<div>Aspiração interna - R$40</div>
+<div>Motor + chassi - R$150</div>
+<div>Higienização couro - R$240</div>
+<div>Limpeza couro - R$150</div>
+<div>Cristalização de vidros - R$40</div>
+<div>Descontaminação vidros - R$140</div>
+<div>Descontaminação pintura - R$110</div>
+<div>Enceramento especial - R$50</div>
+
 </div>
 
 <h2>Agendamento</h2>
@@ -121,19 +128,31 @@ WhatsApp
 <input type="date" id="data">
 <input type="time" id="hora">
 
-<h3>Serviços</h3>
+<h3>Adicionar serviços</h3>
 
-<select id="servicoSelect">
+<select id="servico">
 <option value="300">Cristalização pintura</option>
 <option value="1100">Polimento técnico</option>
-<option value="950">Vitrificação</option>
-<option value="350">Higienização</option>
+<option value="950">Vitrificação pintura</option>
+<option value="350">Higienização interna</option>
+<option value="200">Vitrificação faróis</option>
+<option value="480">Polimento comercial</option>
 <option value="150">Lavagem técnica</option>
 <option value="80">Lavagem simples</option>
-<option value="50">Enceramento</option>
+<option value="250">Lavagem bancos tecido</option>
+<option value="40">Ducha simples</option>
+<option value="100">Lavagem com cera</option>
+<option value="40">Aspiração interna</option>
+<option value="150">Motor + chassi</option>
+<option value="240">Higienização couro</option>
+<option value="150">Limpeza couro</option>
+<option value="40">Cristalização vidros</option>
+<option value="140">Descontaminação vidros</option>
+<option value="110">Descontaminação pintura</option>
+<option value="50">Enceramento especial</option>
 </select>
 
-<button type="button" class="btn" onclick="add()">Adicionar Serviço</button>
+<button type="button" class="btn" onclick="add()">Adicionar</button>
 
 <div id="lista"></div>
 
@@ -143,7 +162,7 @@ WhatsApp
 
 </form>
 
-<div id="resumo" style="display:none;max-width:500px;margin:auto;background:#111;padding:15px;border-radius:10px;text-align:left;"></div>
+<div id="resumo" style="display:none;max-width:520px;margin:auto;background:#111;padding:15px;border-radius:10px;text-align:left;"></div>
 
 <button class="btn" onclick="whats()">WhatsApp</button>
 <button class="btn" onclick="pdf()">Baixar PDF</button>
@@ -152,58 +171,56 @@ WhatsApp
 
 <script>
 
-let dados = {
-servicos: [],
-total: 0
-};
+let dados = {servicos:[],total:0};
 
 function add(){
 
-let sel = document.getElementById("servicoSelect");
-let nome = sel.options[sel.selectedIndex].text;
-let valor = parseFloat(sel.value);
+let s = document.getElementById("servico");
+let nome = s.options[s.selectedIndex].text;
+let valor = parseFloat(s.value);
 
-dados.servicos.push({nome, valor});
-atualizar();
+dados.servicos.push({nome,valor});
+update();
 }
 
-function atualizar(){
+function update(){
 
-let html = "";
-dados.total = 0;
+let html="";
+dados.total=0;
 
 dados.servicos.forEach((s,i)=>{
-html += `<div>${s.nome} - R$ ${s.valor} <button onclick="remover(${i})">❌</button></div>`;
-dados.total += s.valor;
+html+=`<div>${s.nome} - R$ ${s.valor} <button onclick="remover(${i})">❌</button></div>`;
+dados.total+=s.valor;
 });
 
-document.getElementById("lista").innerHTML = html;
-document.getElementById("total").innerText = dados.total;
+document.getElementById("lista").innerHTML=html;
+document.getElementById("total").innerText=dados.total;
 }
 
 function remover(i){
 dados.servicos.splice(i,1);
-atualizar();
+update();
 }
 
 function revisar(){
 
-dados.nome = nome.value;
-dados.placa = placa.value;
-dados.modelo = modelo.value;
-dados.marca = marca.value;
-dados.porte = porte.value;
-dados.cor = cor.value;
-dados.ano = ano.value;
-dados.data = data.value;
-dados.hora = hora.value;
+dados.nome=nome.value;
+dados.placa=placa.value;
+dados.modelo=modelo.value;
+dados.marca=marca.value;
+dados.porte=porte.value;
+dados.cor=cor.value;
+dados.ano=ano.value;
+dados.data=data.value;
+dados.hora=hora.value;
 
-document.getElementById("resumo").style.display = "block";
+resumo.style.display="block";
 
-resumo.innerHTML = `
+resumo.innerHTML=`
 <h3>Resumo</h3>
 Nome: ${dados.nome}<br>
 Veículo: ${dados.marca} ${dados.modelo}<br>
+Placa: ${dados.placa}<br>
 Porte: ${dados.porte}<br><br>
 Serviços:<br>
 ${dados.servicos.map(s=>"• "+s.nome).join("<br>")}<br><br>
@@ -214,7 +231,7 @@ Data: ${dados.data} ${dados.hora}
 
 function whats(){
 
-let msg = `IRJ Estética Auto
+let msg=`IRJ Estética Auto
 
 Nome: ${dados.nome}
 Veículo: ${dados.marca} ${dados.modelo}
@@ -235,36 +252,34 @@ const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
 let logo = new Image();
-logo.src = "logo.png";
+logo.src="logo.png";
 
-logo.onload = function(){
+logo.onload=function(){
 
-doc.addImage(logo, "PNG", 70, 10, 60, 30);
+doc.addImage(logo,"PNG",70,10,60,30);
 
 doc.setFontSize(16);
-doc.text("IRJ Estética Auto", 20, 50);
+doc.text("IRJ Estética Auto",20,50);
 
 doc.setFontSize(12);
-doc.text("NOTA DE AGENDAMENTO", 20, 60);
+doc.text("NOTA DE AGENDAMENTO",20,60);
 
-doc.text("Nome: " + dados.nome, 20, 75);
-doc.text("Veículo: " + dados.marca + " " + dados.modelo, 20, 85);
-doc.text("Placa: " + dados.placa, 20, 95);
-doc.text("Porte: " + dados.porte, 20, 105);
+doc.text("Nome: "+dados.nome,20,75);
+doc.text("Veículo: "+dados.marca+" "+dados.modelo,20,85);
+doc.text("Placa: "+dados.placa,20,95);
+doc.text("Porte: "+dados.porte,20,105);
 
-let y = 120;
-
-doc.text("Serviços:", 20, y);
-
-y += 10;
+let y=120;
+doc.text("Serviços:",20,y);
+y+=10;
 
 dados.servicos.forEach(s=>{
-doc.text("- " + s.nome + " R$ " + s.valor, 25, y);
-y += 10;
+doc.text("- "+s.nome+" R$ "+s.valor,25,y);
+y+=10;
 });
 
-doc.text("TOTAL: R$ " + dados.total, 20, y+10);
-doc.text("Data: " + dados.data + " " + dados.hora, 20, y+20);
+doc.text("TOTAL: R$ "+dados.total,20,y+10);
+doc.text("Data: "+dados.data+" "+dados.hora,20,y+20);
 
 doc.save("IRJ-nota.pdf");
 
