@@ -5,16 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IRJ Estética Auto</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
-body{margin:0;font-family:Arial;background:#0f0f0f;color:white;text-align:center;}
-header{padding:20px;}
-.logo{width:120px;border-radius:10px;}
-.btn{background:#00ff99;color:black;padding:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin:5px;}
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0f0f0f;
+    color:white;
+    text-align:center;
+}
 
-form{max-width:520px;margin:auto;background:#1c1c1c;padding:15px;border-radius:10px;}
-input,select{width:100%;padding:10px;margin:5px 0;border:none;border-radius:5px;}
+.logo{
+    width:120px;
+    margin-top:15px;
+    border-radius:10px;
+    box-shadow:0 0 10px #00ff99;
+}
 
-#lista div{display:flex;justify-content:space-between;font-size:13px;margin:5px 0;}
+header{
+    padding:15px;
+}
+
+.btn{
+    background:#00ff99;
+    color:black;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    width:100%;
+    margin-top:5px;
+}
+
+.btn:hover{ background:#00cc77; }
+
+.container{
+    max-width:600px;
+    margin:auto;
+    padding:10px;
+}
+
+select,input{
+    width:100%;
+    padding:8px;
+    margin:5px 0;
+    border-radius:5px;
+    border:none;
+}
+
+.services-list{
+    text-align:left;
+    background:#1c1c1c;
+    padding:10px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.item{
+    display:flex;
+    justify-content:space-between;
+    padding:5px;
+    border-bottom:1px solid #333;
+}
 </style>
 </head>
 
@@ -22,224 +76,153 @@ input,select{width:100%;padding:10px;margin:5px 0;border:none;border-radius:5px;
 
 <header>
 <img src="logo.png" class="logo">
-<h1>IRJ Estética Auto</h1>
-<a class="btn" href="https://wa.me/5537984185396" target="_blank">WhatsApp</a>
+<h2>IRJ Estética Auto</h2>
+<p>Agendamento profissional</p>
+
+<a class="btn" target="_blank"
+href="https://wa.me/5537984185396">
+WhatsApp
+</a>
 </header>
 
-<h2>Agendamento</h2>
+<div class="container">
 
-<form>
-
+<h3>Cliente</h3>
 <input id="nome" placeholder="Nome">
 
-<input id="placa" placeholder="Placa">
+<input list="marcas" id="marca" placeholder="Marca">
+<datalist id="marcas">
+<option>Chevrolet</option><option>Volkswagen</option><option>Ford</option>
+<option>Fiat</option><option>Toyota</option><option>Honda</option>
+<option>Nissan</option><option>BMW</option><option>Mercedes-Benz</option>
+<option>Audi</option><option>Jeep</option><option>Hyundai</option>
+</datalist>
 
-<!-- MARCA -->
-<select id="marca" onchange="carregarModelos()">
-<option value="">Selecione a Marca</option>
-<option value="Volkswagen">Volkswagen</option>
-<option value="Fiat">Fiat</option>
-<option value="Chevrolet">Chevrolet</option>
-<option value="Toyota">Toyota</option>
-<option value="Honda">Honda</option>
-<option value="Ford">Ford</option>
-</select>
+<input list="modelos" id="modelo" placeholder="Modelo (opcional)">
+<datalist id="modelos">
+<option>Onix</option><option>Gol</option><option>Civic</option>
+<option>Corolla</option><option>HB20</option><option>Argo</option>
+<option>Compass</option><option>Renegade</option>
+</datalist>
 
-<!-- MODELO -->
-<select id="modelo">
-<option value="">Selecione o Modelo</option>
-</select>
-
-<!-- COR -->
 <select id="cor">
-<option value="">Cor do veículo</option>
-<option>Preto</option>
-<option>Branco</option>
-<option>Prata</option>
-<option>Vermelho</option>
-<option>Azul</option>
-<option>Cinza</option>
-<option>Verde</option>
+<option>Cor do veículo</option>
+<option>Preto</option><option>Branco</option><option>Prata</option>
+<option>Cinza</option><option>Vermelho</option><option>Azul</option>
+<option>Verde</option><option>Amarelo</option><option>Bege</option>
 </select>
-
-<input id="ano" placeholder="Ano (opcional)">
-
-<select id="porte">
-<option>Pequeno</option>
-<option>Médio</option>
-<option>Grande</option>
-</select>
-
-<input type="date" id="data">
-<input type="time" id="hora">
 
 <h3>Serviços</h3>
 
 <select id="servico">
-<option value="300">Cristalização pintura</option>
-<option value="1100">Polimento técnico</option>
-<option value="950">Vitrificação pintura</option>
-<option value="350">Higienização interna</option>
-<option value="150">Lavagem técnica</option>
-<option value="80">Lavagem simples</option>
-<option value="50">Enceramento</option>
+<option value="Cristalização de pintura - 300">Cristalização de pintura</option>
+<option value="Polimento técnico - 800">Polimento técnico</option>
+<option value="Vitrificação de pintura - 850">Vitrificação de pintura</option>
+<option value="Higienização - 350">Higienização</option>
+<option value="Vitrificação de faróis - 200">Vitrificação de faróis</option>
+<option value="Polimento comercial - 380">Polimento comercial</option>
+<option value="Lavagem técnica - 150">Lavagem técnica</option>
+<option value="Lavagem simples - 80">Lavagem simples</option>
+<option value="Lavagem banco tecido - 250">Lavagem banco tecido</option>
+<option value="Ducha simples - 40">Ducha simples</option>
+<option value="Lavagem com cera - 100">Lavagem com cera</option>
+<option value="Aspiração - 40">Aspiração</option>
+<option value="Lavagem motor/chassi - 150">Lavagem motor/chassi</option>
+<option value="Higienização couro - 240">Higienização couro</option>
+<option value="Limpeza couro - 150">Limpeza couro</option>
+<option value="Cristalização vidros - 40">Cristalização vidros</option>
+<option value="Descontaminação vidros - 140">Descontaminação vidros</option>
+<option value="Descontaminação pintura - 110">Descontaminação pintura</option>
+<option value="Enceramento especial - 50">Enceramento especial</option>
 </select>
 
-<button type="button" class="btn" onclick="add()">Adicionar</button>
+<button class="btn" onclick="addServico()">Adicionar serviço</button>
 
-<div id="lista"></div>
+<div class="services-list" id="lista"></div>
 
-<h3>Total: R$ <span id="total">0</span></h3>
+<h3>Total</h3>
+<p id="total">R$ 0</p>
 
-<button type="button" class="btn" onclick="revisar()">Revisar</button>
+<button class="btn" onclick="gerarPDF()">Gerar PDF</button>
+<button class="btn" onclick="enviarWhats()">Enviar WhatsApp</button>
 
-</form>
-
-<div id="resumo" style="display:none;max-width:520px;margin:auto;background:#111;padding:15px;border-radius:10px;text-align:left;"></div>
-
-<button class="btn" onclick="whats()">WhatsApp</button>
-<button class="btn" onclick="pdf()">Baixar PDF</button>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</div>
 
 <script>
+let carrinho = [];
 
-let dados={servicos:[],total:0};
+function addServico(){
+    let s = document.getElementById("servico").value;
+    let nome = s.split(" - ")[0];
+    let preco = parseFloat(s.split(" - ")[1]);
 
-const modelos = {
-"Volkswagen":["Gol","Polo","Saveiro","T-Cross"],
-"Fiat":["Uno","Argo","Toro","Cronos"],
-"Chevrolet":["Onix","Prisma","S10","Cruze"],
-"Toyota":["Corolla","Hilux","Etios"],
-"Honda":["Civic","Fit","HR-V"],
-"Ford":["Ka","Fiesta","Ranger"]
-};
-
-function carregarModelos(){
-let marca=document.getElementById("marca").value;
-let modelo=document.getElementById("modelo");
-
-modelo.innerHTML="<option>Selecione o Modelo</option>";
-
-if(modelos[marca]){
-modelos[marca].forEach(m=>{
-modelo.innerHTML+=`<option>${m}</option>`;
-});
-}
+    carrinho.push({nome, preco});
+    render();
 }
 
-function add(){
-let s=document.getElementById("servico");
-let nome=s.options[s.selectedIndex].text;
-let valor=parseFloat(s.value);
+function render(){
+    let html = "";
+    let total = 0;
 
-dados.servicos.push({nome,valor});
-update();
-}
+    carrinho.forEach((item,i)=>{
+        total += item.preco;
+        html += `
+        <div class="item">
+            ${item.nome} - R$ ${item.preco}
+            <button onclick="remover(${i})">X</button>
+        </div>`;
+    });
 
-function update(){
-let html="";
-dados.total=0;
-
-dados.servicos.forEach((s,i)=>{
-html+=`<div>${s.nome} - R$ ${s.valor} <button onclick="remover(${i})">❌</button></div>`;
-dados.total+=s.valor;
-});
-
-document.getElementById("lista").innerHTML=html;
-document.getElementById("total").innerText=dados.total;
+    document.getElementById("lista").innerHTML = html;
+    document.getElementById("total").innerText = "R$ " + total;
 }
 
 function remover(i){
-dados.servicos.splice(i,1);
-update();
+    carrinho.splice(i,1);
+    render();
 }
 
-function revisar(){
+function gerarPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-dados.nome=nome.value;
-dados.placa=placa.value;
-dados.marca=marca.value;
-dados.modelo=modelo.value;
-dados.cor=cor.value;
-dados.ano=ano.value || "Não informado";
-dados.porte=porte.value;
-dados.data=data.value;
-dados.hora=hora.value;
+    let nome = document.getElementById("nome").value;
+    let marca = document.getElementById("marca").value;
+    let modelo = document.getElementById("modelo").value;
+    let cor = document.getElementById("cor").value;
 
-resumo.style.display="block";
+    doc.text("IRJ Estética Auto", 10, 10);
+    doc.text("Cliente: " + nome, 10, 20);
+    doc.text("Veículo: " + marca + " " + modelo, 10, 30);
+    doc.text("Cor: " + cor, 10, 40);
 
-resumo.innerHTML=`
-<h3>Resumo</h3>
-Nome: ${dados.nome}<br>
-Veículo: ${dados.marca} ${dados.modelo}<br>
-Cor: ${dados.cor}<br>
-Ano: ${dados.ano}<br>
-Porte: ${dados.porte}<br><br>
-Serviços:<br>
-${dados.servicos.map(s=>"• "+s.nome).join("<br>")}<br><br>
-TOTAL: R$ ${dados.total}<br>
-Data: ${dados.data} ${dados.hora}
-`;
+    let y = 60;
+    let total = 0;
+
+    carrinho.forEach(s=>{
+        doc.text(s.nome + " - R$ " + s.preco, 10, y);
+        total += s.preco;
+        y += 10;
+    });
+
+    doc.text("TOTAL: R$ " + total, 10, y+10);
+
+    doc.save("IRJ-nota.pdf");
 }
 
-function whats(){
+function enviarWhats(){
+    let nome = document.getElementById("nome").value;
 
-let msg=`IRJ Estética Auto
+    let msg = `Olá! Agendamento:%0ANome: ${nome}%0AServiços:%0A`;
 
-Nome: ${dados.nome}
-Veículo: ${dados.marca} ${dados.modelo}
-Cor: ${dados.cor}
-Ano: ${dados.ano}
+    carrinho.forEach(s=>{
+        msg += `- ${s.nome} R$${s.preco}%0A`;
+    });
 
-Serviços:
-${dados.servicos.map(s=>"• "+s.nome).join("\n")}
+    let url = "https://wa.me/5537984185396?text=" + msg;
 
-TOTAL: R$ ${dados.total}
-Data: ${dados.data} ${dados.hora}`;
-
-window.open("https://wa.me/5537984185396?text="+encodeURIComponent(msg));
+    window.open(url,"_blank");
 }
-
-function pdf(){
-
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-
-let logo=new Image();
-logo.src="logo.png";
-
-logo.onload=function(){
-
-doc.addImage(logo,"PNG",70,10,60,30);
-
-doc.setFontSize(14);
-doc.text("IRJ Estética Auto",20,50);
-doc.text("NOTA DE AGENDAMENTO",20,60);
-
-doc.text("Nome: "+dados.nome,20,75);
-doc.text("Veículo: "+dados.marca+" "+dados.modelo,20,85);
-doc.text("Cor: "+dados.cor,20,95);
-doc.text("Ano: "+dados.ano,20,105);
-
-let y=120;
-doc.text("Serviços:",20,y);
-y+=10;
-
-dados.servicos.forEach(s=>{
-doc.text("- "+s.nome+" R$ "+s.valor,25,y);
-y+=10;
-});
-
-doc.text("TOTAL: R$ "+dados.total,20,y+10);
-doc.text("Data: "+dados.data+" "+dados.hora,20,y+20);
-
-doc.save("IRJ-nota.pdf");
-
-};
-
-}
-
 </script>
 
 </body>
