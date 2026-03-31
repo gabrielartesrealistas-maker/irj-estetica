@@ -1,31 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRJ Estética Auto</title>
+
 <style>
-.service{
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f0f0f;
+    color:white;
+    text-align:center;
+}
+
+header{
+    padding:20px;
+}
+
+.logo{
+    width:130px;
+    border-radius:12px;
+    margin-top:10px;
+}
+
+.btn{
+    background:#00ff99;
+    color:black;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+    text-decoration:none;
+}
+
+.btn:hover{
+    background:#00cc77;
+}
+
+.services{
+    padding:15px;
+    max-width:900px;
+    margin:auto;
+    text-align:left;
+}
+
+.services div{
     font-size:12px;
-    line-height:1.3;
-    opacity:0.9;
+    opacity:0.85;
+    padding:2px 0;
+    border-bottom:1px solid #222;
+}
+
+form{
+    max-width:500px;
+    margin:20px auto;
+    background:#1c1c1c;
+    padding:15px;
+    border-radius:10px;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    border:none;
+    border-radius:5px;
+}
+
+.review{
+    display:none;
+    max-width:500px;
+    margin:20px auto;
+    background:#111;
+    padding:15px;
+    border-radius:10px;
+    text-align:left;
 }
 </style>
 
+</head>
+
+<body>
+
+<header>
+
+<img src="logo.png" class="logo">
+
+<h1>IRJ Estética Auto</h1>
+
+<a class="btn" href="https://wa.me/5537984185396" target="_blank">
+WhatsApp
+</a>
+
+</header>
+
+<h2>Serviços</h2>
+
 <div class="services">
 
-<div class="service">Cristalização pintura — R$300 a R$650 — 18h</div>
-<div class="service">Polimento técnico — R$800 a R$1500 — 3 dias</div>
-<div class="service">Vitrificação — R$850 a R$1100 — 1 dia</div>
-<div class="service">Higienização — R$350 a R$550 — 8h</div>
-<div class="service">Faróis — R$200 a R$270 — 3h</div>
-<div class="service">Polimento comercial — R$380 a R$580 — 12h</div>
-<div class="service">Lavagem técnica — R$150 a R$290 — 8h</div>
-<div class="service">Lavagem simples — R$80 a R$130 — 4h</div>
-<div class="service">Bancos tecido — R$250 a R$350 — 8h</div>
-<div class="service">Ducha simples — R$40 a R$60 — 40min</div>
-<div class="service">Lavagem com cera — R$100 a R$160 — 4h</div>
-<div class="service">Aspiração — R$40 a R$60 — 1h</div>
-<div class="service">Motor + chassi — R$150 a R$300 — 6h</div>
-<div class="service">Couro higienização — R$240 a R$370 — 7h</div>
-<div class="service">Limpeza couro — R$150 a R$170 — 4h</div>
-<div class="service">Vidros cristalização — R$40 a R$85 — 1h</div>
-<div class="service">Descontaminação vidros — R$140 a R$240 — 4h</div>
-<div class="service">Descontaminação pintura — R$110 a R$190 — 5h</div>
-<div class="service">Enceramento especial — R$50 — 1h</div>
+<div>Cristalização de pintura — R$300 a R$650 — 18h</div>
+<div>Polimento técnico — R$800 a R$1500 — 3 dias</div>
+<div>Vitrificação de pintura — R$850 a R$1100 — 1 dia</div>
+<div>Higienização — R$350 a R$550 — 8h</div>
+<div>Vitrificação de faróis — R$200 a R$270 — 3h</div>
+<div>Polimento comercial — R$380 a R$580 — 12h</div>
+<div>Lavagem técnica — R$150 a R$290 — 8h</div>
+<div>Lavagem simples — R$80 a R$130 — 4h</div>
+<div>Lavagem bancos tecido — R$250 a R$350 — 8h</div>
+<div>Ducha simples — R$40 a R$60 — 40min</div>
+<div>Lavagem com cera — R$100 a R$160 — 4h</div>
+<div>Aspiração — R$40 a R$60 — 1h</div>
+<div>Lavagem motor + chassi — R$150 a R$300 — 6h</div>
+<div>Higienização couro — R$240 a R$370 — 7h</div>
+<div>Limpeza couro — R$150 a R$170 — 4h</div>
+<div>Cristalização vidros — R$40 a R$85 — 1h</div>
+<div>Descontaminação vidros — R$140 a R$240 — 4h</div>
+<div>Descontaminação pintura — R$110 a R$190 — 5h</div>
+<div>Enceramento especial — R$50 — 1h</div>
 
 </div>
+
+<h2>Agendamento</h2>
+
+<form>
+
+<input id="nome" placeholder="Nome">
+<input id="placa" placeholder="Placa">
+<input id="modelo" placeholder="Modelo">
+<input id="marca" placeholder="Marca">
+
+<select id="porte">
+<option>Pequeno</option>
+<option>Médio</option>
+<option>Grande</option>
+</select>
+
+<input id="cor" placeholder="Cor">
+<input id="ano" placeholder="Ano">
+
+<input type="date" id="data">
+<input type="time" id="hora">
+
+<select id="servico">
+
+<option>Cristalização de pintura</option>
+<option>Polimento técnico</option>
+<option>Vitrificação de pintura</option>
+<option>Higienização</option>
+<option>Vitrificação de faróis</option>
+<option>Polimento comercial</option>
+<option>Lavagem técnica</option>
+<option>Lavagem simples</option>
+<option>Lavagem bancos de tecido</option>
+<option>Ducha simples</option>
+<option>Lavagem com cera</option>
+<option>Aspiração</option>
+<option>Lavagem motor + chassi</option>
+<option>Higienização couro</option>
+<option>Limpeza couro</option>
+<option>Cristalização vidros</option>
+<option>Descontaminação vidros</option>
+<option>Descontaminação pintura</option>
+<option>Enceramento especial</option>
+
+</select>
+
+<select id="pagamento" onchange="ver()">
+<option>Pix</option>
+<option>Dinheiro</option>
+<option>Cartão</option>
+</select>
+
+<select id="parcelas" style="display:none">
+<option>1x</option>
+<option>2x</option>
+<option>3x</option>
+<option>4x</option>
+<option>5x</option>
+<option>6x</option>
+<option>7x</option>
+<option>8x</option>
+<option>9x</option>
+<option>10x</option>
+</select>
+
+<button class="btn" type="button" onclick="revisar()">
+Revisar
+</button>
+
+</form>
+
+<div class="review" id="review">
+
+<h3>Resumo</h3>
+<div id="resumo"></div>
+
+<br>
+
+<button class="btn" onclick="enviarWhats()">
+Enviar WhatsApp
+</button>
+
+</div>
+
+<script>
+
+let d={};
+
+function ver(){
+document.getElementById("parcelas").style.display =
+pagamento.value === "Cartão" ? "block" : "none";
+}
+
+function revisar(){
+
+d={
+nome:nome.value,
+placa:placa.value,
+modelo:modelo.value,
+marca:marca.value,
+porte:porte.value,
+cor:cor.value,
+ano:ano.value,
+data:data.value,
+hora:hora.value,
+servico:servico.value,
+pagamento:pagamento.value,
+parcelas:parcelas.value
+};
+
+resumo.innerHTML = `
+Nome: ${d.nome}<br>
+Veículo: ${d.marca} ${d.modelo}<br>
+Porte: ${d.porte}<br>
+Serviço: ${d.servico}<br>
+Data: ${d.data} ${d.hora}<br>
+Pagamento: ${d.pagamento} ${d.parcelas}
+`;
+
+review.style.display="block";
+}
+
+function enviarWhats(){
+
+let msg = `IRJ Estética Auto
+
+Nome: ${d.nome}
+Veículo: ${d.marca} ${d.modelo}
+Porte: ${d.porte}
+Serviço: ${d.servico}
+Data: ${d.data} ${d.hora}
+Pagamento: ${d.pagamento}`;
+
+window.open("https://wa.me/5537984185396?text=" + encodeURIComponent(msg));
+
+}
+
+</script>
+
+</body>
+</html>
