@@ -262,14 +262,14 @@ const precos = {
 
 function getDados(){
     return {
-        nome: document.getElementById("nome").value,
-        marca: document.getElementById("marca").value,
-        carro: document.getElementById("carro").value,
-        placa: document.getElementById("placa").value,
-        cor: document.getElementById("cor").value,
-        data: document.getElementById("data").value,
-        hora: document.getElementById("hora").value,
-        pagamento: document.getElementById("pagamento").value,
+        nome: document.getElementById("nome").value || "Cliente",
+        marca: document.getElementById("marca").value || "",
+        carro: document.getElementById("carro").value || "",
+        placa: document.getElementById("placa").value || "",
+        cor: document.getElementById("cor").value || "",
+        data: document.getElementById("data").value || "",
+        hora: document.getElementById("hora").value || "",
+        pagamento: document.getElementById("pagamento").value || "A definir",
         porte: document.getElementById("porte").value,
         itens: [...document.querySelectorAll(".servicos input:checked")]
     };
@@ -278,17 +278,20 @@ function getDados(){
 function revisar(){
     let d = getDados();
     let total = 0, txt = "";
-    if(d.itens.length === 0) return alert("Selecione um serviço!");
+    if(d.itens.length === 0) return alert("Por favor, selecione ao menos um serviço!");
 
     d.itens.forEach(i => {
         let p = precos[i.value][d.porte];
         total += p;
-        txt += `<p style="margin:5px 0">✔️ ${i.value}: <b>R$ ${p}</b></p>`;
+        txt += `<p style="margin:5px 0; font-size:14px;">✔️ ${i.value}: <b>R$ ${p}</b></p>`;
     });
 
     document.getElementById("resumo").innerHTML = `
-        <p><b>Cliente:</b> ${d.nome}</p>
-        <p><b>Veículo:</b> ${d.marca} ${d.carro} (${d.cor})</p>
+        <div style="font-size:14px; line-height:1.4">
+            <p><b>Cliente:</b> ${d.nome}</p>
+            <p><b>Veículo:</b> ${d.marca} ${d.carro} (${d.cor})</p>
+            <p><b>Placa:</b> ${d.placa}</p>
+        </div>
         <hr>${txt}<hr>
         <h3 style="color:black; margin:0">Total: R$ ${total}</h3>
     `;
@@ -298,45 +301,82 @@ function revisar(){
 function whats(){
     let d = getDados();
     let total = 0, lista = "";
+    
+    if(d.itens.length === 0) return alert("Selecione os serviços antes de enviar!");
+
     d.itens.forEach(i => {
         let p = precos[i.value][d.porte];
         total += p;
-        lista += `- ${i.value}: R$ ${p}\n`;
+        lista += `✅ ${i.value}: R$ ${p}\n`;
     });
 
-    let msg = `🚗 *IRJ ESTÉTICA AUTO*\n\n*Cliente:* ${d.nome}\n*Veículo:* ${d.carro}\n*Placa:* ${d.placa}\n\n*Serviços:*\n${lista}\n*TOTAL: R$ ${total}*\n\n_Pagamento: ${d.pagamento}_`;
-    window.open("https://wa.me" + encodeURIComponent(msg), "_blank");
+    let msg = `🚗 *IRJ ESTÉTICA AUTO*\n\n`;
+    msg += `*Cliente:* ${d.nome}\n`;
+    msg += `*Veículo:* ${d.marca} ${d.carro}\n`;
+    msg += `*Placa:* ${d.placa}\n`;
+    msg += `*Data/Hora:* ${d.data} às ${d.hora}\n\n`;
+    msg += `*Serviços:*\n${lista}\n`;
+    msg += `*TOTAL: R$ ${total}*\n`;
+    msg += `_Forma de Pagamento: ${d.pagamento}_`;
+
+    // Uso do href direto para evitar bloqueio de pop-up
+    const url = "https://whatsapp.com" + encodeURIComponent(msg);
+    window.location.href = url;
 }
 
 function pdf(){
-    let d = getDados();
-    let total = 0;
-    const { jsPDF } = window.jspdf;
-    let doc = new jsPDF();
-    let num = Math.floor(Math.random()*9999);
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let d = getDados();
+        let total = 0;
+        let y = 80;
 
-    doc.setFont("helvetica", "bold");
-    doc.text("IRJ ESTÉTICA AUTO", 10, 20);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Orçamento Nº: ${num}`, 10, 30);
-    doc.text(`Cliente: ${d.nome}`, 10, 45);
-    doc.text(`Veículo: ${d.marca} ${d.carro} - ${d.placa}`, 10, 53);
-    doc.text(`Data: ${d.data} ${d.hora}`, 10, 61);
+        // Cabeçalho
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("IRJ ESTÉTICA AUTO", 10, 20);
+        
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text("Orçamento de Serviços Automotivos", 10, 28);
+        
+        // Dados do Cliente
+        doc.setFont("helvetica", "bold");
+        doc.text("DADOS DO CLIENTE E VEÍCULO", 10, 40);
+        doc.line(10, 42, 200, 42);
+        
+        doc.setFont("helvetica", "normal");
+        doc.text(`Cliente: ${d.nome}`, 10, 50);
+        doc.text(`Veículo: ${d.marca} ${d.carro} | Cor: ${d.cor}`, 10, 58);
+        doc.text(`Placa: ${d.placa} | Data: ${d.data} ${d.hora}`, 10, 66);
 
-    let y = 80;
-    doc.text("SERVIÇOS SELECIONADOS:", 10, 72);
-    d.itens.forEach(i => {
-        let p = precos[i.value][d.porte];
-        total += p;
-        doc.text(`- ${i.value}`, 15, y);
-        doc.text(`R$ ${p}`, 170, y);
-        y += 8;
-    });
+        // Lista de Serviços
+        doc.setFont("helvetica", "bold");
+        doc.text("DESCRIÇÃO DOS SERVIÇOS", 10, 78);
+        
+        doc.setFont("helvetica", "normal");
+        d.itens.forEach(i => {
+            let p = precos[i.value][d.porte];
+            total += p;
+            doc.text(`- ${i.value}`, 15, y + 5);
+            doc.text(`R$ ${p}`, 170, y + 5);
+            y += 10;
+        });
 
-    doc.setFont("helvetica", "bold");
-    doc.text(`TOTAL: R$ ${total}`, 10, y + 10);
-    doc.save(`Orcamento_IRJ_${d.nome}.pdf`);
+        // Rodapé
+        doc.line(10, y + 5, 200, y + 5);
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text(`VALOR TOTAL: R$ ${total}`, 10, y + 15);
+        
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "italic");
+        doc.text("Obrigado pela preferência!", 10, y + 25);
+
+        doc.save(`Orcamento_IRJ_${d.nome.replace(/\s/g, '_')}.pdf`);
+    } catch (e) {
+        alert("Erro ao gerar PDF. Verifique se a biblioteca jsPDF carregou corretamente.");
+        console.error(e);
+    }
 }
-</script>
-</body>
-</html>
