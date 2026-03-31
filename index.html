@@ -1,154 +1,244 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRJ Estética Automotiva - Arcos MG</title>
-    <style>
-        body { background: radial-gradient(circle at top, #1a1a1a, #000000); color: #e0e0e0; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
-        header { margin-bottom: 50px; }
-        
-        /* ESTILO DO LOGO */
-        .logo-container { margin-bottom: 20px; }
-        .logo-img { max-width: 150px; height: auto; border-radius: 10px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRJ Estética Automotiva</title>
 
-        h1 { font-size: 60px; margin: 0; color: #fff; letter-spacing: -2px; }
-        .subtitle { color: #3b82f6; font-size: 20px; font-weight: bold; text-transform: uppercase; margin-top: 5px; }
-        .location { color: #888; margin-top: 10px; font-size: 14px; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto 50px; }
-        .card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; text-align: left; transition: 0.3s; }
-        .card:hover { border-color: #3b82f6; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
-        .card h3 { color: #fff; margin: 0 0 15px 0; font-size: 18px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .price-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
-        .price-tag { color: #60a5fa; font-weight: bold; }
-        .time { font-size: 12px; color: #666; margin-top: 10px; display: block; }
-        
-        .form-box { max-width: 600px; margin: 0 auto 100px; background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 30px; border: 1px solid #222; text-align: left; }
-        label { display: block; margin-bottom: 8px; color: #3b82f6; font-weight: bold; font-size: 14px; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #333; background: #000; color: #fff; box-sizing: border-box; }
-        
-        .services-list { background: #000; border: 1px solid #333; border-radius: 10px; padding: 15px; max-height: 250px; overflow-y: auto; margin-bottom: 20px; }
-        .service-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #111; cursor: pointer; }
-        .service-item input { width: auto; margin: 0; cursor: pointer; }
-        .service-item span { font-size: 14px; color: #ccc; }
+<style>
+body {
+    background: radial-gradient(circle at top, #1a1a1a, #000);
+    color: #e0e0e0;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
 
-        button { width: 100%; padding: 20px; border-radius: 10px; border: none; background: #2563eb; color: #fff; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:hover { background: #1d4ed8; transform: scale(1.02); }
-    </style>
+h1 { font-size: 50px; margin-bottom: 5px; }
+.subtitle { color: #3b82f6; margin-bottom: 30px; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto 50px;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: left;
+    border: 1px solid #222;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-5px);
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.price-tag {
+    color: #3b82f6;
+    font-weight: bold;
+}
+
+.form-box {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.03);
+    padding: 30px;
+    border-radius: 30px;
+}
+
+input, select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #000;
+    color: #fff;
+}
+
+.services-list {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #000;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <!-- ABA DO LOGO: Substitua 'LINK_DA_SUA_IMAGEM' pelo link da foto -->
-        <div class="logo-container">
-            <img src="LINK_DA_SUA_IMAGEM" alt="Logo IRJ" class="logo-img" id="meu_logo">
-        </div>
-        
-        <h1>IRJ</h1>
-        <p class="subtitle">Estética Automotiva Premium</p>
-        <p class="location">📍 Arcos - MG</p>
-    </header>
+<h1>IRJ</h1>
+<p class="subtitle">Estética Automotiva Premium</p>
 
-    <div class="form-box">
-        <h2 style="color:#fff; margin-bottom: 30px; text-align: center;">Agendar Serviços</h2>
-        
-        <label>Seu Nome</label>
-        <input id="nome" type="text" placeholder="Seu nome completo">
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div>
-                <label>Veículo (Modelo)</label>
-                <input id="veiculo" type="text" placeholder="Ex: Civic G10">
-            </div>
-            <div>
-                <label>Placa</label>
-                <input id="placa" type="text" placeholder="ABC-1234" style="text-transform: uppercase;">
-            </div>
-        </div>
+<h2>Nossos Serviços</h2>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div>
-                <label>Cor do Veículo</label>
-                <select id="cor">
-                    <option disabled selected>Selecione a Cor</option>
-                    <option>Branco</option><option>Preto</option><option>Prata</option><option>Cinza</option>
-                    <option>Vermelho</option><option>Azul</option><option>Verde</option><option>Amarelo</option>
-                    <option>Bege / Creme</option><option>Marrom</option><option>Laranja</option>
-                    <option>Outra (Informar no Chat)</option>
-                </select>
-            </div>
-            <div>
-                <label>Porte do Veículo</label>
-                <select id="porte">
-                    <option disabled selected>Selecione o Porte</option>
-                    <option>Pequeno Porte</option>
-                    <option>Médio Porte</option>
-                    <option>Grande Porte</option>
-                </select>
-            </div>
-        </div>
+<div class="grid">
 
-        <label>Selecione os Serviços (Múltipla Escolha)</label>
-        <div class="services-list" id="lista_servicos">
-            <label class="service-item"><input type="checkbox" value="Cristalização"><span>1. Cristalização de Pintura</span></label>
-            <label class="service-item"><input type="checkbox" value="Polimento Técnico"><span>2. Polimento Técnico</span></label>
-            <label class="service-item"><input type="checkbox" value="Vitrificação"><span>3. Vitrificação de Pintura</span></label>
-            <label class="service-item"><input type="checkbox" value="Higienização"><span>4. Higienização</span></label>
-            <label class="service-item"><input type="checkbox" value="Vitrificação de Faróis"><span>5. Vitrificação de Faróis</span></label>
-            <label class="service-item"><input type="checkbox" value="Polimento Comercial"><span>6. Polimento Comercial</span></label>
-            <label class="service-item"><input type="checkbox" value="Lavagem Técnica"><span>7. Lavagem Técnica</span></label>
-            <label class="service-item"><input type="checkbox" value="Lavagem Simples"><span>8. Lavagem Simples</span></label>
-            <label class="service-item"><input type="checkbox" value="Bancos de Tecido"><span>9. Lavagem Bancos Tecido</span></label>
-            <label class="service-item"><input type="checkbox" value="Ducha Simples"><span>10. Ducha Simples</span></label>
-            <label class="service-item"><input type="checkbox" value="Lavagem com Cera"><span>11. Lavagem com Cera</span></label>
-            <label class="service-item"><input type="checkbox" value="Aspiração"><span>12. Aspiração</span></label>
-            <label class="service-item"><input type="checkbox" value="Motor + Chassi"><span>13. Motor + Chassi</span></label>
-            <label class="service-item"><input type="checkbox" value="Higienização Couro"><span>14. Higienização Couro</span></label>
-            <label class="service-item"><input type="checkbox" value="Hidratação Couro"><span>15. Hidratação de Couro</span></label>
-            <label class="service-item"><input type="checkbox" value="Cristalização Vidros"><span>16. Cristalização Vidros</span></label>
-            <label class="service-item"><input type="checkbox" value="Descontaminação Vidros"><span>17. Descontaminação Vidros</span></label>
-            <label class="service-item"><input type="checkbox" value="Descontaminação Pintura"><span>18. Descontaminação Pintura</span></label>
-            <label class="service-item"><input type="checkbox" value="Enceramento Especial"><span>19. Enceramento Especial</span></label>
-        </div>
+<div class="card" onclick="selecionarServico('Cristalização')">
+<h3>✨ Cristalização</h3>
+<p>Proteção com brilho intenso e durabilidade de até 1 ano.</p>
+<div class="price-row">
+<span>A partir de</span>
+<span class="price-tag">R$ 120</span>
+</div>
+</div>
 
-        <div style="display: flex; gap: 10px;">
-            <div style="flex:1"><label>Data</label><input id="data" type="date"></div>
-            <div style="flex:1"><label>Hora</label><input id="hora" type="time"></div>
-        </div>
+<div class="card" onclick="selecionarServico('Polimento Técnico')">
+<h3>🚗 Polimento Técnico</h3>
+<p>Remove riscos e revitaliza a pintura do veículo.</p>
+<div class="price-row">
+<span>A partir de</span>
+<span class="price-tag">R$ 150</span>
+</div>
+</div>
 
-        <button onclick="agendar()">🚀 Confirmar Agendamento</button>
-    </div>
+<div class="card" onclick="selecionarServico('Vitrificação')">
+<h3>💎 Vitrificação</h3>
+<p>Proteção premium com durabilidade de até 2 anos.</p>
+<div class="price-row">
+<span>A partir de</span>
+<span class="price-tag">R$ 600</span>
+</div>
+</div>
 
-    <script>
-        function agendar() {
-            const nome = document.getElementById('nome').value;
-            const veiculo = document.getElementById('veiculo').value;
-            const placa = document.getElementById('placa').value;
-            const cor = document.getElementById('cor').value;
-            const porte = document.getElementById('porte').value;
-            const data = document.getElementById('data').value;
-            const hora = document.getElementById('hora').value;
-            const checkboxes = document.querySelectorAll('#lista_servicos input[type="checkbox"]:checked');
-            let servicosSelecionados = Array.from(checkboxes).map(cb => cb.value);
+<div class="card" onclick="selecionarServico('Higienização')">
+<h3>🧼 Higienização</h3>
+<p>Limpeza completa interna com eliminação de odores.</p>
+<div class="price-row">
+<span>A partir de</span>
+<span class="price-tag">R$ 120</span>
+</div>
+</div>
 
-            if(!nome || !veiculo || !placa || cor === "Selecione a Cor" || porte === "Selecione o Porte" || servicosSelecionados.length === 0 || !data || !hora) {
-                alert("Por favor, preencha todos os campos!");
-                return;
-            }
+<div class="card" onclick="selecionarServico('Lavagem Técnica')">
+<h3>🧽 Lavagem Técnica</h3>
+<p>Lavagem detalhada com produtos profissionais.</p>
+<div class="price-row">
+<span>A partir de</span>
+<span class="price-tag">R$ 50</span>
+</div>
+</div>
 
-            const msg = `Olá! Gostaria de agendar serviços pela IRJ:%0A%0A` +
-                        `👤 *Cliente:* ${nome}%0A` +
-                        `🚗 *Veículo:* ${veiculo}%0A` +
-                        `🎨 *Cor:* ${cor}%0A` +
-                        `🆔 *Placa:* ${placa.toUpperCase()}%0A` +
-                        `📏 *Porte:* ${porte}%0A` +
-                        `🛠️ *Serviços:*%0A - ${servicosSelecionados.join('%0A - ')}%0A%0A` +
-                        `📅 *Data:* ${data}%0A` +
-                        `⏰ *Hora:* ${hora}`;
+</div>
 
-            window.location.href = "https://whatsapp.com" + msg;
+<div class="form-box">
+
+<h2>Agendar Serviço</h2>
+
+<input id="nome" placeholder="Seu nome">
+<input id="veiculo" placeholder="Veículo">
+<input id="placa" placeholder="Placa">
+
+<select id="cor">
+<option disabled selected>Selecione a Cor</option>
+<option>Preto</option>
+<option>Branco</option>
+<option>Prata</option>
+</select>
+
+<select id="porte">
+<option disabled selected>Selecione o Porte</option>
+<option>Pequeno</option>
+<option>Médio</option>
+<option>Grande</option>
+</select>
+
+<div class="services-list" id="lista_servicos">
+<label><input type="checkbox" value="Cristalização"> Cristalização</label><br>
+<label><input type="checkbox" value="Polimento Técnico"> Polimento Técnico</label><br>
+<label><input type="checkbox" value="Vitrificação"> Vitrificação</label><br>
+<label><input type="checkbox" value="Higienização"> Higienização</label><br>
+<label><input type="checkbox" value="Lavagem Técnica"> Lavagem Técnica</label>
+</div>
+
+<input id="data" type="date">
+<input id="hora" type="time">
+
+<button onclick="agendar()">🚀 Confirmar Agendamento</button>
+
+</div>
+
+<script>
+
+// Selecionar serviço ao clicar no card
+function selecionarServico(servico) {
+    const checkboxes = document.querySelectorAll('#lista_servicos input');
+    checkboxes.forEach(cb => {
+        if (cb.value === servico) {
+            cb.checked = true;
         }
-    </script>
+    });
+
+    window.scrollTo({
+        top: document.querySelector('.form-box').offsetTop,
+        behavior: 'smooth'
+    });
+}
+
+// Enviar para WhatsApp
+function agendar() {
+
+    const nome = document.getElementById('nome').value;
+    const veiculo = document.getElementById('veiculo').value;
+    const placa = document.getElementById('placa').value;
+    const cor = document.getElementById('cor').value;
+    const porte = document.getElementById('porte').value;
+    const data = document.getElementById('data').value;
+    const hora = document.getElementById('hora').value;
+
+    const checkboxes = document.querySelectorAll('#lista_servicos input:checked');
+    let servicos = Array.from(checkboxes).map(cb => cb.value);
+
+    if (!nome || !veiculo || !placa || servicos.length === 0 || !data || !hora) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    const msg = `Olá! Gostaria de agendar um serviço:
+
+Cliente: ${nome}
+Veículo: ${veiculo}
+Placa: ${placa}
+Cor: ${cor}
+Porte: ${porte}
+
+Serviços:
+- ${servicos.join('\n- ')}
+
+Data: ${data}
+Hora: ${hora}`;
+
+    window.open("https://wa.me/5537984185396?text=" + encodeURIComponent(msg), "_blank");
+}
+
+</script>
+
 </body>
 </html>
