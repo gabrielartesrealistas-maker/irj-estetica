@@ -64,68 +64,66 @@ input,select{
     border-bottom:1px solid #333;
     padding:5px;
 }
+
+.review{
+    background:#111;
+    padding:10px;
+    border-radius:10px;
+    margin-top:10px;
+    text-align:left;
+}
 </style>
 </head>
 
 <body>
 
 <img src="logo.png" class="logo">
-
 <h2>IRJ Estética Auto</h2>
-
-<a class="btn" target="_blank" href="https://wa.me/5537984185396">
-WhatsApp
-</a>
 
 <div class="container">
 
 <h3>Cliente</h3>
 <input id="nome" placeholder="Nome">
 
-<!-- MARCAS BRASIL + MUNDO -->
+<!-- MARCA -->
 <select id="marca" onchange="carregarModelos()">
-<option value="">Selecione a marca</option>
-
-<option>Fiat</option>
-<option>Chevrolet</option>
-<option>Volkswagen</option>
-<option>Ford</option>
-<option>Toyota</option>
-<option>Honda</option>
-<option>Nissan</option>
-<option>Hyundai</option>
-<option>Kia</option>
-<option>Renault</option>
-<option>Peugeot</option>
-<option>Citroën</option>
-<option>Jeep</option>
-<option>BMW</option>
-<option>Mercedes-Benz</option>
-<option>Audi</option>
-<option>Volvo</option>
-<option>Land Rover</option>
-<option>Porsche</option>
-<option>Tesla</option>
-<option>BYD</option>
-<option>Chery</option>
-<option>GWM</option>
-<option>Haval</option>
-<option>MG</option>
+<option>Selecione a marca</option>
+<option>Fiat</option><option>Chevrolet</option><option>Volkswagen</option>
+<option>Ford</option><option>Toyota</option><option>Honda</option>
+<option>Nissan</option><option>Hyundai</option><option>Kia</option>
+<option>BMW</option><option>Mercedes-Benz</option><option>Audi</option>
+<option>Jeep</option><option>Renault</option><option>BYD</option>
+<option>Chery</option><option>Tesla</option>
 </select>
 
-<!-- MODELOS -->
+<!-- MODELO -->
 <select id="modelo_select">
-<option value="">Selecione o modelo</option>
+<option>Selecione o modelo</option>
 </select>
 
-<input id="modelo_manual" placeholder="Se não aparecer, digite o modelo manualmente">
+<input id="modelo_manual" placeholder="Modelo manual (se não estiver na lista)">
 
 <!-- COR -->
-<select id="cor">
-<option>Cor do veículo</option>
+<select id="cor_select">
+<option>Selecione a cor</option>
 <option>Preto</option><option>Branco</option><option>Prata</option>
 <option>Cinza</option><option>Vermelho</option><option>Azul</option>
 <option>Verde</option><option>Amarelo</option><option>Bege</option>
+</select>
+
+<input id="cor_manual" placeholder="Cor manual (se não estiver na lista)">
+
+<!-- DATA E HORA -->
+<input type="date" id="data">
+<input type="time" id="hora">
+
+<!-- PAGAMENTO -->
+<select id="pagamento">
+<option>Forma de pagamento</option>
+<option>Pix</option>
+<option>Dinheiro</option>
+<option>Cartão de débito</option>
+<option>Cartão de crédito (até 12x com juros)</option>
 </select>
 
 <h3>Serviços</h3>
@@ -158,8 +156,11 @@ WhatsApp
 
 <h3>Total: <span id="total">0</span></h3>
 
+<button class="btn" onclick="revisar()">Revisar agendamento</button>
 <button class="btn" onclick="pdf()">Gerar PDF</button>
-<button class="btn" onclick="whats()">WhatsApp</button>
+
+<!-- REVISÃO -->
+<div class="review" id="review" style="display:none;"></div>
 
 </div>
 
@@ -167,41 +168,33 @@ WhatsApp
 
 let carrinho = [];
 
-/* 🔥 MODELOS POR MARCA (SÓ DA MARCA CERTA) */
+/* MODELOS POR MARCA */
 const modelos = {
-Fiat:["Uno","Argo","Mobi","Strada","Toro","Cronos"],
-Chevrolet:["Onix","Prisma","Corsa","Tracker","S10","Spin"],
-Volkswagen:["Gol","Polo","T-Cross","Nivus","Virtus","Amarok"],
-Ford:["Ka","Fiesta","EcoSport","Ranger"],
-Toyota:["Corolla","Hilux","Yaris","SW4","RAV4"],
-Honda:["Civic","City","HR-V","Fit","CR-V"],
-Nissan:["Kicks","Sentra","Versa","Frontier"],
-Hyundai:["HB20","Creta","Tucson","Elantra"],
-Kia:["Sportage","Seltos","Sorento","Picanto"],
-Renault:["Kwid","Sandero","Duster","Logan"],
-Jeep:["Renegade","Compass","Commander"],
-BMW:["320i","X1","X3","X5","M3"],
-"Mercedes-Benz":["C180","C200","GLA","GLC","Classe A"],
-Audi:["A3","A4","A5","Q3","Q5"],
-Volvo:["XC40","XC60","XC90"],
-Tesla:["Model 3","Model Y","Model S","Model X"],
-BYD:["Dolphin","Seal","Song Plus","Tan"],
-Chery:["Tiggo 5X","Tiggo 7","Tiggo 8"],
-GWM:["Haval H6","Poer","Jolion"],
-MG:["MG4","ZS","HS"]
+Fiat:["Uno","Argo","Mobi","Toro","Strada"],
+Chevrolet:["Onix","Prisma","S10","Tracker"],
+Volkswagen:["Gol","Polo","T-Cross","Nivus"],
+Ford:["Ka","Fiesta","Ranger"],
+Toyota:["Corolla","Hilux","Yaris"],
+Honda:["Civic","City","HR-V"],
+Nissan:["Kicks","Sentra","Versa"],
+BMW:["320i","X1","X3"],
+"Mercedes-Benz":["C180","GLA","GLC"],
+Audi:["A3","A4","Q3"],
+Jeep:["Renegade","Compass"],
+Renault:["Kwid","Duster","Sandero"],
+BYD:["Dolphin","Seal"],
+Chery:["Tiggo 5X","Tiggo 7"],
+Tesla:["Model 3","Model Y"]
 };
 
-/* 🔥 CARREGA MODELOS DA MARCA CERTA */
 function carregarModelos(){
 let marca = document.getElementById("marca").value;
 let select = document.getElementById("modelo_select");
-
-select.innerHTML = '<option value="">Selecione o modelo</option>';
+select.innerHTML = '<option>Selecione o modelo</option>';
 
 if(modelos[marca]){
 modelos[marca].forEach(m=>{
 let opt = document.createElement("option");
-opt.value = m;
 opt.text = m;
 select.appendChild(opt);
 });
@@ -219,20 +212,20 @@ render();
 }
 
 function render(){
-let html = "";
-let total = 0;
+let html="";
+let total=0;
 
 carrinho.forEach((i,index)=>{
-total += i.preco;
-html += `
+total+=i.preco;
+html+=`
 <div class="item">
 ${i.nome} - R$ ${i.preco}
 <button onclick="rem(${index})">X</button>
 </div>`;
 });
 
-document.getElementById("lista").innerHTML = html;
-document.getElementById("total").innerText = total;
+document.getElementById("lista").innerHTML=html;
+document.getElementById("total").innerText=total;
 }
 
 function rem(i){
@@ -240,16 +233,60 @@ carrinho.splice(i,1);
 render();
 }
 
-/* WHATSAPP */
-function whats(){
-let nome = document.getElementById("nome").value;
-let marca = document.getElementById("marca").value;
-let modelo = document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
+/* REVISÃO */
+function revisar(){
 
-let msg = `Agendamento:%0ANome: ${nome}%0AMarca: ${marca}%0AModelo: ${modelo}%0AServiços:%0A`;
+let nome=document.getElementById("nome").value;
+let marca=document.getElementById("marca").value;
+let modelo=document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
+let cor=document.getElementById("cor_select").value || document.getElementById("cor_manual").value;
+let data=document.getElementById("data").value;
+let hora=document.getElementById("hora").value;
+let pagamento=document.getElementById("pagamento").value;
+
+let html=`<h3>REVISÃO DO AGENDAMENTO</h3>`;
+html+=`<p><b>Nome:</b> ${nome}</p>`;
+html+=`<p><b>Veículo:</b> ${marca} ${modelo}</p>`;
+html+=`<p><b>Cor:</b> ${cor}</p>`;
+html+=`<p><b>Data:</b> ${data}</p>`;
+html+=`<p><b>Hora:</b> ${hora}</p>`;
+html+=`<p><b>Pagamento:</b> ${pagamento}</p>`;
+html+=`<p><b>Serviços:</b></p>`;
+
+let total=0;
+carrinho.forEach(i=>{
+html+=`- ${i.nome} R$${i.preco}<br>`;
+total+=i.preco;
+});
+
+html+=`<h3>Total: R$ ${total}</h3>`;
+
+html+=`<button class="btn" onclick="whats()">Confirmar e enviar WhatsApp</button>`;
+
+document.getElementById("review").innerHTML=html;
+document.getElementById("review").style.display="block";
+}
+
+/* WHATSAPP (SÓ NA REVISÃO) */
+function whats(){
+
+let nome=document.getElementById("nome").value;
+let marca=document.getElementById("marca").value;
+let modelo=document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
+let cor=document.getElementById("cor_select").value || document.getElementById("cor_manual").value;
+let data=document.getElementById("data").value;
+let hora=document.getElementById("hora").value;
+let pagamento=document.getElementById("pagamento").value;
+
+let msg=`AGENDAMENTO IRJ%0A`;
+msg+=`Nome: ${nome}%0A`;
+msg+=`Veículo: ${marca} ${modelo}%0A`;
+msg+=`Cor: ${cor}%0A`;
+msg+=`Data: ${data}%0AHora: ${hora}%0A`;
+msg+=`Pagamento: ${pagamento}%0A%0AServiços:%0A`;
 
 carrinho.forEach(i=>{
-msg += `- ${i.nome} R$${i.preco}%0A`;
+msg+=`- ${i.nome} R$${i.preco}%0A`;
 });
 
 window.open("https://wa.me/5537984185396?text="+msg);
@@ -258,30 +295,23 @@ window.open("https://wa.me/5537984185396?text="+msg);
 /* PDF */
 function pdf(){
 const { jsPDF } = window.jspdf;
-let doc = new jsPDF();
+let doc=new jsPDF();
 
-let nome = document.getElementById("nome").value;
-let marca = document.getElementById("marca").value;
-let modelo = document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
-let cor = document.getElementById("cor").value;
+let nome=document.getElementById("nome").value;
+let marca=document.getElementById("marca").value;
+let modelo=document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
 
-doc.text("IRJ Estética Auto",10,10);
+doc.text("IRJ ESTÉTICA AUTO",10,10);
 doc.text("Cliente: "+nome,10,20);
 doc.text("Veículo: "+marca+" "+modelo,10,30);
-doc.text("Cor: "+cor,10,40);
 
-let y=60;
-let total=0;
-
+let y=50;
 carrinho.forEach(i=>{
 doc.text(i.nome+" R$"+i.preco,10,y);
-total+=i.preco;
 y+=10;
 });
 
-doc.text("TOTAL: R$ "+total,10,y+10);
-
-doc.save("IRJ-agendamento.pdf");
+doc.save("IRJ.pdf");
 }
 
 </script>
