@@ -1,379 +1,258 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IRJ Estética Auto - Sistema Gestão</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRJ Estética Auto</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <style>
-        :root {
-            --primary: #00ff99;
-            --bg: #0f0f0f;
-            --card: #1c1c1c;
-            --input-bg: #2b2b2b;
-            --text: #ffffff;
-        }
+<style>
+:root {
+    --primary:#00ff99;
+    --bg:#0f0f0f;
+    --card:#1c1c1c;
+    --input:#2b2b2b;
+    --text:#fff;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 10px;
-        }
+body {
+    margin:0;
+    font-family:Arial;
+    background:var(--bg);
+    color:var(--text);
+    padding:10px;
+}
 
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: var(--card);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+.container{
+    max-width:600px;
+    margin:auto;
+    background:var(--card);
+    padding:20px;
+    border-radius:15px;
+}
 
-        h1 {
-            text-align: center;
-            color: var(--primary);
-            font-size: 1.6rem;
-            margin: 15px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+h1{color:var(--primary);text-align:center}
 
-        .logo {
-            width: 90px;
-            display: block;
-            margin: auto;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-        }
+.logo{
+    width:90px;
+    display:block;
+    margin:auto;
+    border-radius:50%;
+}
 
-        .row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 5px;
-        }
+input,select{
+    width:100%;
+    padding:12px;
+    margin:6px 0;
+    border-radius:10px;
+    border:none;
+    background:var(--input);
+    color:#fff;
+}
 
-        input, select {
-            width: 100%;
-            padding: 14px;
-            margin: 8px 0;
-            border-radius: 10px;
-            border: 1px solid #333;
-            background: var(--input-bg);
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
+.row{display:flex;gap:10px}
 
-        h3 {
-            border-left: 4px solid var(--primary);
-            padding-left: 10px;
-            margin-top: 25px;
-            font-size: 1.1rem;
-        }
+.servicos{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:6px;
+}
 
-        .servicos {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
-            margin: 15px 0;
-        }
+.servicos label{
+    background:#222;
+    padding:10px;
+    border-radius:10px;
+}
 
-        .servicos label {
-            background: #252525;
-            padding: 14px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: 0.2s;
-        }
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    margin-top:10px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-        .servicos input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            margin-right: 12px;
-            accent-color: var(--primary);
-        }
+.btn1{background:#444;color:#fff}
+.btn2{background:#25D366;color:#fff}
+.btn3{background:var(--primary);color:#000}
 
-        .actions {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 25px;
-        }
+#modal{
+    display:none;
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,.9);
+}
 
-        button {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-check { background: #444; color: white; }
-        .btn-whats { background: #25D366; color: white; }
-        .btn-pdf { background: var(--primary); color: #000; }
-
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 9999;
-        }
-
-        #modalContent {
-            background: white;
-            color: black;
-            width: 90%;
-            max-width: 450px;
-            margin: 15% auto;
-            padding: 25px;
-            border-radius: 15px;
-            max-height: 75vh;
-            overflow-y: auto;
-        }
-
-        @media (min-width: 500px) {
-            .servicos { grid-template-columns: 1fr 1fr; }
-        }
-    </style>
+#modalContent{
+    background:#fff;
+    color:#000;
+    width:90%;
+    max-width:450px;
+    margin:10% auto;
+    padding:20px;
+    border-radius:10px;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <img src="logo.png" alt="Logo IRJ" class="logo">
-    <h1>IRJ Estética Auto</h1>
 
-    <input id="nome" placeholder="Nome do Cliente">
-    
-    <div class="row">
-        <input id="marca" placeholder="Marca (Ex: VW)">
-        <input id="carro" placeholder="Modelo (Ex: Gol)">
-    </div>
+<img src="logo.png" class="logo">
+<h1>IRJ Estética Auto</h1>
 
-    <div class="row">
-        <input id="placa" placeholder="Placa">
-        <input id="cor" placeholder="Cor">
-    </div>
+<input id="nome" placeholder="Nome">
 
-    <div class="row">
-        <input type="date" id="data">
-        <input type="time" id="hora">
-    </div>
+<div class="row">
+<input id="marca" placeholder="Marca">
+<input id="carro" placeholder="Modelo">
+</div>
 
-    <select id="pagamento">
-        <option value="">Forma de Pagamento</option>
-        <option>Pix</option>
-        <option>Cartão de Crédito</option>
-        <option>Dinheiro</option>
-    </select>
+<div class="row">
+<input id="placa" placeholder="Placa">
+<input id="cor" placeholder="Cor">
+</div>
 
-    <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Porte do Veículo:</label>
-    <select id="porte">
-        <option value="pequeno">Pequeno (Hatch)</option>
-        <option value="medio">Médio (Sedan/SUV)</option>
-        <option value="grande">Grande (Picape/Van)</option>
-    </select>
+<div class="row">
+<input type="date" id="data">
+<input type="time" id="hora">
+</div>
 
-    <h3>Selecione os Serviços</h3>
-    <div class="servicos" id="listaServicos">
-        <label><input type="checkbox" value="Cristalização de pintura"> Cristalização Pintura</label>
-        <label><input type="checkbox" value="Polimento técnico"> Polimento Técnico</label>
-        <label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação Pintura</label>
-        <label><input type="checkbox" value="Higienização"> Higienização</label>
-        <label><input type="checkbox" value="Vitrificação de faróis"> Vitrificação Faróis</label>
-        <label><input type="checkbox" value="Polimento comercial"> Polimento Comercial</label>
-        <label><input type="checkbox" value="Lavagem técnica"> Lavagem Técnica</label>
-        <label><input type="checkbox" value="Lavagem simples"> Lavagem Simples</label>
-        <label><input type="checkbox" value="Lavagem banco de tecido"> Lavagem Banco Tecido</label>
-        <label><input type="checkbox" value="Ducha simples"> Ducha Simples</label>
-        <label><input type="checkbox" value="Lavagem com cera"> Lavagem com Cera</label>
-        <label><input type="checkbox" value="Aspiração"> Aspiração</label>
-        <label><input type="checkbox" value="Lavagem de motor mais chassi"> Motor e Chassi</label>
-        <label><input type="checkbox" value="Higienização de bancos de couro"> Higienização Couro</label>
-        <label><input type="checkbox" value="Limpeza e hidratação de couro"> Hidratação Couro</label>
-        <label><input type="checkbox" value="Cristalização de vidros"> Cristalização Vidros</label>
-        <label><input type="checkbox" value="Descontaminação de vidros"> Descontaminação Vidros</label>
-        <label><input type="checkbox" value="Descontaminação de pintura"> Descontaminação Pintura</label>
-        <label><input type="checkbox" value="Enceramento especial"> Enceramento Especial</label>
-    </div>
+<select id="pagamento">
+<option>Pix</option>
+<option>Cartão</option>
+<option>Dinheiro</option>
+</select>
 
-    <div class="actions">
-        <button class="btn-check" onclick="revisar()">🔍 Revisar Agendamento</button>
-        <button class="btn-whats" onclick="whats()">🟢 Enviar WhatsApp</button>
-        <button class="btn-pdf" onclick="pdf()">📄 Gerar PDF</button>
-    </div>
+<select id="porte">
+<option value="pequeno">Pequeno</option>
+<option value="medio">Médio</option>
+<option value="grande">Grande</option>
+</select>
+
+<h3>Serviços</h3>
+
+<div class="servicos" id="servicos">
+<label><input type="checkbox" value="Polimento técnico"> Polimento técnico</label>
+<label><input type="checkbox" value="Cristalização de pintura"> Cristalização</label>
+<label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação</label>
+<label><input type="checkbox" value="Higienização"> Higienização</label>
+<label><input type="checkbox" value="Lavagem técnica"> Lavagem técnica</label>
+<label><input type="checkbox" value="Enceramento especial"> Enceramento especial</label>
+</div>
+
+<button class="btn1" onclick="revisar()">Revisão</button>
+<button class="btn2" onclick="whats()">WhatsApp</button>
+<button class="btn3" onclick="pdf()">PDF</button>
+
 </div>
 
 <div id="modal">
-    <div id="modalContent">
-        <h2 style="margin-top:0; color: #000;">Resumo da Ordem</h2>
-        <div id="resumo"></div>
-        <button class="btn-check" style="margin-top:15px; background: #000;" onclick="fecharModal()">Fechar</button>
-    </div>
+<div id="modalContent">
+<h3>Resumo</h3>
+<div id="resumo"></div>
+<button onclick="fechar()">Fechar</button>
+</div>
 </div>
 
 <script>
-const precos = {
-    "Cristalização de pintura":{pequeno:300,medio:450,grande:650},
-    "Polimento técnico":{pequeno:800,medio:1100,grande:1500},
-    "Vitrificação de pintura":{pequeno:850,medio:950,grande:1100},
-    "Higienização":{pequeno:350,medio:450,grande:550},
-    "Vitrificação de faróis":{pequeno:200,medio:230,grande:270},
-    "Polimento comercial":{pequeno:380,medio:480,grande:580},
-    "Lavagem técnica":{pequeno:150,medio:190,grande:290},
-    "Lavagem simples":{pequeno:80,medio:100,grande:130},
-    "Lavagem banco de tecido":{pequeno:250,medio:300,grande:350},
-    "Ducha simples":{pequeno:40,medio:50,grande:60},
-    "Lavagem com cera":{pequeno:100,medio:130,grande:160},
-    "Aspiração":{pequeno:40,medio:50,grande:60},
-    "Lavagem de motor mais chassi":{pequeno:150,medio:200,grande:300},
-    "Higienização de bancos de couro":{pequeno:240,medio:290,grande:370},
-    "Limpeza e hidratação de couro":{pequeno:150,medio:160,grande:170},
-    "Cristalização de vidros":{pequeno:40,medio:65,grande:85},
-    "Descontaminação de vidros":{pequeno:140,medio:170,grande:240},
-    "Descontaminação de pintura":{pequeno:110,medio:140,grande:190},
-    "Enceramento especial":{pequeno:50,medio:50,grande:50}
+
+const precos={
+"Polimento técnico":{pequeno:800,medio:1100,grande:1500},
+"Cristalização de pintura":{pequeno:300,medio:450,grande:650},
+"Vitrificação de pintura":{pequeno:850,medio:950,grande:1100},
+"Higienização":{pequeno:350,medio:450,grande:550},
+"Lavagem técnica":{pequeno:150,medio:190,grande:290},
+"Enceramento especial":{pequeno:50,medio:50,grande:50}
 };
 
-function getDados(){
-    return {
-        nome: document.getElementById("nome").value || "Cliente",
-        marca: document.getElementById("marca").value || "",
-        carro: document.getElementById("carro").value || "",
-        placa: document.getElementById("placa").value || "",
-        cor: document.getElementById("cor").value || "",
-        data: document.getElementById("data").value || "",
-        hora: document.getElementById("hora").value || "",
-        pagamento: document.getElementById("pagamento").value || "A definir",
-        porte: document.getElementById("porte").value,
-        itens: [...document.querySelectorAll("#listaServicos input:checked")]
-    };
-}
-
-function fecharModal() {
-    document.getElementById("modal").style.display = "none";
+function dados(){
+return{
+nome:nome.value,
+marca:marca.value,
+carro:carro.value,
+placa:placa.value,
+cor:cor.value,
+data:data.value,
+hora:hora.value,
+pagamento:pagamento.value,
+porte:porte.value,
+itens:[...servicos.querySelectorAll("input:checked")]
+};
 }
 
 function revisar(){
-    let d = getDados();
-    let total = 0, txt = "";
-    if(d.itens.length === 0) {
-        alert("Por favor, selecione ao menos um serviço!");
-        return;
-    }
+let d=dados();
+let total=0,txt="";
 
-    d.itens.forEach(i => {
-        let servicoNome = i.value;
-        let p = precos[servicoNome][d.porte];
-        total += p;
-        txt += `<p style="margin:5px 0; font-size:14px;">✔️ ${servicoNome}: <b>R$ ${p}</b></p>`;
-    });
+d.itens.forEach(i=>{
+let p=precos[i.value][d.porte];
+total+=p;
+txt+=`<p>${i.value} - R$ ${p}</p>`;
+});
 
-    document.getElementById("resumo").innerHTML = `
-        <div style="font-size:14px; line-height:1.4; color: black;">
-            <p><b>Cliente:</b> ${d.nome}</p>
-            <p><b>Veículo:</b> ${d.marca} ${d.carro} (${d.cor})</p>
-            <p><b>Placa:</b> ${d.placa}</p>
-        </div>
-        <hr>${txt}<hr>
-        <h3 style="color:black; margin:0">Total: R$ ${total}</h3>
-    `;
-    document.getElementById("modal").style.display = "block";
+resumo.innerHTML=`
+<b>${d.nome}</b><br>
+${d.marca} ${d.carro}<br>
+Placa: ${d.placa}<br><br>
+${txt}<br>
+<b>Total: R$ ${total}</b>
+`;
+
+modal.style.display="block";
+}
+
+function fechar(){
+modal.style.display="none";
 }
 
 function whats(){
-    let d = getDados();
-    let total = 0, lista = "";
-    
-    if(d.itens.length === 0) {
-        alert("Selecione os serviços antes de enviar!");
-        return;
-    }
+let d=dados();
+let total=0,msg="";
 
-    d.itens.forEach(i => {
-        let p = precos[i.value][d.porte];
-        total += p;
-        lista += `✅ ${i.value}: R$ ${p}\n`;
-    });
+d.itens.forEach(i=>{
+let p=precos[i.value][d.porte];
+total+=p;
+msg+=`✔ ${i.value} R$ ${p}%0A`;
+});
 
-    let msg = `🚗 *IRJ ESTÉTICA AUTO*\n\n`;
-    msg += `*Cliente:* ${d.nome}\n`;
-    msg += `*Veículo:* ${d.marca} ${d.carro}\n`;
-    msg += `*Placa:* ${d.placa}\n`;
-    msg += `*Data/Hora:* ${d.data} às ${d.hora}\n\n`;
-    msg += `*Serviços:*\n${lista}\n`;
-    msg += `*TOTAL: R$ ${total}*\n`;
-    msg += `_Forma de Pagamento: ${d.pagamento}_`;
+let texto=
+`https://wa.me/5537984185396?text=`+
+`Cliente: ${d.nome}%0A`+
+`Veículo: ${d.marca} ${d.carro}%0A`+
+`Placa: ${d.placa}%0A`+
+`Data: ${d.data} ${d.hora}%0A%0A`+
+msg+
+`%0ATotal: R$ ${total}`;
 
-    const url = "https://whatsapp.com" + encodeURIComponent(msg);
-    window.location.href = url;
+window.open(texto,"_blank");
 }
 
 function pdf(){
-    try {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        let d = getDados();
-        let total = 0;
-        let y = 80;
+const {jsPDF}=window.jspdf;
+let doc=new jsPDF();
+let d=dados();
+let y=20,total=0;
 
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(18);
-        doc.text("IRJ ESTÉTICA AUTO", 10, 20);
-        
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        doc.text("Orçamento de Serviços Automotivos", 10, 28);
-        
-        doc.setFont("helvetica", "bold");
-        doc.text("DADOS DO CLIENTE E VEÍCULO", 10, 40);
-        doc.line(10, 42, 200, 42);
-        
-        doc.setFont("helvetica", "normal");
-        doc.text(`Cliente: ${d.nome}`, 10, 50);
-        doc.text(`Veículo: ${d.marca} ${d.carro} | Cor: ${d.cor}`, 10, 58);
-        doc.text(`Placa: ${d.placa} | Data: ${d.data} ${d.hora}`, 10, 66);
+doc.text("IRJ ESTÉTICA AUTO",10,y);y+=10;
 
-        doc.setFont("helvetica", "bold");
-        doc.text("DESCRIÇÃO DOS SERVIÇOS", 10, 78);
-        
-        doc.setFont("helvetica", "normal");
-        d.itens.forEach(i => {
-            let p = precos[i.value][d.porte];
-            total += p;
-            doc.text(`- ${i.value}`, 15, y + 5);
-            doc.text(`R$ ${p}`, 170, y + 5);
-            y += 10;
-        });
+d.itens.forEach(i=>{
+let p=precos[i.value][d.porte];
+total+=p;
+doc.text(i.value+" - R$ "+p,10,y);
+y+=10;
+});
 
-        doc.line(10, y + 5, 200, y + 5);
-        doc.setFontSize(14);
-        doc.setFont("helvetica", "bold");
-        doc.text(`VALOR TOTAL: R$ ${total}`, 10, y + 15);
-        
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "italic");
-        doc.text("Obrigado pela preferência!", 10, y + 25);
-
-        doc.save(`Orcamento_IRJ_${d.nome.replace(/\s/g, '_')}.pdf`);
-    } catch (e) {
-        alert("Erro ao gerar PDF.");
-    }
+doc.text("TOTAL: R$ "+total,10,y+10);
+doc.save("orcamento.pdf");
 }
+
 </script>
+
 </body>
 </html>
