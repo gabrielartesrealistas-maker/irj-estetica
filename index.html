@@ -27,7 +27,7 @@ header{
     padding:20px;
 }
 
-/* SEÇÃO SERVIÇOS */
+/* SERVIÇOS */
 .services{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
@@ -42,7 +42,7 @@ header{
     border:1px solid #00ff99;
 }
 
-/* FORMULÁRIO */
+/* FORM */
 form{
     margin:20px auto;
     max-width:400px;
@@ -69,6 +69,8 @@ input, select{
     font-weight:bold;
     cursor:pointer;
     width:100%;
+    text-decoration:none;
+    display:inline-block;
 }
 
 .btn:hover{
@@ -87,7 +89,8 @@ input, select{
 <h1>IRJ Estética Auto</h1>
 <p>Seu carro merece o melhor cuidado estético!</p>
 
-<a class="btn" href="https://wa.me/5500000000000" target="_blank">
+<!-- WHATSAPP CORRIGIDO -->
+<a class="btn" href="https://wa.me/5537984185396" target="_blank">
 Falar no WhatsApp
 </a>
 
@@ -96,7 +99,6 @@ Falar no WhatsApp
 <h2>Serviços</h2>
 
 <div class="services">
-
 <div class="service">Lavagem completa</div>
 <div class="service">Polimento técnico</div>
 <div class="service">Vitrificação</div>
@@ -107,7 +109,6 @@ Falar no WhatsApp
 <div class="service">Detailing completo</div>
 <div class="service">Limpeza de motor</div>
 <div class="service">Proteção de pintura</div>
-
 </div>
 
 <h2>Agendamento</h2>
@@ -139,7 +140,7 @@ function enviarWhats(event){
 
     let msg = `Olá! Quero agendar:%0ANome: ${nome}%0ACarro: ${carro}%0AServiço: ${servico}`;
 
-    let url = `https://wa.me/5500000000000?text=${msg}`;
+    let url = `https://wa.me/5537984185396?text=${msg}`;
 
     window.open(url, "_blank");
 }
