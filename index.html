@@ -113,6 +113,15 @@ input,select{
 
 <input id="cor_manual" placeholder="Cor manual (se não estiver na lista)">
 
+<!-- PORTE DO VEÍCULO 🔥 NOVO -->
+<select id="porte">
+<option value="1">Porte do veículo</option>
+<option value="1">Pequeno (Hatch/Sedan compacto)</option>
+<option value="1.2">Médio (Sedan médio/SUV compacto)</option>
+<option value="1.4">Grande (SUV grande/van/pickup)</option>
+<option value="1.5">SUV Premium / Pickup grande</option>
+</select>
+
 <!-- DATA E HORA -->
 <input type="date" id="data">
 <input type="time" id="hora">
@@ -159,17 +168,16 @@ input,select{
 <button class="btn" onclick="revisar()">Revisar agendamento</button>
 <button class="btn" onclick="pdf()">Gerar PDF</button>
 
-<!-- REVISÃO -->
 <div class="review" id="review" style="display:none;"></div>
 
 </div>
 
 <script>
 
-let carrinho = [];
+let carrinho=[];
 
-/* MODELOS POR MARCA */
-const modelos = {
+/* MODELOS */
+const modelos={
 Fiat:["Uno","Argo","Mobi","Toro","Strada"],
 Chevrolet:["Onix","Prisma","S10","Tracker"],
 Volkswagen:["Gol","Polo","T-Cross","Nivus"],
@@ -188,26 +196,38 @@ Tesla:["Model 3","Model Y"]
 };
 
 function carregarModelos(){
-let marca = document.getElementById("marca").value;
-let select = document.getElementById("modelo_select");
-select.innerHTML = '<option>Selecione o modelo</option>';
+let marca=document.getElementById("marca").value;
+let select=document.getElementById("modelo_select");
+select.innerHTML='<option>Selecione o modelo</option>';
 
 if(modelos[marca]){
 modelos[marca].forEach(m=>{
-let opt = document.createElement("option");
-opt.text = m;
+let opt=document.createElement("option");
+opt.text=m;
 select.appendChild(opt);
 });
 }
 }
 
-/* SERVIÇOS */
+/* ADICIONAR SERVIÇO COM PORTE */
 function add(){
-let s = document.getElementById("servico").value;
-let nome = s.split(" - ")[0];
-let preco = Number(s.split(" - ")[1]);
 
-carrinho.push({nome,preco});
+let s=document.getElementById("servico").value;
+let nome=s.split(" - ")[0];
+let preco=Number(s.split(" - ")[1]);
+
+let porte=parseFloat(document.getElementById("porte").value);
+if(!porte) porte=1;
+
+let precoFinal=preco*porte;
+
+carrinho.push({
+nome,
+preco:precoFinal,
+base:preco,
+porte:porte
+});
+
 render();
 }
 
@@ -217,15 +237,16 @@ let total=0;
 
 carrinho.forEach((i,index)=>{
 total+=i.preco;
+
 html+=`
 <div class="item">
-${i.nome} - R$ ${i.preco}
+${i.nome} (x${i.porte}) - R$ ${i.preco.toFixed(2)}
 <button onclick="rem(${index})">X</button>
 </div>`;
 });
 
 document.getElementById("lista").innerHTML=html;
-document.getElementById("total").innerText=total;
+document.getElementById("total").innerText=total.toFixed(2);
 }
 
 function rem(i){
@@ -243,23 +264,28 @@ let cor=document.getElementById("cor_select").value || document.getElementById("
 let data=document.getElementById("data").value;
 let hora=document.getElementById("hora").value;
 let pagamento=document.getElementById("pagamento").value;
+let porte=document.getElementById("porte").options[document.getElementById("porte").selectedIndex].text;
 
 let html=`<h3>REVISÃO DO AGENDAMENTO</h3>`;
+
 html+=`<p><b>Nome:</b> ${nome}</p>`;
 html+=`<p><b>Veículo:</b> ${marca} ${modelo}</p>`;
 html+=`<p><b>Cor:</b> ${cor}</p>`;
+html+=`<p><b>Porte:</b> ${porte}</p>`;
 html+=`<p><b>Data:</b> ${data}</p>`;
 html+=`<p><b>Hora:</b> ${hora}</p>`;
 html+=`<p><b>Pagamento:</b> ${pagamento}</p>`;
+
 html+=`<p><b>Serviços:</b></p>`;
 
 let total=0;
+
 carrinho.forEach(i=>{
-html+=`- ${i.nome} R$${i.preco}<br>`;
+html+=`- ${i.nome} R$${i.preco.toFixed(2)}<br>`;
 total+=i.preco;
 });
 
-html+=`<h3>Total: R$ ${total}</h3>`;
+html+=`<h3>Total: R$ ${total.toFixed(2)}</h3>`;
 
 html+=`<button class="btn" onclick="whats()">Confirmar e enviar WhatsApp</button>`;
 
@@ -267,7 +293,7 @@ document.getElementById("review").innerHTML=html;
 document.getElementById("review").style.display="block";
 }
 
-/* WHATSAPP (SÓ NA REVISÃO) */
+/* WHATSAPP */
 function whats(){
 
 let nome=document.getElementById("nome").value;
@@ -277,37 +303,48 @@ let cor=document.getElementById("cor_select").value || document.getElementById("
 let data=document.getElementById("data").value;
 let hora=document.getElementById("hora").value;
 let pagamento=document.getElementById("pagamento").value;
+let porte=document.getElementById("porte").options[document.getElementById("porte").selectedIndex].text;
 
 let msg=`AGENDAMENTO IRJ%0A`;
 msg+=`Nome: ${nome}%0A`;
 msg+=`Veículo: ${marca} ${modelo}%0A`;
 msg+=`Cor: ${cor}%0A`;
+msg+=`Porte: ${porte}%0A`;
 msg+=`Data: ${data}%0AHora: ${hora}%0A`;
 msg+=`Pagamento: ${pagamento}%0A%0AServiços:%0A`;
 
+let total=0;
+
 carrinho.forEach(i=>{
-msg+=`- ${i.nome} R$${i.preco}%0A`;
+msg+=`- ${i.nome} R$${i.preco.toFixed(2)}%0A`;
+total+=i.preco;
 });
+
+msg+=`%0ATOTAL: R$ ${total.toFixed(2)}`;
 
 window.open("https://wa.me/5537984185396?text="+msg);
 }
 
 /* PDF */
 function pdf(){
-const { jsPDF } = window.jspdf;
+
+const { jsPDF }=window.jspdf;
 let doc=new jsPDF();
 
 let nome=document.getElementById("nome").value;
 let marca=document.getElementById("marca").value;
 let modelo=document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
+let porte=document.getElementById("porte").options[document.getElementById("porte").selectedIndex].text;
 
 doc.text("IRJ ESTÉTICA AUTO",10,10);
 doc.text("Cliente: "+nome,10,20);
 doc.text("Veículo: "+marca+" "+modelo,10,30);
+doc.text("Porte: "+porte,10,40);
 
-let y=50;
+let y=60;
+
 carrinho.forEach(i=>{
-doc.text(i.nome+" R$"+i.preco,10,y);
+doc.text(i.nome+" R$"+i.preco.toFixed(2),10,y);
 y+=10;
 });
 
