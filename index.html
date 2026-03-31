@@ -14,7 +14,6 @@ body{
     text-align:center;
 }
 
-/* LOGO */
 .logo{
     width:140px;
     margin-top:20px;
@@ -22,12 +21,10 @@ body{
     box-shadow:0 0 15px #00ff99;
 }
 
-/* HEADER */
 header{
     padding:20px;
 }
 
-/* SERVIÇOS */
 .services{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
@@ -42,10 +39,9 @@ header{
     border:1px solid #00ff99;
 }
 
-/* FORM */
 form{
     margin:20px auto;
-    max-width:400px;
+    max-width:450px;
     background:#1c1c1c;
     padding:20px;
     border-radius:10px;
@@ -59,7 +55,6 @@ input, select{
     border-radius:5px;
 }
 
-/* BOTÃO */
 .btn{
     background:#00ff99;
     color:black;
@@ -76,6 +71,16 @@ input, select{
 .btn:hover{
     background:#00cc77;
 }
+
+.review{
+    background:#111;
+    padding:15px;
+    margin:20px auto;
+    max-width:450px;
+    border-radius:10px;
+    display:none;
+    text-align:left;
+}
 </style>
 
 </head>
@@ -89,7 +94,6 @@ input, select{
 <h1>IRJ Estética Auto</h1>
 <p>Seu carro merece o melhor cuidado estético!</p>
 
-<!-- WHATSAPP CORRIGIDO -->
 <a class="btn" href="https://wa.me/5537984185396" target="_blank">
 Falar no WhatsApp
 </a>
@@ -107,43 +111,120 @@ Falar no WhatsApp
 <div class="service">Enceramento premium</div>
 <div class="service">Restauração de farol</div>
 <div class="service">Detailing completo</div>
-<div class="service">Limpeza de motor</div>
 <div class="service">Proteção de pintura</div>
+<div class="service">Limpeza de motor</div>
 </div>
 
-<h2>Agendamento</h2>
+<h2>Agendamento Completo</h2>
 
-<form onsubmit="enviarWhats(event)">
+<form id="form">
 
-<input type="text" id="nome" placeholder="Seu nome" required>
-<input type="text" id="carro" placeholder="Modelo do veículo" required>
+<input id="nome" placeholder="Nome do cliente" required>
+<input id="placa" placeholder="Placa do veículo" required>
+<input id="modelo" placeholder="Modelo do veículo" required>
+<input id="marca" placeholder="Marca do veículo" required>
 
-<select id="servico">
-    <option>Lavagem completa</option>
-    <option>Polimento técnico</option>
-    <option>Vitrificação</option>
-    <option>Higienização interna</option>
-    <option>Cristalização</option>
+<select id="porte">
+<option>Pequeno</option>
+<option>Médio</option>
+<option>Grande</option>
 </select>
 
-<button class="btn" type="submit">Agendar Agora</button>
+<input id="cor" placeholder="Cor do veículo" required>
+<input id="ano" placeholder="Ano do veículo" required>
+
+<input id="data" type="date" required>
+<input id="hora" type="time" required>
+
+<select id="servico">
+<option>Lavagem completa</option>
+<option>Polimento técnico</option>
+<option>Vitrificação</option>
+<option>Higienização interna</option>
+<option>Cristalização</option>
+</select>
+
+<select id="pagamento" onchange="verParcelas()">
+<option value="Pix">Pix</option>
+<option value="Dinheiro">Dinheiro</option>
+<option value="Cartão">Cartão</option>
+</select>
+
+<select id="parcelas" style="display:none">
+<option>1x</option><option>2x</option><option>3x</option>
+<option>4x</option><option>5x</option><option>6x</option>
+<option>7x</option><option>8x</option><option>9x</option><option>10x</option>
+</select>
+
+<button class="btn" type="button" onclick="revisar()">Revisar Agendamento</button>
 
 </form>
 
+<div class="review" id="reviewBox">
+<h3>Revisão</h3>
+<div id="resumo"></div>
+
+<button class="btn" onclick="enviarWhats()">Enviar WhatsApp</button>
+</div>
+
 <script>
-function enviarWhats(event){
-    event.preventDefault();
 
-    let nome = document.getElementById("nome").value;
-    let carro = document.getElementById("carro").value;
-    let servico = document.getElementById("servico").value;
+let dados = {};
 
-    let msg = `Olá! Quero agendar:%0ANome: ${nome}%0ACarro: ${carro}%0AServiço: ${servico}`;
-
-    let url = `https://wa.me/5537984185396?text=${msg}`;
-
-    window.open(url, "_blank");
+function verParcelas(){
+    let p = document.getElementById("pagamento").value;
+    document.getElementById("parcelas").style.display = (p==="Cartão") ? "block":"none";
 }
+
+function revisar(){
+
+dados = {
+nome: nome.value,
+placa: placa.value,
+modelo: modelo.value,
+marca: marca.value,
+porte: porte.value,
+cor: cor.value,
+ano: ano.value,
+data: data.value,
+hora: hora.value,
+servico: servico.value,
+pagamento: pagamento.value,
+parcelas: parcelas.value
+};
+
+document.getElementById("resumo").innerHTML =
+`Nome: ${dados.nome}<br>
+Placa: ${dados.placa}<br>
+Veículo: ${dados.marca} ${dados.modelo}<br>
+Porte: ${dados.porte}<br>
+Cor: ${dados.cor}<br>
+Ano: ${dados.ano}<br>
+Data/Hora: ${dados.data} ${dados.hora}<br>
+Serviço: ${dados.servico}<br>
+Pagamento: ${dados.pagamento} ${dados.parcelas}`;
+
+document.getElementById("reviewBox").style.display="block";
+}
+
+function enviarWhats(){
+
+let msg = `Agendamento IRJ Estética Auto:
+Nome: ${dados.nome}
+Placa: ${dados.placa}
+Veículo: ${dados.marca} ${dados.modelo}
+Porte: ${dados.porte}
+Cor: ${dados.cor}
+Ano: ${dados.ano}
+Data/Hora: ${dados.data} ${dados.hora}
+Serviço: ${dados.servico}
+Pagamento: ${dados.pagamento} ${dados.parcelas}`;
+
+let url = "https://wa.me/5537984185396?text=" + encodeURIComponent(msg);
+
+window.open(url, "_blank");
+}
+
 </script>
 
 </body>
