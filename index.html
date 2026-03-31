@@ -50,6 +50,27 @@ cursor:pointer;
 display:block;
 margin:5px 0;
 }
+
+/* MODAL */
+#modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+}
+
+#modalContent{
+background:#fff;
+color:#000;
+width:90%;
+max-width:500px;
+margin:80px auto;
+padding:20px;
+border-radius:10px;
+}
 </style>
 </head>
 
@@ -59,10 +80,7 @@ margin:5px 0;
 
 <h1>IRJ Estética Auto</h1>
 
-<!-- LOGO -->
-<div style="text-align:center;">
-<img src="logo.png" style="width:120px;border-radius:10px;">
-</div>
+<img src="logo.png" style="width:120px;display:block;margin:auto;border-radius:10px;">
 
 <input id="nome" placeholder="Nome do cliente">
 <input id="marca" placeholder="Marca do veículo">
@@ -113,9 +131,25 @@ margin:5px 0;
 
 </div>
 
+<button onclick="revisar()">Revisar Agendamento</button>
 <button onclick="whats()">Enviar WhatsApp</button>
-<button onclick="pdf()">Gerar Nota Fiscal PDF</button>
+<button onclick="pdf()">Gerar PDF</button>
 
+</div>
+
+<!-- MODAL -->
+<div id="modal">
+<div id="modalContent">
+
+<h2>Revisão do Agendamento</h2>
+<div id="resumo"></div>
+
+<br>
+<button onclick="document.getElementById('modal').style.display='none'">
+Fechar
+</button>
+
+</div>
 </div>
 
 <script>
@@ -158,9 +192,38 @@ itens:[...document.querySelectorAll(".servicos input:checked")]
 };
 }
 
+function revisar(){
+
+let d=getDados();
+let total=0;
+let txt="";
+
+d.itens.forEach(i=>{
+let n=i.value;
+let p=precos[n][d.porte];
+total+=p;
+txt+=`<p>${n} - R$ ${p}</p>`;
+});
+
+document.getElementById("resumo").innerHTML=`
+<b>Cliente:</b> ${d.nome}<br>
+<b>Marca:</b> ${d.marca}<br>
+<b>Veículo:</b> ${d.carro}<br>
+<b>Placa:</b> ${d.placa}<br>
+<b>Data:</b> ${d.data} ${d.hora}<br>
+<b>Pagamento:</b> ${d.pagamento}<br>
+<hr>
+${txt}
+<hr>
+<b>Total: R$ ${total}</b>
+`;
+
+document.getElementById("modal").style.display="block";
+}
+
 function whats(){
 
-let d = getDados();
+let d=getDados();
 let total=0;
 let lista="";
 
