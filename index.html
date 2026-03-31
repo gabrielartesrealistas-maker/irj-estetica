@@ -101,7 +101,7 @@ input,select{
 <option>Selecione o modelo</option>
 </select>
 
-<input id="modelo_manual" placeholder="Modelo manual (se não estiver na lista)">
+<input id="modelo_manual" placeholder="Modelo manual (se não aparecer)">
 
 <!-- COR -->
 <select id="cor_select">
@@ -111,15 +111,14 @@ input,select{
 <option>Verde</option><option>Amarelo</option><option>Bege</option>
 </select>
 
-<input id="cor_manual" placeholder="Cor manual (se não estiver na lista)">
+<input id="cor_manual" placeholder="Cor manual (se não aparecer)">
 
-<!-- PORTE DO VEÍCULO 🔥 NOVO -->
+<!-- PORTE -->
 <select id="porte">
-<option value="1">Porte do veículo</option>
-<option value="1">Pequeno (Hatch/Sedan compacto)</option>
-<option value="1.2">Médio (Sedan médio/SUV compacto)</option>
-<option value="1.4">Grande (SUV grande/van/pickup)</option>
-<option value="1.5">SUV Premium / Pickup grande</option>
+<option value="1">Pequeno</option>
+<option value="1.2">Médio</option>
+<option value="1.4">Grande</option>
+<option value="1.4">SUV / Pickup (mesmo valor do grande)</option>
 </select>
 
 <!-- DATA E HORA -->
@@ -132,7 +131,7 @@ input,select{
 <option>Pix</option>
 <option>Dinheiro</option>
 <option>Cartão de débito</option>
-<option>Cartão de crédito (até 12x com juros)</option>
+<option>Cartão de crédito (até 12x)</option>
 </select>
 
 <h3>Serviços</h3>
@@ -142,7 +141,7 @@ input,select{
 <option>Polimento técnico - 800</option>
 <option>Vitrificação de pintura - 850</option>
 <option>Higienização - 350</option>
-<option>Vitrificação de faróis - 200</option>
+<option>Vitrificação faróis - 200</option>
 <option>Polimento comercial - 380</option>
 <option>Lavagem técnica - 150</option>
 <option>Lavagem simples - 80</option>
@@ -154,19 +153,18 @@ input,select{
 <option>Couro higienização - 240</option>
 <option>Couro limpeza - 150</option>
 <option>Vidros cristalização - 40</option>
-<option>Vidros descontaminação - 140</option>
-<option>Pintura descontaminação - 110</option>
-<option>Enceramento especial - 50</option>
+<option>Descontaminação vidros - 140</option>
+<option>Descontaminação pintura - 110</option>
+<option>Enceramento especial - 30</option>
 </select>
 
 <button class="btn" onclick="add()">Adicionar serviço</button>
 
 <div class="services" id="lista"></div>
 
-<h3>Total: <span id="total">0</span></h3>
+<h3>Total: R$ <span id="total">0</span></h3>
 
 <button class="btn" onclick="revisar()">Revisar agendamento</button>
-<button class="btn" onclick="pdf()">Gerar PDF</button>
 
 <div class="review" id="review" style="display:none;"></div>
 
@@ -174,10 +172,10 @@ input,select{
 
 <script>
 
-let carrinho=[];
+let carrinho = [];
 
 /* MODELOS */
-const modelos={
+const modelos = {
 Fiat:["Uno","Argo","Mobi","Toro","Strada"],
 Chevrolet:["Onix","Prisma","S10","Tracker"],
 Volkswagen:["Gol","Polo","T-Cross","Nivus"],
@@ -209,28 +207,55 @@ select.appendChild(opt);
 }
 }
 
-/* ADICIONAR SERVIÇO COM PORTE */
+/* PREÇOS POR PORTE */
+function getPreco(base, porte){
+return base * parseFloat(porte);
+}
+
+/* ADICIONAR */
 function add(){
 
 let s=document.getElementById("servico").value;
 let nome=s.split(" - ")[0];
-let preco=Number(s.split(" - ")[1]);
+let base=Number(s.split(" - ")[1]);
 
-let porte=parseFloat(document.getElementById("porte").value);
-if(!porte) porte=1;
+let porte=document.getElementById("porte").value;
 
-let precoFinal=preco*porte;
+let preco=getPreco(base,porte);
+
+let tempoMap={
+"Cristalização de pintura":"18h",
+"Polimento técnico":"3 dias",
+"Vitrificação de pintura":"1 dia",
+"Higienização":"8h",
+"Vitrificação faróis":"3h",
+"Polimento comercial":"12h",
+"Lavagem técnica":"8h",
+"Lavagem simples":"4h",
+"Lavagem banco tecido":"8h",
+"Ducha simples":"40min",
+"Lavagem com cera":"4h",
+"Aspiração":"1h",
+"Motor + chassi":"6h",
+"Couro higienização":"7h",
+"Couro limpeza":"4h",
+"Vidros cristalização":"1h",
+"Descontaminação vidros":"4h",
+"Descontaminação pintura":"5h",
+"Enceramento especial":"1h"
+};
 
 carrinho.push({
 nome,
-preco:precoFinal,
-base:preco,
-porte:porte
+preco,
+tempo:tempoMap[nome] || "-",
+porte
 });
 
 render();
 }
 
+/* RENDER */
 function render(){
 let html="";
 let total=0;
@@ -240,7 +265,8 @@ total+=i.preco;
 
 html+=`
 <div class="item">
-${i.nome} (x${i.porte}) - R$ ${i.preco.toFixed(2)}
+${i.nome}<br>
+⏱ ${i.tempo} | 💰 R$ ${i.preco.toFixed(2)}
 <button onclick="rem(${index})">X</button>
 </div>`;
 });
@@ -264,7 +290,7 @@ let cor=document.getElementById("cor_select").value || document.getElementById("
 let data=document.getElementById("data").value;
 let hora=document.getElementById("hora").value;
 let pagamento=document.getElementById("pagamento").value;
-let porte=document.getElementById("porte").options[document.getElementById("porte").selectedIndex].text;
+let porte=document.getElementById("porte").value;
 
 let html=`<h3>REVISÃO DO AGENDAMENTO</h3>`;
 
@@ -276,18 +302,16 @@ html+=`<p><b>Data:</b> ${data}</p>`;
 html+=`<p><b>Hora:</b> ${hora}</p>`;
 html+=`<p><b>Pagamento:</b> ${pagamento}</p>`;
 
-html+=`<p><b>Serviços:</b></p>`;
-
 let total=0;
 
 carrinho.forEach(i=>{
-html+=`- ${i.nome} R$${i.preco.toFixed(2)}<br>`;
+html+=`- ${i.nome} | ⏱ ${i.tempo} | R$ ${i.preco.toFixed(2)}<br>`;
 total+=i.preco;
 });
 
-html+=`<h3>Total: R$ ${total.toFixed(2)}</h3>`;
+html+=`<h3>TOTAL: R$ ${total.toFixed(2)}</h3>`;
 
-html+=`<button class="btn" onclick="whats()">Confirmar e enviar WhatsApp</button>`;
+html+=`<button class="btn" onclick="whats()">Confirmar no WhatsApp</button>`;
 
 document.getElementById("review").innerHTML=html;
 document.getElementById("review").style.display="block";
@@ -303,52 +327,26 @@ let cor=document.getElementById("cor_select").value || document.getElementById("
 let data=document.getElementById("data").value;
 let hora=document.getElementById("hora").value;
 let pagamento=document.getElementById("pagamento").value;
-let porte=document.getElementById("porte").options[document.getElementById("porte").selectedIndex].text;
+let porte=document.getElementById("porte").value;
 
-let msg=`AGENDAMENTO IRJ%0A`;
+let msg=`🚗 IRJ ESTÉTICA AUTO%0A%0A`;
 msg+=`Nome: ${nome}%0A`;
 msg+=`Veículo: ${marca} ${modelo}%0A`;
 msg+=`Cor: ${cor}%0A`;
 msg+=`Porte: ${porte}%0A`;
 msg+=`Data: ${data}%0AHora: ${hora}%0A`;
-msg+=`Pagamento: ${pagamento}%0A%0AServiços:%0A`;
+msg+=`Pagamento: ${pagamento}%0A%0ASERVIÇOS:%0A`;
 
 let total=0;
 
 carrinho.forEach(i=>{
-msg+=`- ${i.nome} R$${i.preco.toFixed(2)}%0A`;
+msg+=`- ${i.nome} | ${i.tempo} | R$ ${i.preco.toFixed(2)}%0A`;
 total+=i.preco;
 });
 
 msg+=`%0ATOTAL: R$ ${total.toFixed(2)}`;
 
 window.open("https://wa.me/5537984185396?text="+msg);
-}
-
-/* PDF */
-function pdf(){
-
-const { jsPDF }=window.jspdf;
-let doc=new jsPDF();
-
-let nome=document.getElementById("nome").value;
-let marca=document.getElementById("marca").value;
-let modelo=document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
-let porte=document.getElementById("porte").options[document.getElementById("porte").selectedIndex].text;
-
-doc.text("IRJ ESTÉTICA AUTO",10,10);
-doc.text("Cliente: "+nome,10,20);
-doc.text("Veículo: "+marca+" "+modelo,10,30);
-doc.text("Porte: "+porte,10,40);
-
-let y=60;
-
-carrinho.forEach(i=>{
-doc.text(i.nome+" R$"+i.preco.toFixed(2),10,y);
-y+=10;
-});
-
-doc.save("IRJ.pdf");
 }
 
 </script>
