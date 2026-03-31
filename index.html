@@ -2,19 +2,105 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>IRJ Estética Auto</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-body{font-family:Arial;background:#111;color:#fff;padding:20px}
-input,select,button{padding:10px;margin:5px;width:100%;border-radius:8px}
-.container{max-width:800px;margin:auto;background:#1c1c1c;padding:20px;border-radius:10px}
-.item{border-bottom:1px solid #333;padding:5px}
-button{background:#00c853;color:#fff;border:none;cursor:pointer}
-h1{color:#00e676}
-</style>
 
+/* =========================
+   BASE (DESKTOP)
+========================= */
+
+body{
+font-family:Arial;
+background:#111;
+color:#fff;
+padding:20px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:#1c1c1c;
+padding:20px;
+border-radius:10px;
+}
+
+input,select,button{
+padding:10px;
+margin:5px 0;
+width:100%;
+border-radius:8px;
+border:none;
+font-size:14px;
+}
+
+button{
+background:#00c853;
+color:#fff;
+cursor:pointer;
+font-weight:bold;
+}
+
+h1{color:#00e676}
+
+.item{
+border-bottom:1px solid #333;
+padding:8px 0;
+}
+
+/* =========================
+   📱 MOBILE RESPONSIVO
+========================= */
+
+@media (max-width:768px){
+
+body{
+padding:10px;
+}
+
+.container{
+padding:15px;
+border-radius:8px;
+}
+
+h1{
+font-size:22px;
+text-align:center;
+}
+
+input,select,button{
+font-size:16px;
+padding:12px;
+}
+
+button{
+font-size:16px;
+padding:14px;
+}
+
+.item{
+font-size:14px;
+}
+
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width:1024px){
+
+.container{
+max-width:95%;
+}
+
+}
+
+</style>
 </head>
 
 <body>
@@ -25,43 +111,17 @@ h1{color:#00e676}
 
 <img src="logo.png" style="width:150px;margin-bottom:10px">
 
-<!-- CLIENTE -->
 <input id="nome" placeholder="Nome do cliente">
 
-<!-- 🔥 MARCA + MANUAL -->
+<!-- MARCA -->
 <select id="marca_select">
 <option value="">Selecione a marca</option>
-
-<option>BMW</option>
-<option>Audi</option>
-<option>Mercedes-Benz</option>
-<option>Volkswagen</option>
-<option>Ford</option>
-<option>Chevrolet</option>
-<option>Honda</option>
-<option>Toyota</option>
-<option>Nissan</option>
-<option>Hyundai</option>
-<option>Kia</option>
-<option>Jeep</option>
-<option>Fiat</option>
-<option>Peugeot</option>
-<option>Renault</option>
-<option>Volvo</option>
-<option>Land Rover</option>
-<option>Lexus</option>
-<option>Mitsubishi</option>
-<option>Subaru</option>
-<option>Chery</option>
-<option>BYD</option>
-<option>Tesla</option>
-<option>Porsche</option>
-<option>Jaguar</option>
-<option>Ferrari</option>
-<option>Lamborghini</option>
-<option>Rolls-Royce</option>
-<option>McLaren</option>
-
+<option>BMW</option><option>Audi</option><option>Mercedes-Benz</option>
+<option>Volkswagen</option><option>Ford</option><option>Chevrolet</option>
+<option>Honda</option><option>Toyota</option><option>Nissan</option>
+<option>Hyundai</option><option>Kia</option><option>Jeep</option>
+<option>Fiat</option><option>Peugeot</option><option>Renault</option>
+<option>Volvo</option><option>Porsche</option><option>Tesla</option>
 </select>
 
 <input id="marca_manual" placeholder="Ou digite a marca manualmente">
@@ -71,8 +131,9 @@ h1{color:#00e676}
 
 <!-- COR -->
 <select id="cor_select">
-<option>Preto</option><option>Branco</option><option>Prata</option>
-<option>Vermelho</option><option>Azul</option><option>Outro</option>
+<option>Preto</option><option>Branco</option>
+<option>Prata</option><option>Vermelho</option>
+<option>Azul</option><option>Outro</option>
 </select>
 
 <input id="cor_manual" placeholder="Ou digite a cor">
@@ -101,20 +162,10 @@ h1{color:#00e676}
 <option>Polimento técnico</option>
 <option>Vitrificação de pintura</option>
 <option>Higienização</option>
-<option>Vitrificação de faróis</option>
-<option>Polimento comercial</option>
-<option>Lavagem técnica</option>
 <option>Lavagem simples</option>
-<option>Lavagem banco tecido</option>
+<option>Lavagem técnica</option>
 <option>Ducha simples</option>
-<option>Lavagem com cera</option>
 <option>Aspiração</option>
-<option>Lavagem motor+chassi</option>
-<option>Higienização bancos couro</option>
-<option>Limpeza hidratação couro</option>
-<option>Cristalização vidros</option>
-<option>Descontaminação vidros</option>
-<option>Descontaminação pintura</option>
 <option>Enceramento especial</option>
 </select>
 
@@ -132,37 +183,20 @@ h1{color:#00e676}
 
 <script>
 
+/* SERVIÇOS */
 const servicos = {
 "Cristalização de pintura": {p:300,m:450,g:650,t:"18h"},
 "Polimento técnico": {p:800,m:1100,g:1500,t:"3 dias"},
 "Vitrificação de pintura": {p:850,m:950,g:1100,t:"1 dia"},
 "Higienização": {p:350,m:450,g:550,t:"8h"},
-"Vitrificação de faróis": {p:200,m:230,g:270,t:"3h"},
-"Polimento comercial": {p:380,m:480,g:580,t:"12h"},
-"Lavagem técnica": {p:150,m:190,g:290,t:"8h"},
 "Lavagem simples": {p:80,m:100,g:130,t:"4h"},
-"Lavagem banco tecido": {p:250,m:300,g:350,t:"8h"},
+"Lavagem técnica": {p:150,m:190,g:290,t:"8h"},
 "Ducha simples": {p:40,m:50,g:60,t:"40min"},
-"Lavagem com cera": {p:100,m:130,g:160,t:"4h"},
 "Aspiração": {p:40,m:50,g:60,t:"1h"},
-"Lavagem motor+chassi": {p:150,m:200,g:300,t:"6h"},
-"Higienização bancos couro": {p:240,m:290,g:370,t:"7h"},
-"Limpeza hidratação couro": {p:150,m:160,g:170,t:"4h"},
-"Cristalização vidros": {p:40,m:65,g:85,t:"1h"},
-"Descontaminação vidros": {p:140,m:170,g:240,t:"4h"},
-"Descontaminação pintura": {p:110,m:140,g:190,t:"5h"},
 "Enceramento especial": {p:30,m:40,g:50,t:"1h"}
 };
 
 let carrinho=[];
-
-function getMarca(){
-return document.getElementById("marca_select").value || document.getElementById("marca_manual").value;
-}
-
-function getCor(){
-return document.getElementById("cor_select").value || document.getElementById("cor_manual").value;
-}
 
 function getPreco(s,porte){
 if(porte<=1) return s.p;
@@ -171,7 +205,6 @@ return s.g;
 }
 
 function add(){
-
 let nome=document.getElementById("servico").value;
 let porte=document.getElementById("porte").value;
 let s=servicos[nome];
@@ -195,7 +228,6 @@ total+=i.preco;
 html+=`
 <div class="item">
 ${i.nome} | ⏱ ${i.tempo} | 💰 R$ ${i.preco.toFixed(2)}
-<button onclick="rem(${idx})">X</button>
 </div>`;
 });
 
@@ -203,32 +235,23 @@ document.getElementById("lista").innerHTML=html;
 document.getElementById("total").innerText=total.toFixed(2);
 }
 
-function rem(i){
-carrinho.splice(i,1);
-render();
-}
-
-/* 🔥 RESUMO COMPLETO */
+/* REVISÃO */
 function montarResumo(){
 
 let nome=document.getElementById("nome").value;
-let marca=getMarca();
+let marca=document.getElementById("marca_select").value || document.getElementById("marca_manual").value;
 let modelo=document.getElementById("modelo_manual").value;
-let cor=getCor();
+let cor=document.getElementById("cor_select").value || document.getElementById("cor_manual").value;
 let data=document.getElementById("data").value;
 let hora=document.getElementById("hora").value;
 let pagamento=document.getElementById("pagamento").value;
-
-let porte=document.getElementById("porte").selectedOptions[0].text;
 
 let texto="🚗 IRJ ESTÉTICA AUTO\n\n";
 texto+=`Cliente: ${nome}\n`;
 texto+=`Veículo: ${marca} ${modelo}\n`;
 texto+=`Cor: ${cor}\n`;
-texto+=`Porte: ${porte}\n`;
 texto+=`Data: ${data} ${hora}\n`;
 texto+=`Pagamento: ${pagamento}\n\n`;
-texto+=`SERVIÇOS:\n`;
 
 let total=0;
 
@@ -239,51 +262,15 @@ total+=i.preco;
 
 texto+=`\nTOTAL: R$ ${total}`;
 
-return {texto,total};
+return texto;
 }
 
-/* REVISÃO */
 function revisar(){
+let texto=montarResumo();
 
-let r=montarResumo();
-
-let html="<h3>REVISÃO DO AGENDAMENTO</h3>";
-html+=r.texto.replaceAll("\n","<br>");
-
-html+=`
-<br><br>
-<button onclick="confirmar()">CONFIRMAR E ENVIAR</button>
-<button onclick="gerarPDF()">GERAR PDF</button>
-`;
-
-document.getElementById("review").innerHTML=html;
 document.getElementById("review").style.display="block";
-}
-
-/* WHATSAPP */
-function confirmar(){
-let r=montarResumo();
-window.open("https://wa.me/5537984185396?text="+encodeURIComponent(r.texto));
-}
-
-/* PDF */
-function gerarPDF(){
-
-let r=montarResumo();
-
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-
-doc.addImage("logo.png","PNG",10,5,40,20);
-
-let y=40;
-
-r.texto.split("\n").forEach(l=>{
-doc.text(l,10,y);
-y+=8;
-});
-
-doc.save("agendamento_irj.pdf");
+document.getElementById("review").innerHTML=
+"<h3>REVISÃO</h3><pre>"+texto+"</pre>";
 }
 
 </script>
