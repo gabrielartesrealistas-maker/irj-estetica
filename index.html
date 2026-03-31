@@ -7,77 +7,83 @@
 
 <style>
 body{
-    margin:0;
-    font-family:Arial;
-    background:#0f0f0f;
-    color:white;
-    text-align:center;
+margin:0;
+font-family:Arial;
+background:#0f0f0f;
+color:white;
+text-align:center;
 }
 
 header{padding:20px;}
 
 .logo{
-    width:130px;
-    border-radius:12px;
+width:130px;
+border-radius:12px;
 }
 
 .btn{
-    background:#00ff99;
-    color:black;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
-    display:inline-block;
-    text-decoration:none;
-    margin-top:10px;
+background:#00ff99;
+color:black;
+padding:12px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+display:inline-block;
+margin:5px;
 }
 
 .btn:hover{background:#00cc77;}
 
 .services{
-    max-width:900px;
-    margin:auto;
-    padding:10px;
-    text-align:left;
+max-width:900px;
+margin:auto;
+padding:10px;
+text-align:left;
 }
 
 .services div{
-    font-size:12px;
-    opacity:0.85;
-    border-bottom:1px solid #222;
-    padding:3px 0;
+font-size:12px;
+opacity:0.85;
+border-bottom:1px solid #222;
+padding:3px 0;
 }
 
 form{
-    max-width:500px;
-    margin:20px auto;
-    background:#1c1c1c;
-    padding:15px;
-    border-radius:10px;
+max-width:500px;
+margin:20px auto;
+background:#1c1c1c;
+padding:15px;
+border-radius:10px;
 }
 
 input,select{
-    width:100%;
-    padding:10px;
-    margin:5px 0;
-    border:none;
-    border-radius:5px;
+width:100%;
+padding:10px;
+margin:5px 0;
+border:none;
+border-radius:5px;
 }
 
-select[multiple]{
-    height:180px;
+select{
+cursor:pointer;
+}
+
+#listaServicos div{
+display:flex;
+justify-content:space-between;
+margin:5px 0;
+font-size:13px;
 }
 
 .review{
-    display:none;
-    max-width:500px;
-    margin:20px auto;
-    background:#111;
-    padding:15px;
-    border-radius:10px;
-    text-align:left;
+display:none;
+max-width:500px;
+margin:20px auto;
+background:#111;
+padding:15px;
+border-radius:10px;
+text-align:left;
 }
 </style>
 
@@ -101,25 +107,25 @@ WhatsApp
 
 <div class="services">
 
-<div>Cristalização pintura — R$300 a R$650 — 18h</div>
-<div>Polimento técnico — R$800 a R$1500 — 3 dias</div>
-<div>Vitrificação — R$850 a R$1100 — 1 dia</div>
-<div>Higienização — R$350 a R$550 — 8h</div>
-<div>Vitrificação faróis — R$200 a R$270 — 3h</div>
-<div>Polimento comercial — R$380 a R$580 — 12h</div>
-<div>Lavagem técnica — R$150 a R$290 — 8h</div>
-<div>Lavagem simples — R$80 a R$130 — 4h</div>
-<div>Lavagem bancos tecido — R$250 a R$350 — 8h</div>
-<div>Ducha simples — R$40 a R$60 — 40min</div>
-<div>Lavagem com cera — R$100 a R$160 — 4h</div>
-<div>Aspiração — R$40 a R$60 — 1h</div>
-<div>Motor + chassi — R$150 a R$300 — 6h</div>
-<div>Higienização couro — R$240 a R$370 — 7h</div>
-<div>Limpeza couro — R$150 a R$170 — 4h</div>
-<div>Cristalização vidros — R$40 a R$85 — 1h</div>
-<div>Descontaminação vidros — R$140 a R$240 — 4h</div>
-<div>Descontaminação pintura — R$110 a R$190 — 5h</div>
-<div>Enceramento especial — R$50 — 1h</div>
+<div>Cristalização pintura — R$300</div>
+<div>Polimento técnico — R$1100</div>
+<div>Vitrificação — R$950</div>
+<div>Higienização — R$350</div>
+<div>Vitrificação faróis — R$200</div>
+<div>Polimento comercial — R$480</div>
+<div>Lavagem técnica — R$150</div>
+<div>Lavagem simples — R$80</div>
+<div>Lavagem bancos tecido — R$250</div>
+<div>Ducha simples — R$40</div>
+<div>Lavagem com cera — R$100</div>
+<div>Aspiração — R$40</div>
+<div>Motor + chassi — R$150</div>
+<div>Higienização couro — R$240</div>
+<div>Limpeza couro — R$150</div>
+<div>Cristalização vidros — R$40</div>
+<div>Descontaminação vidros — R$140</div>
+<div>Descontaminação pintura — R$110</div>
+<div>Enceramento especial — R$50</div>
 
 </div>
 
@@ -144,27 +150,35 @@ WhatsApp
 <input type="date" id="data">
 <input type="time" id="hora">
 
-<select id="servico" multiple>
-<option>Cristalização de pintura</option>
-<option>Polimento técnico</option>
-<option>Vitrificação de pintura</option>
-<option>Higienização</option>
-<option>Vitrificação de faróis</option>
-<option>Polimento comercial</option>
-<option>Lavagem técnica</option>
-<option>Lavagem simples</option>
-<option>Lavagem bancos de tecido</option>
-<option>Ducha simples</option>
-<option>Lavagem com cera</option>
-<option>Aspiração</option>
-<option>Lavagem motor + chassi</option>
-<option>Higienização couro</option>
-<option>Limpeza couro</option>
-<option>Cristalização vidros</option>
-<option>Descontaminação vidros</option>
-<option>Descontaminação pintura</option>
-<option>Enceramento especial</option>
+<h3>Adicionar Serviços</h3>
+
+<select id="servicoSelect">
+<option value="300">Cristalização de pintura</option>
+<option value="1100">Polimento técnico</option>
+<option value="950">Vitrificação de pintura</option>
+<option value="350">Higienização</option>
+<option value="200">Vitrificação de faróis</option>
+<option value="480">Polimento comercial</option>
+<option value="150">Lavagem técnica</option>
+<option value="80">Lavagem simples</option>
+<option value="250">Lavagem bancos de tecido</option>
+<option value="40">Ducha simples</option>
+<option value="100">Lavagem com cera</option>
+<option value="40">Aspiração</option>
+<option value="150">Motor + chassi</option>
+<option value="240">Higienização couro</option>
+<option value="150">Limpeza couro</option>
+<option value="40">Cristalização vidros</option>
+<option value="140">Descontaminação vidros</option>
+<option value="110">Descontaminação pintura</option>
+<option value="50">Enceramento especial</option>
 </select>
+
+<button type="button" class="btn" onclick="addServico()">Adicionar Serviço</button>
+
+<div id="listaServicos"></div>
+
+<h3>Total: R$ <span id="total">0</span></h3>
 
 <select id="pagamento" onchange="ver()">
 <option>Pix</option>
@@ -178,9 +192,7 @@ WhatsApp
 <option>7x</option><option>8x</option><option>9x</option><option>10x</option>
 </select>
 
-<button class="btn" type="button" onclick="revisar()">
-Revisar
-</button>
+<button class="btn" type="button" onclick="revisar()">Revisar</button>
 
 </form>
 
@@ -189,10 +201,8 @@ Revisar
 <h3>Resumo</h3>
 <div id="resumo"></div>
 
-<br>
-
-<button class="btn" onclick="gerarPDF()">Baixar PDF</button>
 <button class="btn" onclick="enviarWhats()">WhatsApp</button>
+<button class="btn" onclick="gerarPDF()">Baixar PDF</button>
 
 </div>
 
@@ -200,39 +210,72 @@ Revisar
 
 <script>
 
-let d={};
+let d = {
+servicos: [],
+total: 0
+};
+
+function addServico(){
+
+let sel = document.getElementById("servicoSelect");
+let nome = sel.options[sel.selectedIndex].text;
+let valor = parseFloat(sel.value);
+
+d.servicos.push({nome, valor});
+
+atualizar();
+}
+
+function atualizar(){
+
+let html = "";
+d.total = 0;
+
+d.servicos.forEach((s,i)=>{
+html += `
+<div>
+${s.nome} - R$ ${s.valor}
+<button onclick="remover(${i})">❌</button>
+</div>
+`;
+d.total += s.valor;
+});
+
+document.getElementById("listaServicos").innerHTML = html;
+document.getElementById("total").innerText = d.total;
+}
+
+function remover(i){
+d.servicos.splice(i,1);
+atualizar();
+}
 
 function ver(){
-parcelas.style.display =
-pagamento.value==="Cartão"?"block":"none";
+parcelas.style.display = pagamento.value==="Cartão"?"block":"none";
 }
 
 function revisar(){
 
-let selecionados = Array.from(servico.selectedOptions).map(o=>o.value);
+d.nome = nome.value;
+d.placa = placa.value;
+d.modelo = modelo.value;
+d.marca = marca.value;
+d.porte = porte.value;
+d.cor = cor.value;
+d.ano = ano.value;
+d.data = data.value;
+d.hora = hora.value;
+d.pagamento = pagamento.value;
+d.parcelas = parcelas.value;
 
-d={
-nome:nome.value,
-placa:placa.value,
-modelo:modelo.value,
-marca:marca.value,
-porte:porte.value,
-cor:cor.value,
-ano:ano.value,
-data:data.value,
-hora:hora.value,
-servico:selecionados,
-pagamento:pagamento.value,
-parcelas:parcelas.value
-};
-
-resumo.innerHTML=`
+resumo.innerHTML = `
 Nome: ${d.nome}<br>
 Veículo: ${d.marca} ${d.modelo}<br>
 Porte: ${d.porte}<br>
-Serviços: ${d.servico.join(", ")}<br>
-Data: ${d.data} ${d.hora}<br>
-Pagamento: ${d.pagamento} ${d.parcelas}
+Serviços:<br>
+${d.servicos.map(s=>"• "+s.nome).join("<br>")}<br>
+TOTAL: R$ ${d.total}<br>
+Data: ${d.data} ${d.hora}
 `;
 
 review.style.display="block";
@@ -245,9 +288,12 @@ let msg = `IRJ Estética Auto
 Nome: ${d.nome}
 Veículo: ${d.marca} ${d.modelo}
 Porte: ${d.porte}
-Serviços: ${d.servico.join(", ")}
-Data: ${d.data} ${d.hora}
-Pagamento: ${d.pagamento}`;
+
+Serviços:
+${d.servicos.map(s=>"• "+s.nome).join("\n")}
+
+TOTAL: R$ ${d.total}
+Data: ${d.data} ${d.hora}`;
 
 window.open("https://wa.me/5537984185396?text="+encodeURIComponent(msg));
 }
@@ -271,15 +317,15 @@ doc.text("Serviços:", 20, 80);
 
 let y = 90;
 
-d.servico.forEach(s=>{
-doc.text("- " + s, 25, y);
+d.servicos.forEach(s=>{
+doc.text("- " + s.nome + " R$ " + s.valor, 25, y);
 y += 10;
 });
 
-doc.text("Data: " + d.data + " " + d.hora, 20, y+10);
-doc.text("Pagamento: " + d.pagamento, 20, y+20);
+doc.text("TOTAL: R$ " + d.total, 20, y+10);
+doc.text("Data: " + d.data + " " + d.hora, 20, y+20);
 
-doc.save("IRJ-agendamento.pdf");
+doc.save("IRJ-nota.pdf");
 }
 
 </script>
