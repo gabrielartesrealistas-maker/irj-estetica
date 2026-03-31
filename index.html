@@ -22,23 +22,53 @@ body{
     box-shadow:0 0 15px #00ff99;
 }
 
-/* CABEÇALHO */
+/* HEADER */
 header{
     padding:20px;
 }
 
-/* BOTÃO WHATSAPP */
+/* SEÇÃO SERVIÇOS */
+.services{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:10px;
+    padding:20px;
+}
+
+.service{
+    background:#1c1c1c;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #00ff99;
+}
+
+/* FORMULÁRIO */
+form{
+    margin:20px auto;
+    max-width:400px;
+    background:#1c1c1c;
+    padding:20px;
+    border-radius:10px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    border:none;
+    border-radius:5px;
+}
+
+/* BOTÃO */
 .btn{
     background:#00ff99;
     color:black;
-    padding:12px 20px;
+    padding:12px;
     border:none;
     border-radius:10px;
     font-weight:bold;
     cursor:pointer;
-    margin-top:20px;
-    display:inline-block;
-    text-decoration:none;
+    width:100%;
 }
 
 .btn:hover{
@@ -52,17 +82,68 @@ header{
 
 <header>
 
-<!-- LOGO -->
 <img src="logo.png" class="logo" alt="IRJ Estética Auto">
 
 <h1>IRJ Estética Auto</h1>
 <p>Seu carro merece o melhor cuidado estético!</p>
 
 <a class="btn" href="https://wa.me/5500000000000" target="_blank">
-Agendar pelo WhatsApp
+Falar no WhatsApp
 </a>
 
 </header>
+
+<h2>Serviços</h2>
+
+<div class="services">
+
+<div class="service">Lavagem completa</div>
+<div class="service">Polimento técnico</div>
+<div class="service">Vitrificação</div>
+<div class="service">Higienização interna</div>
+<div class="service">Cristalização</div>
+<div class="service">Enceramento premium</div>
+<div class="service">Restauração de farol</div>
+<div class="service">Detailing completo</div>
+<div class="service">Limpeza de motor</div>
+<div class="service">Proteção de pintura</div>
+
+</div>
+
+<h2>Agendamento</h2>
+
+<form onsubmit="enviarWhats(event)">
+
+<input type="text" id="nome" placeholder="Seu nome" required>
+<input type="text" id="carro" placeholder="Modelo do veículo" required>
+
+<select id="servico">
+    <option>Lavagem completa</option>
+    <option>Polimento técnico</option>
+    <option>Vitrificação</option>
+    <option>Higienização interna</option>
+    <option>Cristalização</option>
+</select>
+
+<button class="btn" type="submit">Agendar Agora</button>
+
+</form>
+
+<script>
+function enviarWhats(event){
+    event.preventDefault();
+
+    let nome = document.getElementById("nome").value;
+    let carro = document.getElementById("carro").value;
+    let servico = document.getElementById("servico").value;
+
+    let msg = `Olá! Quero agendar:%0ANome: ${nome}%0ACarro: ${carro}%0AServiço: ${servico}`;
+
+    let url = `https://wa.me/5500000000000?text=${msg}`;
+
+    window.open(url, "_blank");
+}
+</script>
 
 </body>
 </html>
