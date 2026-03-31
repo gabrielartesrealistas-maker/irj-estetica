@@ -25,40 +25,77 @@ h1{color:#00e676}
 
 <img src="logo.png" style="width:150px;margin-bottom:10px">
 
+<!-- CLIENTE -->
 <input id="nome" placeholder="Nome do cliente">
 
-<select id="marca">
-<option>BMW</option><option>Audi</option><option>Mercedes</option>
-<option>Toyota</option><option>Volkswagen</option><option>Ford</option>
-<option>Chevrolet</option><option>Honda</option>
+<!-- 🔥 MARCA + MANUAL -->
+<select id="marca_select">
+<option value="">Selecione a marca</option>
+
+<option>BMW</option>
+<option>Audi</option>
+<option>Mercedes-Benz</option>
+<option>Volkswagen</option>
+<option>Ford</option>
+<option>Chevrolet</option>
+<option>Honda</option>
+<option>Toyota</option>
+<option>Nissan</option>
+<option>Hyundai</option>
+<option>Kia</option>
+<option>Jeep</option>
+<option>Fiat</option>
+<option>Peugeot</option>
+<option>Renault</option>
+<option>Volvo</option>
+<option>Land Rover</option>
+<option>Lexus</option>
+<option>Mitsubishi</option>
+<option>Subaru</option>
+<option>Chery</option>
+<option>BYD</option>
+<option>Tesla</option>
+<option>Porsche</option>
+<option>Jaguar</option>
+<option>Ferrari</option>
+<option>Lamborghini</option>
+<option>Rolls-Royce</option>
+<option>McLaren</option>
+
 </select>
 
-<select id="modelo_select">
-<option>Modelo padrão</option>
-</select>
-<input id="modelo_manual" placeholder="Ou digite modelo manual">
+<input id="marca_manual" placeholder="Ou digite a marca manualmente">
 
+<!-- MODELO -->
+<input id="modelo_manual" placeholder="Modelo do veículo">
+
+<!-- COR -->
 <select id="cor_select">
 <option>Preto</option><option>Branco</option><option>Prata</option>
 <option>Vermelho</option><option>Azul</option><option>Outro</option>
 </select>
+
 <input id="cor_manual" placeholder="Ou digite a cor">
 
+<!-- PORTE -->
 <select id="porte">
 <option value="1">Pequeno</option>
 <option value="1.2">Médio</option>
 <option value="2">Grande / SUV / Pickup</option>
 </select>
 
+<!-- DATA E HORA -->
 <input type="date" id="data">
 <input type="time" id="hora">
 
+<!-- PAGAMENTO -->
 <select id="pagamento">
 <option>Pix</option>
 <option>Cartão de crédito (até 12x)</option>
 <option>Cartão de débito</option>
 </select>
 
+<!-- SERVIÇO -->
 <select id="servico">
 <option>Cristalização de pintura</option>
 <option>Polimento técnico</option>
@@ -119,6 +156,14 @@ const servicos = {
 
 let carrinho=[];
 
+function getMarca(){
+return document.getElementById("marca_select").value || document.getElementById("marca_manual").value;
+}
+
+function getCor(){
+return document.getElementById("cor_select").value || document.getElementById("cor_manual").value;
+}
+
 function getPreco(s,porte){
 if(porte<=1) return s.p;
 if(porte<=1.2) return s.m;
@@ -126,6 +171,7 @@ return s.g;
 }
 
 function add(){
+
 let nome=document.getElementById("servico").value;
 let porte=document.getElementById("porte").value;
 let s=servicos[nome];
@@ -162,13 +208,13 @@ carrinho.splice(i,1);
 render();
 }
 
-/* 🔥 FUNÇÃO ÚNICA (WHATS + PDF IGUAIS) */
+/* 🔥 RESUMO COMPLETO */
 function montarResumo(){
 
 let nome=document.getElementById("nome").value;
-let marca=document.getElementById("marca").value;
-let modelo=document.getElementById("modelo_select").value || document.getElementById("modelo_manual").value;
-let cor=document.getElementById("cor_select").value || document.getElementById("cor_manual").value;
+let marca=getMarca();
+let modelo=document.getElementById("modelo_manual").value;
+let cor=getCor();
 let data=document.getElementById("data").value;
 let hora=document.getElementById("hora").value;
 let pagamento=document.getElementById("pagamento").value;
@@ -196,7 +242,7 @@ texto+=`\nTOTAL: R$ ${total}`;
 return {texto,total};
 }
 
-/* 🔥 REVISÃO */
+/* REVISÃO */
 function revisar(){
 
 let r=montarResumo();
@@ -214,13 +260,13 @@ document.getElementById("review").innerHTML=html;
 document.getElementById("review").style.display="block";
 }
 
-/* 🔥 WHATSAPP */
+/* WHATSAPP */
 function confirmar(){
 let r=montarResumo();
 window.open("https://wa.me/5537984185396?text="+encodeURIComponent(r.texto));
 }
 
-/* 🔥 PDF COM LOGO + MESMO CONTEÚDO */
+/* PDF */
 function gerarPDF(){
 
 let r=montarResumo();
@@ -229,7 +275,6 @@ const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
 doc.addImage("logo.png","PNG",10,5,40,20);
-doc.setFontSize(12);
 
 let y=40;
 
