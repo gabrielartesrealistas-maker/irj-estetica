@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>IRJ Estética Auto - Sistema Gestão</title>
 
-    <script src="https://cloudflare.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         :root {
@@ -50,7 +50,6 @@
             border: 2px solid var(--primary);
         }
 
-        /* GRID DE INPUTS LADO A LADO NO CELULAR */
         .row {
             display: flex;
             gap: 10px;
@@ -65,7 +64,7 @@
             border: 1px solid #333;
             background: var(--input-bg);
             color: white;
-            font-size: 16px; /* Impede zoom no iOS */
+            font-size: 16px;
             box-sizing: border-box;
         }
 
@@ -76,7 +75,6 @@
             font-size: 1.1rem;
         }
 
-        /* LISTA DE SERVIÇOS MODERNA */
         .servicos {
             display: grid;
             grid-template-columns: 1fr;
@@ -95,11 +93,6 @@
             transition: 0.2s;
         }
 
-        .servicos label:has(input:checked) {
-            border-color: var(--primary);
-            background: #1e3a2f;
-        }
-
         .servicos input[type="checkbox"] {
             width: 22px;
             height: 22px;
@@ -107,7 +100,6 @@
             accent-color: var(--primary);
         }
 
-        /* BOTÕES DE AÇÃO */
         .actions {
             display: flex;
             flex-direction: column;
@@ -134,9 +126,6 @@
         .btn-whats { background: #25D366; color: white; }
         .btn-pdf { background: var(--primary); color: #000; }
 
-        button:active { transform: scale(0.96); }
-
-        /* MODAL */
         #modal {
             display: none;
             position: fixed;
@@ -200,7 +189,7 @@
     </select>
 
     <h3>Selecione os Serviços</h3>
-    <div class="servicos">
+    <div class="servicos" id="listaServicos">
         <label><input type="checkbox" value="Cristalização de pintura"> Cristalização Pintura</label>
         <label><input type="checkbox" value="Polimento técnico"> Polimento Técnico</label>
         <label><input type="checkbox" value="Vitrificação de pintura"> Vitrificação Pintura</label>
@@ -233,7 +222,7 @@
     <div id="modalContent">
         <h2 style="margin-top:0; color: #000;">Resumo da Ordem</h2>
         <div id="resumo"></div>
-        <button class="btn-check" style="margin-top:15px; background: #000;" onclick="document.getElementById('modal').style.display='none'">Fechar</button>
+        <button class="btn-check" style="margin-top:15px; background: #000;" onclick="fecharModal()">Fechar</button>
     </div>
 </div>
 
@@ -271,23 +260,31 @@ function getDados(){
         hora: document.getElementById("hora").value || "",
         pagamento: document.getElementById("pagamento").value || "A definir",
         porte: document.getElementById("porte").value,
-        itens: [...document.querySelectorAll(".servicos input:checked")]
+        itens: [...document.querySelectorAll("#listaServicos input:checked")]
     };
+}
+
+function fecharModal() {
+    document.getElementById("modal").style.display = "none";
 }
 
 function revisar(){
     let d = getDados();
     let total = 0, txt = "";
-    if(d.itens.length === 0) return alert("Por favor, selecione ao menos um serviço!");
+    if(d.itens.length === 0) {
+        alert("Por favor, selecione ao menos um serviço!");
+        return;
+    }
 
     d.itens.forEach(i => {
-        let p = precos[i.value][d.porte];
+        let servicoNome = i.value;
+        let p = precos[servicoNome][d.porte];
         total += p;
-        txt += `<p style="margin:5px 0; font-size:14px;">✔️ ${i.value}: <b>R$ ${p}</b></p>`;
+        txt += `<p style="margin:5px 0; font-size:14px;">✔️ ${servicoNome}: <b>R$ ${p}</b></p>`;
     });
 
     document.getElementById("resumo").innerHTML = `
-        <div style="font-size:14px; line-height:1.4">
+        <div style="font-size:14px; line-height:1.4; color: black;">
             <p><b>Cliente:</b> ${d.nome}</p>
             <p><b>Veículo:</b> ${d.marca} ${d.carro} (${d.cor})</p>
             <p><b>Placa:</b> ${d.placa}</p>
@@ -302,7 +299,10 @@ function whats(){
     let d = getDados();
     let total = 0, lista = "";
     
-    if(d.itens.length === 0) return alert("Selecione os serviços antes de enviar!");
+    if(d.itens.length === 0) {
+        alert("Selecione os serviços antes de enviar!");
+        return;
+    }
 
     d.itens.forEach(i => {
         let p = precos[i.value][d.porte];
@@ -319,7 +319,6 @@ function whats(){
     msg += `*TOTAL: R$ ${total}*\n`;
     msg += `_Forma de Pagamento: ${d.pagamento}_`;
 
-    // Uso do href direto para evitar bloqueio de pop-up
     const url = "https://whatsapp.com" + encodeURIComponent(msg);
     window.location.href = url;
 }
@@ -332,7 +331,6 @@ function pdf(){
         let total = 0;
         let y = 80;
 
-        // Cabeçalho
         doc.setFont("helvetica", "bold");
         doc.setFontSize(18);
         doc.text("IRJ ESTÉTICA AUTO", 10, 20);
@@ -341,7 +339,6 @@ function pdf(){
         doc.setFont("helvetica", "normal");
         doc.text("Orçamento de Serviços Automotivos", 10, 28);
         
-        // Dados do Cliente
         doc.setFont("helvetica", "bold");
         doc.text("DADOS DO CLIENTE E VEÍCULO", 10, 40);
         doc.line(10, 42, 200, 42);
@@ -351,7 +348,6 @@ function pdf(){
         doc.text(`Veículo: ${d.marca} ${d.carro} | Cor: ${d.cor}`, 10, 58);
         doc.text(`Placa: ${d.placa} | Data: ${d.data} ${d.hora}`, 10, 66);
 
-        // Lista de Serviços
         doc.setFont("helvetica", "bold");
         doc.text("DESCRIÇÃO DOS SERVIÇOS", 10, 78);
         
@@ -364,7 +360,6 @@ function pdf(){
             y += 10;
         });
 
-        // Rodapé
         doc.line(10, y + 5, 200, y + 5);
         doc.setFontSize(14);
         doc.setFont("helvetica", "bold");
@@ -376,7 +371,9 @@ function pdf(){
 
         doc.save(`Orcamento_IRJ_${d.nome.replace(/\s/g, '_')}.pdf`);
     } catch (e) {
-        alert("Erro ao gerar PDF. Verifique se a biblioteca jsPDF carregou corretamente.");
-        console.error(e);
+        alert("Erro ao gerar PDF.");
     }
 }
+</script>
+</body>
+</html>
