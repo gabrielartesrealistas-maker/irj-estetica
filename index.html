@@ -44,14 +44,27 @@ font-weight:bold;
 h1{color:#00e676}
 
 .item{
+display:flex;
+justify-content:space-between;
+align-items:center;
 border-bottom:1px solid #333;
 padding:8px 0;
+gap:10px;
+}
+
+.removeBtn{
+background:#ff1744;
+width:auto;
+padding:6px 10px;
+font-size:12px;
+border-radius:6px;
 }
 
 @media (max-width:768px){
 body{padding:10px;}
 .container{padding:15px;}
 input,select,button{font-size:16px;padding:12px;}
+.item{flex-direction:column;align-items:flex-start;}
 }
 
 </style>
@@ -63,8 +76,7 @@ input,select,button{font-size:16px;padding:12px;}
 
 <h1>IRJ Estética Auto</h1>
 
-<!-- LOGO -->
-<img id="logo" src="logo.png" style="width:140px;margin-bottom:10px">
+<img src="logo.png" style="width:140px;margin-bottom:10px">
 
 <input id="nome" placeholder="Nome do cliente">
 
@@ -96,7 +108,6 @@ input,select,button{font-size:16px;padding:12px;}
 
 <input id="modelo_manual" placeholder="Modelo do veículo">
 
-<!-- COR -->
 <select id="cor_select">
 <option>Preto</option>
 <option>Branco</option>
@@ -108,7 +119,6 @@ input,select,button{font-size:16px;padding:12px;}
 
 <input id="cor_manual" placeholder="Ou digite a cor">
 
-<!-- PORTE -->
 <select id="porte">
 <option value="1">Pequeno</option>
 <option value="1.2">Médio</option>
@@ -124,7 +134,7 @@ input,select,button{font-size:16px;padding:12px;}
 <option>Cartão de débito</option>
 </select>
 
-<!-- SERVIÇO -->
+<!-- SERVIÇOS -->
 <select id="servico">
 <option>Cristalização de pintura</option>
 <option>Polimento técnico</option>
@@ -154,8 +164,8 @@ input,select,button{font-size:16px;padding:12px;}
 <h3>Total: R$ <span id="total">0</span></h3>
 
 <button onclick="revisar()">REVISÃO DO AGENDAMENTO</button>
-<button onclick="agendar()">CONFIRMAR E AGENDAR</button>
-<button onclick="baixarPDF()">BAIXAR PDF DA REVISÃO</button>
+<button onclick="agendar()">AGENDAR NO WHATSAPP</button>
+<button onclick="baixarPDF()">BAIXAR PDF</button>
 
 <div id="review" style="display:none;background:#222;padding:10px;margin-top:10px"></div>
 
@@ -194,6 +204,7 @@ if(porte<=1.2) return s.m;
 return s.g;
 }
 
+/* ADD */
 function add(){
 let nome=document.getElementById("servico").value;
 let porte=document.getElementById("porte").value;
@@ -208,20 +219,39 @@ tempo:s.t
 render();
 }
 
+/* DELETE SERVIÇO */
+function remover(index){
+carrinho.splice(index,1);
+render();
+}
+
+/* RENDER */
 function render(){
 let html="";
 let total=0;
 
-carrinho.forEach(i=>{
+carrinho.forEach((i,idx)=>{
 total+=i.preco;
-html+=`<div class="item">${i.nome} | ⏱ ${i.tempo} | 💰 R$ ${i.preco}</div>`;
+
+html+=`
+<div class="item">
+<div>
+<b>${i.nome}</b><br>
+⏱ ${i.tempo} | 💰 R$ ${i.preco}
+</div>
+
+<button class="removeBtn" onclick="remover(${idx})">REMOVER</button>
+</div>
+`;
 });
 
 document.getElementById("lista").innerHTML=html;
 document.getElementById("total").innerText=total.toFixed(2);
 }
 
+/* RESUMO */
 function montarResumo(){
+
 let nome=document.getElementById("nome").value;
 let marca=document.getElementById("marca_select").value || document.getElementById("marca_manual").value;
 let modelo=document.getElementById("modelo_manual").value;
@@ -249,31 +279,25 @@ texto+=`\nTOTAL: R$ ${total}`;
 return texto;
 }
 
+/* REVISÃO */
 function revisar(){
-let texto=montarResumo();
 document.getElementById("review").style.display="block";
-document.getElementById("review").innerHTML="<pre>"+texto+"</pre>";
+document.getElementById("review").innerHTML="<pre>"+montarResumo()+"</pre>";
 }
 
-/* WHATSAPP + AGENDAMENTO */
+/* WHATSAPP */
 function agendar(){
 let texto=montarResumo();
-let numero="5511999999999"; // TROQUE PELO SEU
-
-let url=`https://wa.me/${numero}?text=`+encodeURIComponent(texto);
-window.open(url,"_blank");
+let numero="5511999999999";
+window.open("https://wa.me/"+numero+"?text="+encodeURIComponent(texto));
 }
 
-/* PDF COM LOGO */
+/* PDF */
 function baixarPDF(){
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-doc.addImage(document.getElementById("logo"),"PNG",10,10,40,20);
-
-let texto=montarResumo();
-
-doc.text(texto,10,40);
+doc.text(montarResumo(),10,20);
 doc.save("agendamento-irj.pdf");
 }
 
