@@ -10,10 +10,6 @@
 
 <style>
 
-/* =========================
-   BASE (DESKTOP)
-========================= */
-
 body{
 font-family:Arial;
 background:#111;
@@ -52,15 +48,10 @@ border-bottom:1px solid #333;
 padding:8px 0;
 }
 
-/* =========================
-   📱 MOBILE RESPONSIVO
-========================= */
-
+/* RESPONSIVO */
 @media (max-width:768px){
 
-body{
-padding:10px;
-}
+body{padding:10px;}
 
 .container{
 padding:15px;
@@ -76,28 +67,6 @@ input,select,button{
 font-size:16px;
 padding:12px;
 }
-
-button{
-font-size:16px;
-padding:14px;
-}
-
-.item{
-font-size:14px;
-}
-
-}
-
-/* =========================
-   TABLET
-========================= */
-
-@media (max-width:1024px){
-
-.container{
-max-width:95%;
-}
-
 }
 
 </style>
@@ -116,24 +85,40 @@ max-width:95%;
 <!-- MARCA -->
 <select id="marca_select">
 <option value="">Selecione a marca</option>
-<option>BMW</option><option>Audi</option><option>Mercedes-Benz</option>
-<option>Volkswagen</option><option>Ford</option><option>Chevrolet</option>
-<option>Honda</option><option>Toyota</option><option>Nissan</option>
-<option>Hyundai</option><option>Kia</option><option>Jeep</option>
-<option>Fiat</option><option>Peugeot</option><option>Renault</option>
-<option>Volvo</option><option>Porsche</option><option>Tesla</option>
+<option>BMW</option>
+<option>Audi</option>
+<option>Mercedes-Benz</option>
+<option>Volkswagen</option>
+<option>Ford</option>
+<option>Chevrolet</option>
+<option>Honda</option>
+<option>Toyota</option>
+<option>Nissan</option>
+<option>Hyundai</option>
+<option>Kia</option>
+<option>Jeep</option>
+<option>Fiat</option>
+<option>Peugeot</option>
+<option>Renault</option>
+<option>Volvo</option>
+<option>Porsche</option>
+<option>Tesla</option>
+<option>Mitsubishi</option>
+<option>Land Rover</option>
 </select>
 
 <input id="marca_manual" placeholder="Ou digite a marca manualmente">
 
-<!-- MODELO -->
 <input id="modelo_manual" placeholder="Modelo do veículo">
 
 <!-- COR -->
 <select id="cor_select">
-<option>Preto</option><option>Branco</option>
-<option>Prata</option><option>Vermelho</option>
-<option>Azul</option><option>Outro</option>
+<option>Preto</option>
+<option>Branco</option>
+<option>Prata</option>
+<option>Vermelho</option>
+<option>Azul</option>
+<option>Outro</option>
 </select>
 
 <input id="cor_manual" placeholder="Ou digite a cor">
@@ -145,14 +130,12 @@ max-width:95%;
 <option value="2">Grande / SUV / Pickup</option>
 </select>
 
-<!-- DATA E HORA -->
 <input type="date" id="data">
 <input type="time" id="hora">
 
-<!-- PAGAMENTO -->
 <select id="pagamento">
 <option>Pix</option>
-<option>Cartão de crédito (até 12x)</option>
+<option>Cartão de crédito</option>
 <option>Cartão de débito</option>
 </select>
 
@@ -162,10 +145,20 @@ max-width:95%;
 <option>Polimento técnico</option>
 <option>Vitrificação de pintura</option>
 <option>Higienização</option>
-<option>Lavagem simples</option>
+<option>Vitrificação de faróis</option>
+<option>Polimento comercial</option>
 <option>Lavagem técnica</option>
+<option>Lavagem simples</option>
+<option>Lavagem banco tecido</option>
 <option>Ducha simples</option>
+<option>Lavagem com cera</option>
 <option>Aspiração</option>
+<option>Lavagem motor+chassi</option>
+<option>Higienização bancos couro</option>
+<option>Limpeza hidratação couro</option>
+<option>Cristalização vidros</option>
+<option>Descontaminação vidros</option>
+<option>Descontaminação pintura</option>
 <option>Enceramento especial</option>
 </select>
 
@@ -183,16 +176,26 @@ max-width:95%;
 
 <script>
 
-/* SERVIÇOS */
+/* 19 SERVIÇOS */
 const servicos = {
 "Cristalização de pintura": {p:300,m:450,g:650,t:"18h"},
 "Polimento técnico": {p:800,m:1100,g:1500,t:"3 dias"},
 "Vitrificação de pintura": {p:850,m:950,g:1100,t:"1 dia"},
 "Higienização": {p:350,m:450,g:550,t:"8h"},
-"Lavagem simples": {p:80,m:100,g:130,t:"4h"},
+"Vitrificação de faróis": {p:200,m:230,g:270,t:"3h"},
+"Polimento comercial": {p:380,m:480,g:580,t:"12h"},
 "Lavagem técnica": {p:150,m:190,g:290,t:"8h"},
+"Lavagem simples": {p:80,m:100,g:130,t:"4h"},
+"Lavagem banco tecido": {p:250,m:300,g:350,t:"8h"},
 "Ducha simples": {p:40,m:50,g:60,t:"40min"},
+"Lavagem com cera": {p:100,m:130,g:160,t:"4h"},
 "Aspiração": {p:40,m:50,g:60,t:"1h"},
+"Lavagem motor+chassi": {p:150,m:200,g:300,t:"6h"},
+"Higienização bancos couro": {p:240,m:290,g:370,t:"7h"},
+"Limpeza hidratação couro": {p:150,m:160,g:170,t:"4h"},
+"Cristalização vidros": {p:40,m:65,g:85,t:"1h"},
+"Descontaminação vidros": {p:140,m:170,g:240,t:"4h"},
+"Descontaminação pintura": {p:110,m:140,g:190,t:"5h"},
 "Enceramento especial": {p:30,m:40,g:50,t:"1h"}
 };
 
@@ -222,7 +225,7 @@ function render(){
 let html="";
 let total=0;
 
-carrinho.forEach((i,idx)=>{
+carrinho.forEach(i=>{
 total+=i.preco;
 
 html+=`
@@ -235,7 +238,6 @@ document.getElementById("lista").innerHTML=html;
 document.getElementById("total").innerText=total.toFixed(2);
 }
 
-/* REVISÃO */
 function montarResumo(){
 
 let nome=document.getElementById("nome").value;
@@ -267,10 +269,8 @@ return texto;
 
 function revisar(){
 let texto=montarResumo();
-
 document.getElementById("review").style.display="block";
-document.getElementById("review").innerHTML=
-"<h3>REVISÃO</h3><pre>"+texto+"</pre>";
+document.getElementById("review").innerHTML="<pre>"+texto+"</pre>";
 }
 
 </script>
