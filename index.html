@@ -6,115 +6,63 @@
 <title>IRJ Estética Auto</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f0f0f;
-color:white;
-text-align:center;
-}
-
+body{margin:0;font-family:Arial;background:#0f0f0f;color:white;text-align:center;}
 header{padding:20px;}
-
 .logo{width:120px;border-radius:10px;}
+.btn{background:#00ff99;color:black;padding:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin:5px;}
 
-.btn{
-background:#00ff99;
-color:black;
-padding:10px;
-border:none;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
-margin:5px;
-}
+form{max-width:520px;margin:auto;background:#1c1c1c;padding:15px;border-radius:10px;}
+input,select{width:100%;padding:10px;margin:5px 0;border:none;border-radius:5px;}
 
-.services{
-max-width:900px;
-margin:auto;
-text-align:left;
-padding:10px;
-}
-
-.services div{
-font-size:11px;
-opacity:0.8;
-border-bottom:1px solid #222;
-padding:3px 0;
-}
-
-form{
-max-width:520px;
-margin:auto;
-background:#1c1c1c;
-padding:15px;
-border-radius:10px;
-}
-
-input,select{
-width:100%;
-padding:10px;
-margin:5px 0;
-border:none;
-border-radius:5px;
-}
-
-#lista div{
-display:flex;
-justify-content:space-between;
-font-size:13px;
-margin:5px 0;
-}
+#lista div{display:flex;justify-content:space-between;font-size:13px;margin:5px 0;}
 </style>
-
 </head>
 
 <body>
 
 <header>
-
 <img src="logo.png" class="logo">
-
 <h1>IRJ Estética Auto</h1>
-
 <a class="btn" href="https://wa.me/5537984185396" target="_blank">WhatsApp</a>
-
 </header>
-
-<h2>Serviços</h2>
-
-<div class="services">
-
-<div>Cristalização de pintura - R$300</div>
-<div>Polimento técnico - R$1100</div>
-<div>Vitrificação de pintura - R$950</div>
-<div>Higienização interna - R$350</div>
-<div>Vitrificação de faróis - R$200</div>
-<div>Polimento comercial - R$480</div>
-<div>Lavagem técnica - R$150</div>
-<div>Lavagem simples - R$80</div>
-<div>Lavagem bancos tecido - R$250</div>
-<div>Ducha simples - R$40</div>
-<div>Lavagem com cera - R$100</div>
-<div>Aspiração interna - R$40</div>
-<div>Motor + chassi - R$150</div>
-<div>Higienização couro - R$240</div>
-<div>Limpeza couro - R$150</div>
-<div>Cristalização de vidros - R$40</div>
-<div>Descontaminação vidros - R$140</div>
-<div>Descontaminação pintura - R$110</div>
-<div>Enceramento especial - R$50</div>
-
-</div>
 
 <h2>Agendamento</h2>
 
 <form>
 
 <input id="nome" placeholder="Nome">
+
 <input id="placa" placeholder="Placa">
-<input id="modelo" placeholder="Modelo">
-<input id="marca" placeholder="Marca">
+
+<!-- MARCA -->
+<select id="marca" onchange="carregarModelos()">
+<option value="">Selecione a Marca</option>
+<option value="Volkswagen">Volkswagen</option>
+<option value="Fiat">Fiat</option>
+<option value="Chevrolet">Chevrolet</option>
+<option value="Toyota">Toyota</option>
+<option value="Honda">Honda</option>
+<option value="Ford">Ford</option>
+</select>
+
+<!-- MODELO -->
+<select id="modelo">
+<option value="">Selecione o Modelo</option>
+</select>
+
+<!-- COR -->
+<select id="cor">
+<option value="">Cor do veículo</option>
+<option>Preto</option>
+<option>Branco</option>
+<option>Prata</option>
+<option>Vermelho</option>
+<option>Azul</option>
+<option>Cinza</option>
+<option>Verde</option>
+</select>
+
+<input id="ano" placeholder="Ano (opcional)">
 
 <select id="porte">
 <option>Pequeno</option>
@@ -122,34 +70,19 @@ margin:5px 0;
 <option>Grande</option>
 </select>
 
-<input id="cor" placeholder="Cor">
-<input id="ano" placeholder="Ano">
-
 <input type="date" id="data">
 <input type="time" id="hora">
 
-<h3>Adicionar serviços</h3>
+<h3>Serviços</h3>
 
 <select id="servico">
 <option value="300">Cristalização pintura</option>
 <option value="1100">Polimento técnico</option>
 <option value="950">Vitrificação pintura</option>
 <option value="350">Higienização interna</option>
-<option value="200">Vitrificação faróis</option>
-<option value="480">Polimento comercial</option>
 <option value="150">Lavagem técnica</option>
 <option value="80">Lavagem simples</option>
-<option value="250">Lavagem bancos tecido</option>
-<option value="40">Ducha simples</option>
-<option value="100">Lavagem com cera</option>
-<option value="40">Aspiração interna</option>
-<option value="150">Motor + chassi</option>
-<option value="240">Higienização couro</option>
-<option value="150">Limpeza couro</option>
-<option value="40">Cristalização vidros</option>
-<option value="140">Descontaminação vidros</option>
-<option value="110">Descontaminação pintura</option>
-<option value="50">Enceramento especial</option>
+<option value="50">Enceramento</option>
 </select>
 
 <button type="button" class="btn" onclick="add()">Adicionar</button>
@@ -171,20 +104,40 @@ margin:5px 0;
 
 <script>
 
-let dados = {servicos:[],total:0};
+let dados={servicos:[],total:0};
+
+const modelos = {
+"Volkswagen":["Gol","Polo","Saveiro","T-Cross"],
+"Fiat":["Uno","Argo","Toro","Cronos"],
+"Chevrolet":["Onix","Prisma","S10","Cruze"],
+"Toyota":["Corolla","Hilux","Etios"],
+"Honda":["Civic","Fit","HR-V"],
+"Ford":["Ka","Fiesta","Ranger"]
+};
+
+function carregarModelos(){
+let marca=document.getElementById("marca").value;
+let modelo=document.getElementById("modelo");
+
+modelo.innerHTML="<option>Selecione o Modelo</option>";
+
+if(modelos[marca]){
+modelos[marca].forEach(m=>{
+modelo.innerHTML+=`<option>${m}</option>`;
+});
+}
+}
 
 function add(){
-
-let s = document.getElementById("servico");
-let nome = s.options[s.selectedIndex].text;
-let valor = parseFloat(s.value);
+let s=document.getElementById("servico");
+let nome=s.options[s.selectedIndex].text;
+let valor=parseFloat(s.value);
 
 dados.servicos.push({nome,valor});
 update();
 }
 
 function update(){
-
 let html="";
 dados.total=0;
 
@@ -206,11 +159,11 @@ function revisar(){
 
 dados.nome=nome.value;
 dados.placa=placa.value;
-dados.modelo=modelo.value;
 dados.marca=marca.value;
-dados.porte=porte.value;
+dados.modelo=modelo.value;
 dados.cor=cor.value;
-dados.ano=ano.value;
+dados.ano=ano.value || "Não informado";
+dados.porte=porte.value;
 dados.data=data.value;
 dados.hora=hora.value;
 
@@ -220,7 +173,8 @@ resumo.innerHTML=`
 <h3>Resumo</h3>
 Nome: ${dados.nome}<br>
 Veículo: ${dados.marca} ${dados.modelo}<br>
-Placa: ${dados.placa}<br>
+Cor: ${dados.cor}<br>
+Ano: ${dados.ano}<br>
 Porte: ${dados.porte}<br><br>
 Serviços:<br>
 ${dados.servicos.map(s=>"• "+s.nome).join("<br>")}<br><br>
@@ -235,7 +189,8 @@ let msg=`IRJ Estética Auto
 
 Nome: ${dados.nome}
 Veículo: ${dados.marca} ${dados.modelo}
-Placa: ${dados.placa}
+Cor: ${dados.cor}
+Ano: ${dados.ano}
 
 Serviços:
 ${dados.servicos.map(s=>"• "+s.nome).join("\n")}
@@ -251,23 +206,21 @@ function pdf(){
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
-let logo = new Image();
+let logo=new Image();
 logo.src="logo.png";
 
 logo.onload=function(){
 
 doc.addImage(logo,"PNG",70,10,60,30);
 
-doc.setFontSize(16);
+doc.setFontSize(14);
 doc.text("IRJ Estética Auto",20,50);
-
-doc.setFontSize(12);
 doc.text("NOTA DE AGENDAMENTO",20,60);
 
 doc.text("Nome: "+dados.nome,20,75);
 doc.text("Veículo: "+dados.marca+" "+dados.modelo,20,85);
-doc.text("Placa: "+dados.placa,20,95);
-doc.text("Porte: "+dados.porte,20,105);
+doc.text("Cor: "+dados.cor,20,95);
+doc.text("Ano: "+dados.ano,20,105);
 
 let y=120;
 doc.text("Serviços:",20,y);
