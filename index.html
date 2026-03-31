@@ -14,14 +14,11 @@ body{
     text-align:center;
 }
 
-header{
-    padding:20px;
-}
+header{padding:20px;}
 
 .logo{
     width:130px;
     border-radius:12px;
-    margin-top:10px;
 }
 
 .btn{
@@ -34,24 +31,23 @@ header{
     cursor:pointer;
     display:inline-block;
     text-decoration:none;
+    margin-top:10px;
 }
 
-.btn:hover{
-    background:#00cc77;
-}
+.btn:hover{background:#00cc77;}
 
 .services{
-    padding:15px;
     max-width:900px;
     margin:auto;
+    padding:10px;
     text-align:left;
 }
 
 .services div{
     font-size:12px;
     opacity:0.85;
-    padding:2px 0;
     border-bottom:1px solid #222;
+    padding:3px 0;
 }
 
 form{
@@ -68,6 +64,10 @@ input,select{
     margin:5px 0;
     border:none;
     border-radius:5px;
+}
+
+select[multiple]{
+    height:180px;
 }
 
 .review{
@@ -101,11 +101,11 @@ WhatsApp
 
 <div class="services">
 
-<div>Cristalização de pintura — R$300 a R$650 — 18h</div>
+<div>Cristalização pintura — R$300 a R$650 — 18h</div>
 <div>Polimento técnico — R$800 a R$1500 — 3 dias</div>
-<div>Vitrificação de pintura — R$850 a R$1100 — 1 dia</div>
+<div>Vitrificação — R$850 a R$1100 — 1 dia</div>
 <div>Higienização — R$350 a R$550 — 8h</div>
-<div>Vitrificação de faróis — R$200 a R$270 — 3h</div>
+<div>Vitrificação faróis — R$200 a R$270 — 3h</div>
 <div>Polimento comercial — R$380 a R$580 — 12h</div>
 <div>Lavagem técnica — R$150 a R$290 — 8h</div>
 <div>Lavagem simples — R$80 a R$130 — 4h</div>
@@ -113,7 +113,7 @@ WhatsApp
 <div>Ducha simples — R$40 a R$60 — 40min</div>
 <div>Lavagem com cera — R$100 a R$160 — 4h</div>
 <div>Aspiração — R$40 a R$60 — 1h</div>
-<div>Lavagem motor + chassi — R$150 a R$300 — 6h</div>
+<div>Motor + chassi — R$150 a R$300 — 6h</div>
 <div>Higienização couro — R$240 a R$370 — 7h</div>
 <div>Limpeza couro — R$150 a R$170 — 4h</div>
 <div>Cristalização vidros — R$40 a R$85 — 1h</div>
@@ -144,8 +144,7 @@ WhatsApp
 <input type="date" id="data">
 <input type="time" id="hora">
 
-<select id="servico">
-
+<select id="servico" multiple>
 <option>Cristalização de pintura</option>
 <option>Polimento técnico</option>
 <option>Vitrificação de pintura</option>
@@ -165,7 +164,6 @@ WhatsApp
 <option>Descontaminação vidros</option>
 <option>Descontaminação pintura</option>
 <option>Enceramento especial</option>
-
 </select>
 
 <select id="pagamento" onchange="ver()">
@@ -175,16 +173,9 @@ WhatsApp
 </select>
 
 <select id="parcelas" style="display:none">
-<option>1x</option>
-<option>2x</option>
-<option>3x</option>
-<option>4x</option>
-<option>5x</option>
-<option>6x</option>
-<option>7x</option>
-<option>8x</option>
-<option>9x</option>
-<option>10x</option>
+<option>1x</option><option>2x</option><option>3x</option>
+<option>4x</option><option>5x</option><option>6x</option>
+<option>7x</option><option>8x</option><option>9x</option><option>10x</option>
 </select>
 
 <button class="btn" type="button" onclick="revisar()">
@@ -200,22 +191,25 @@ Revisar
 
 <br>
 
-<button class="btn" onclick="enviarWhats()">
-Enviar WhatsApp
-</button>
+<button class="btn" onclick="gerarPDF()">Baixar PDF</button>
+<button class="btn" onclick="enviarWhats()">WhatsApp</button>
 
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 
 let d={};
 
 function ver(){
-document.getElementById("parcelas").style.display =
-pagamento.value === "Cartão" ? "block" : "none";
+parcelas.style.display =
+pagamento.value==="Cartão"?"block":"none";
 }
 
 function revisar(){
+
+let selecionados = Array.from(servico.selectedOptions).map(o=>o.value);
 
 d={
 nome:nome.value,
@@ -227,16 +221,16 @@ cor:cor.value,
 ano:ano.value,
 data:data.value,
 hora:hora.value,
-servico:servico.value,
+servico:selecionados,
 pagamento:pagamento.value,
 parcelas:parcelas.value
 };
 
-resumo.innerHTML = `
+resumo.innerHTML=`
 Nome: ${d.nome}<br>
 Veículo: ${d.marca} ${d.modelo}<br>
 Porte: ${d.porte}<br>
-Serviço: ${d.servico}<br>
+Serviços: ${d.servico.join(", ")}<br>
 Data: ${d.data} ${d.hora}<br>
 Pagamento: ${d.pagamento} ${d.parcelas}
 `;
@@ -251,12 +245,41 @@ let msg = `IRJ Estética Auto
 Nome: ${d.nome}
 Veículo: ${d.marca} ${d.modelo}
 Porte: ${d.porte}
-Serviço: ${d.servico}
+Serviços: ${d.servico.join(", ")}
 Data: ${d.data} ${d.hora}
 Pagamento: ${d.pagamento}`;
 
-window.open("https://wa.me/5537984185396?text=" + encodeURIComponent(msg));
+window.open("https://wa.me/5537984185396?text="+encodeURIComponent(msg));
+}
 
+function gerarPDF(){
+
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+
+doc.setFontSize(16);
+doc.text("IRJ Estética Auto", 20, 20);
+
+doc.setFontSize(12);
+doc.text("NOTA DE AGENDAMENTO", 20, 30);
+
+doc.text("Nome: " + d.nome, 20, 45);
+doc.text("Veículo: " + d.marca + " " + d.modelo, 20, 55);
+doc.text("Porte: " + d.porte, 20, 65);
+
+doc.text("Serviços:", 20, 80);
+
+let y = 90;
+
+d.servico.forEach(s=>{
+doc.text("- " + s, 25, y);
+y += 10;
+});
+
+doc.text("Data: " + d.data + " " + d.hora, 20, y+10);
+doc.text("Pagamento: " + d.pagamento, 20, y+20);
+
+doc.save("IRJ-agendamento.pdf");
 }
 
 </script>
