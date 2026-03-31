@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IRJ Estética Automotiva - Arcos MG</title>
     <style>
-        /* ESTILO FIXO PARA NÃO DEPENDER DE LINKS EXTERNOS */
         body { background: radial-gradient(circle at top, #1a1a1a, #000000); color: #e0e0e0; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
         header { margin-bottom: 50px; }
+        
+        /* ESTILO DO LOGO */
+        .logo-container { margin-bottom: 20px; }
+        .logo-img { max-width: 150px; height: auto; border-radius: 10px; }
+
         h1 { font-size: 60px; margin: 0; color: #fff; letter-spacing: -2px; }
         .subtitle { color: #3b82f6; font-size: 20px; font-weight: bold; text-transform: uppercase; margin-top: 5px; }
         .location { color: #888; margin-top: 10px; font-size: 14px; }
         
-        /* GRADE DE SERVIÇOS */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto 50px; }
         .card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; text-align: left; transition: 0.3s; }
         .card:hover { border-color: #3b82f6; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
@@ -20,236 +23,132 @@
         .price-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
         .price-tag { color: #60a5fa; font-weight: bold; }
         .time { font-size: 12px; color: #666; margin-top: 10px; display: block; }
+        
+        .form-box { max-width: 600px; margin: 0 auto 100px; background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 30px; border: 1px solid #222; text-align: left; }
+        label { display: block; margin-bottom: 8px; color: #3b82f6; font-weight: bold; font-size: 14px; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #333; background: #000; color: #fff; box-sizing: border-box; }
+        
+        .services-list { background: #000; border: 1px solid #333; border-radius: 10px; padding: 15px; max-height: 250px; overflow-y: auto; margin-bottom: 20px; }
+        .service-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #111; cursor: pointer; }
+        .service-item input { width: auto; margin: 0; cursor: pointer; }
+        .service-item span { font-size: 14px; color: #ccc; }
 
-        /* FORMULÁRIO */
-        .form-box { max-width: 500px; margin: 0 auto 100px; background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 30px; border: 1px solid #222; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #333; background: #000; color: #fff; box-sizing: border-box; }
-        button { width: 100%; padding: 20px; border-radius: 10px; border: none; background: #2563eb; color: #fff; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #1d4ed8; }
+        button { width: 100%; padding: 20px; border-radius: 10px; border: none; background: #2563eb; color: #fff; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: #1d4ed8; transform: scale(1.02); }
     </style>
 </head>
 <body>
 
     <header>
+        <!-- ABA DO LOGO: Substitua 'LINK_DA_SUA_IMAGEM' pelo link da foto -->
+        <div class="logo-container">
+            <img src="LINK_DA_SUA_IMAGEM" alt="Logo IRJ" class="logo-img" id="meu_logo">
+        </div>
+        
         <h1>IRJ</h1>
         <p class="subtitle">Estética Automotiva Premium</p>
         <p class="location">📍 Arcos - MG</p>
     </header>
 
-    <div class="grid">
-        <!-- 1 -->
-        <div class="card">
-            <h3>1. Cristalização de Pintura</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 300</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 450</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 650</span></div>
-            <span class="time">⏱ 18 horas</span>
-        </div>
-        <!-- 2 -->
-        <div class="card">
-            <h3>2. Polimento Técnico</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 800</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 1100</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 1500</span></div>
-            <span class="time">⏱ ~3 dias</span>
-        </div>
-        <!-- 3 -->
-        <div class="card">
-            <h3>3. Vitrificação de Pintura</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 850</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 950</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 1100</span></div>
-            <span class="time">⏱ 1 dia</span>
-        </div>
-        <!-- 4 -->
-        <div class="card">
-            <h3>4. Higienização</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 350</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 450</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 550</span></div>
-            <span class="time">⏱ 8 horas</span>
-        </div>
-        <!-- 5 -->
-        <div class="card">
-            <h3>5. Vitrificação de Faróis</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 200</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 230</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 270</span></div>
-            <span class="time">⏱ 3 horas</span>
-        </div>
-        <!-- 6 -->
-        <div class="card">
-            <h3>6. Polimento Comercial</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 380</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 480</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 580</span></div>
-            <span class="time">⏱ 12 horas</span>
-        </div>
-        <!-- 7 -->
-        <div class="card">
-            <h3>7. Lavagem Técnica</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 150</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 190</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 290</span></div>
-            <span class="time">⏱ 8 horas</span>
-        </div>
-        <!-- 8 -->
-        <div class="card">
-            <h3>8. Lavagem Simples</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 80</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 100</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 130</span></div>
-            <span class="time">⏱ 4 horas</span>
-        </div>
-        <!-- 9 -->
-        <div class="card">
-            <h3>9. Lavagem Bancos Tecido</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 250</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 300</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 350</span></div>
-            <span class="time">⏱ 8 horas</span>
-        </div>
-        <!-- 10 -->
-        <div class="card">
-            <h3>10. Ducha Simples</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 40</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 50</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 60</span></div>
-            <span class="time">⏱ 40 min</span>
-        </div>
-        <!-- 11 -->
-        <div class="card">
-            <h3>11. Lavagem com Cera</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 100</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 130</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 160</span></div>
-            <span class="time">⏱ 4 horas</span>
-        </div>
-        <!-- 12 -->
-        <div class="card">
-            <h3>12. Aspiração</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 40</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 50</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 60</span></div>
-            <span class="time">⏱ 1 hora</span>
-        </div>
-        <!-- 13 -->
-        <div class="card">
-            <h3>13. Motor + Chassi</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 150</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 200</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 300</span></div>
-            <span class="time">⏱ 6 horas</span>
-        </div>
-        <!-- 14 -->
-        <div class="card">
-            <h3>14. Higienização Couro</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 240</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 290</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 370</span></div>
-            <span class="time">⏱ 7 horas</span>
-        </div>
-        <!-- 15 -->
-        <div class="card">
-            <h3>15. Hidratação de Couro</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 150</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 160</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 170</span></div>
-            <span class="time">⏱ 4 horas</span>
-        </div>
-        <!-- 16 -->
-        <div class="card">
-            <h3>16. Cristalização Vidros</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 40</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 65</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 85</span></div>
-            <span class="time">⏱ 1 hora</span>
-        </div>
-        <!-- 17 -->
-        <div class="card">
-            <h3>17. Descontaminação Vidros</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 140</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 170</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 240</span></div>
-            <span class="time">⏱ 4 horas</span>
-        </div>
-        <!-- 18 -->
-        <div class="card">
-            <h3>18. Descontaminação Pintura</h3>
-            <div class="price-row"><span>Pequeno</span> <span class="price-tag">R$ 110</span></div>
-            <div class="price-row"><span>Médio</span> <span class="price-tag">R$ 140</span></div>
-            <div class="price-row"><span>Grande</span> <span class="price-tag">R$ 190</span></div>
-            <span class="time">⏱ 5 horas</span>
-        </div>
-        <!-- 19 -->
-        <div class="card">
-            <h3>19. Enceramento Especial</h3>
-            <div class="price-row"><span>💎 Valor único</span> <span class="price-tag">R$ 50</span></div>
-            <span class="time">⏱ 1 hora</span>
-        </div>
-    </div>
-
     <div class="form-box">
-        <h2 style="color:#fff; margin-bottom: 20px;">Agendar Serviço</h2>
-        <input id="nome" type="text" placeholder="Seu Nome">
-        <input id="veiculo" type="text" placeholder="Seu Veículo">
-        <select id="porte">
-            <option disabled selected>Porte do Veículo</option>
-            <option>Pequeno Porte</option>
-            <option>Médio Porte</option>
-            <option>Grande Porte</option>
-        </select>
-        <select id="servico">
-            <option disabled selected>Escolha o Serviço</option>
-            <option>Cristalização</option>
-            <option>Polimento Técnico</option>
-            <option>Vitrificação</option>
-            <option>Higienização</option>
-            <option>Vitrificação de Faróis</option>
-            <option>Polimento Comercial</option>
-            <option>Lavagem Técnica</option>
-            <option>Lavagem Simples</option>
-            <option>Lavagem Bancos Tecido</option>
-            <option>Ducha Simples</option>
-            <option>Lavagem com Cera</option>
-            <option>Aspiração</option>
-            <option>Motor + Chassi</option>
-            <option>Higienização Couro</option>
-            <option>Hidratação Couro</option>
-            <option>Cristalização Vidros</option>
-            <option>Descontaminação Vidros</option>
-            <option>Descontaminação Pintura</option>
-            <option>Enceramento Especial</option>
-        </select>
-        <div style="display: flex; gap: 10px;">
-            <input id="data" type="date">
-            <input id="hora" type="time">
+        <h2 style="color:#fff; margin-bottom: 30px; text-align: center;">Agendar Serviços</h2>
+        
+        <label>Seu Nome</label>
+        <input id="nome" type="text" placeholder="Seu nome completo">
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div>
+                <label>Veículo (Modelo)</label>
+                <input id="veiculo" type="text" placeholder="Ex: Civic G10">
+            </div>
+            <div>
+                <label>Placa</label>
+                <input id="placa" type="text" placeholder="ABC-1234" style="text-transform: uppercase;">
+            </div>
         </div>
-        <button onclick="agendar()">🚀 Agendar no WhatsApp</button>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div>
+                <label>Cor do Veículo</label>
+                <select id="cor">
+                    <option disabled selected>Selecione a Cor</option>
+                    <option>Branco</option><option>Preto</option><option>Prata</option><option>Cinza</option>
+                    <option>Vermelho</option><option>Azul</option><option>Verde</option><option>Amarelo</option>
+                    <option>Bege / Creme</option><option>Marrom</option><option>Laranja</option>
+                    <option>Outra (Informar no Chat)</option>
+                </select>
+            </div>
+            <div>
+                <label>Porte do Veículo</label>
+                <select id="porte">
+                    <option disabled selected>Selecione o Porte</option>
+                    <option>Pequeno Porte</option>
+                    <option>Médio Porte</option>
+                    <option>Grande Porte</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Selecione os Serviços (Múltipla Escolha)</label>
+        <div class="services-list" id="lista_servicos">
+            <label class="service-item"><input type="checkbox" value="Cristalização"><span>1. Cristalização de Pintura</span></label>
+            <label class="service-item"><input type="checkbox" value="Polimento Técnico"><span>2. Polimento Técnico</span></label>
+            <label class="service-item"><input type="checkbox" value="Vitrificação"><span>3. Vitrificação de Pintura</span></label>
+            <label class="service-item"><input type="checkbox" value="Higienização"><span>4. Higienização</span></label>
+            <label class="service-item"><input type="checkbox" value="Vitrificação de Faróis"><span>5. Vitrificação de Faróis</span></label>
+            <label class="service-item"><input type="checkbox" value="Polimento Comercial"><span>6. Polimento Comercial</span></label>
+            <label class="service-item"><input type="checkbox" value="Lavagem Técnica"><span>7. Lavagem Técnica</span></label>
+            <label class="service-item"><input type="checkbox" value="Lavagem Simples"><span>8. Lavagem Simples</span></label>
+            <label class="service-item"><input type="checkbox" value="Bancos de Tecido"><span>9. Lavagem Bancos Tecido</span></label>
+            <label class="service-item"><input type="checkbox" value="Ducha Simples"><span>10. Ducha Simples</span></label>
+            <label class="service-item"><input type="checkbox" value="Lavagem com Cera"><span>11. Lavagem com Cera</span></label>
+            <label class="service-item"><input type="checkbox" value="Aspiração"><span>12. Aspiração</span></label>
+            <label class="service-item"><input type="checkbox" value="Motor + Chassi"><span>13. Motor + Chassi</span></label>
+            <label class="service-item"><input type="checkbox" value="Higienização Couro"><span>14. Higienização Couro</span></label>
+            <label class="service-item"><input type="checkbox" value="Hidratação Couro"><span>15. Hidratação de Couro</span></label>
+            <label class="service-item"><input type="checkbox" value="Cristalização Vidros"><span>16. Cristalização Vidros</span></label>
+            <label class="service-item"><input type="checkbox" value="Descontaminação Vidros"><span>17. Descontaminação Vidros</span></label>
+            <label class="service-item"><input type="checkbox" value="Descontaminação Pintura"><span>18. Descontaminação Pintura</span></label>
+            <label class="service-item"><input type="checkbox" value="Enceramento Especial"><span>19. Enceramento Especial</span></label>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1"><label>Data</label><input id="data" type="date"></div>
+            <div style="flex:1"><label>Hora</label><input id="hora" type="time"></div>
+        </div>
+
+        <button onclick="agendar()">🚀 Confirmar Agendamento</button>
     </div>
 
     <script>
         function agendar() {
             const nome = document.getElementById('nome').value;
             const veiculo = document.getElementById('veiculo').value;
+            const placa = document.getElementById('placa').value;
+            const cor = document.getElementById('cor').value;
             const porte = document.getElementById('porte').value;
-            const servico = document.getElementById('servico').value;
             const data = document.getElementById('data').value;
             const hora = document.getElementById('hora').value;
+            const checkboxes = document.querySelectorAll('#lista_servicos input[type="checkbox"]:checked');
+            let servicosSelecionados = Array.from(checkboxes).map(cb => cb.value);
 
-            if(!nome || !veiculo || !porte || !servico || !data || !hora) {
-                alert("Preencha todos os campos!");
+            if(!nome || !veiculo || !placa || cor === "Selecione a Cor" || porte === "Selecione o Porte" || servicosSelecionados.length === 0 || !data || !hora) {
+                alert("Por favor, preencha todos os campos!");
                 return;
             }
 
-            const msg = `Olá, gostaria de agendar um serviço:%0A%0A` +
-                        `*Cliente:* ${nome}%0A` +
-                        `*Veículo:* ${veiculo} (${porte})%0A` +
-                        `*Serviço:* ${servico}%0A` +
-                        `*Data:* ${data}%0A` +
-                        `*Hora:* ${hora}`;
+            const msg = `Olá! Gostaria de agendar serviços pela IRJ:%0A%0A` +
+                        `👤 *Cliente:* ${nome}%0A` +
+                        `🚗 *Veículo:* ${veiculo}%0A` +
+                        `🎨 *Cor:* ${cor}%0A` +
+                        `🆔 *Placa:* ${placa.toUpperCase()}%0A` +
+                        `📏 *Porte:* ${porte}%0A` +
+                        `🛠️ *Serviços:*%0A - ${servicosSelecionados.join('%0A - ')}%0A%0A` +
+                        `📅 *Data:* ${data}%0A` +
+                        `⏰ *Hora:* ${hora}`;
 
-            window.open(`https://wa.me{msg}`, '_blank');
+            window.location.href = "https://whatsapp.com" + msg;
         }
     </script>
 </body>
+</html>
